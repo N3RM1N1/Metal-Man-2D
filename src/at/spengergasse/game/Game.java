@@ -128,7 +128,7 @@ public class Game extends Application {
 				if (counter == 9) {
 					counter = 1;
 				}
-
+				System.out.println(tileMap.getX());
 				targetFrameCounter++;
 			}
 
@@ -141,7 +141,7 @@ public class Game extends Application {
 		primaryStage.setScene(sc);
 		primaryStage.setTitle("Metal Man 2D");
 		primaryStage.setResizable(true);
-		primaryStage.setFullScreen(true);
+		primaryStage.setFullScreen(false);
 		primaryStage.show();
 	}
 
