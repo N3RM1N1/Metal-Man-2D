@@ -119,23 +119,26 @@ public class TileMap {
 	 */
 	public void draw(ImageView im) {
 		if(x < 620) {
+			row = 0;
 			col = 0;
 			mapWidth = 32;
 		}
-//		if (x >= 620 && x < 1570) {
-//			// Tile 31 asdf bsdf
-//			col = 11;
-//			mapWidth = 52;
-//		} 
+		if (x >= 620 && x < 1570) {
+			// Tile 31 asdf bsdf
+			col = 11;
+			row = 0;
+			mapWidth = 52;
+		} 
 		if(x >= 1570 && x < 2540) {
 			col = 31;
+			row = 0;
 			mapWidth = 72;
 		}
-//		if(x >= 2540) {
-//			col = 52;
-//			mapWidth = 96;
-//		}
-		
+		if(x >= 2540) {
+			row = 0;
+			col = 52;
+			mapWidth = 96;
+		}
 		for (; row < mapHeight; row++) { // mapHeight
 			for (; col < mapWidth; col++) { // mapWidth
 				int rc = map[row][col];
@@ -150,8 +153,8 @@ public class TileMap {
 			}
 			col = 0;
 		}
-		row = 0;
-		col = 0;
+		
+		
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

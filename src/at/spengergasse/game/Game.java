@@ -114,6 +114,7 @@ public class Game extends Application {
 
 				// Clear the scene
 				group.getChildren().clear();
+				group.getChildren().removeAll();
 
 				// Update the map
 				tileMap.update();
@@ -128,7 +129,7 @@ public class Game extends Application {
 				if (counter == 9) {
 					counter = 1;
 				}
-				System.out.println(tileMap.getX());
+				
 				targetFrameCounter++;
 			}
 
