@@ -97,10 +97,8 @@ public class Player {
 			running(new ImageView(), counter);
 		}
 
-		im.setLayoutX(78);
-		im.setLayoutY(96);
 		im.setTranslateX(200);  //96 x 78
-		im.setTranslateY(480);
+		im.setTranslateY(576);
 		if (left == true) {
 			im.setScaleX(-1);
 		}
@@ -137,10 +135,8 @@ public class Player {
 				System.out.println("Nix");
 			}
 		}
-		im.setLayoutX(78); // 96
-		im.setLayoutY(96); // 120
 		im.setTranslateX(200);
-		im.setTranslateY(480);
+		im.setTranslateY(576);
 		if (left == true) {
 			im.setScaleX(-1);
 		}

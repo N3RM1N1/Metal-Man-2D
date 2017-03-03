@@ -51,15 +51,13 @@ public class Game extends Application {
 		Timeline gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
 
-		KeyFrame kf = new KeyFrame(Duration.seconds(0.016), new EventHandler<ActionEvent>() { // 0.016
+		KeyFrame kf = new KeyFrame(Duration.seconds(0.017), new EventHandler<ActionEvent>() { // 0.017
 																								// ->
 																								// 60
 																								// FPS
 
 			@Override
 			public void handle(ActionEvent event) {
-
-				group.getChildren().clear();
 
 				sc.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
@@ -69,12 +67,10 @@ public class Game extends Application {
 						case E:
 							tileMap.setRight(true);
 							player.setStanding(true);
-							System.out.println("1");
 							break;
 						case W:
 							tileMap.setLeft(true);
 							player.setStanding(true);
-							System.out.println("2");
 							break;
 						}
 					}
@@ -87,14 +83,11 @@ public class Game extends Application {
 						switch (event.getCode()) {
 						case E:
 							setSmooth(0.0);
-							player.setRight(false);
-							player.setLeft(false);
 							player.setStanding(true);
 							tileMap.setRight(false); // Don't move anymore
 							break;
 						case W:
 							setSmooth(0.0);
-							player.setRight(false);
 							player.setStanding(true);
 							tileMap.setLeft(false); // Don't move anymore
 							break;
@@ -104,27 +97,27 @@ public class Game extends Application {
 
 				// Moving to the left or the right
 				if (tileMap.getRight() == true && tileMap.getLeft() == false) {
-					smoothOutMovement(0.3);
 					player.moveRight();
-					tileMap.right(smooth); // Moving 3.0 Pixels to the right
+					smoothOutMovement(1.0);
+					tileMap.right(smooth); // Moving 5.0 Pixels to the right
 				}
 				if (tileMap.getLeft() == true && tileMap.getRight() == false) {
 					player.moveLeft();
-					smoothOutMovement(0.3);
+					smoothOutMovement(1.0);
 					tileMap.left(smooth);
 				}
+//				System.out.println(tileMap.getX());
 
 				// Clear the scene
 				group.getChildren().clear();
-				group.getChildren().removeAll();
-
+				
 				// Update the map
 				tileMap.update();
-
+				
 				// Drawing the player the last
 				player.drawPlayer(new ImageView(), counter);
 
-				if (targetFrameCounter % 7 == 0) {
+				if (targetFrameCounter % 6 == 0) {
 					counter++;
 				}
 
@@ -175,11 +168,11 @@ public class Game extends Application {
 	}
 
 	public void smoothOutMovement(double inc) {
-		if (smooth < 2.9) {
+		if (smooth < 4.9) {
 			smooth += inc;
 		}
-		if (smooth > 2.9) {
-			smooth = 3;
+		if (smooth > 4.9) {
+			smooth = 5;
 		}
 	}
 

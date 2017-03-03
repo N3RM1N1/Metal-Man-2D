@@ -39,8 +39,7 @@ public class TileMap {
 
 	// The size of the tile
 	private int tileSize;
-	
-	private int row;
+
 	private int col;
 
 	public TileMap(int tileSize) {
@@ -48,11 +47,10 @@ public class TileMap {
 		// setting the coordinates for the tiles
 		this.x = tileSize;
 		this.y = tileSize;
-		
+
 		left = false;
 		right = false;
-		
-		row = 0;
+
 		col = 0;
 
 		// Creating a new Game
@@ -118,28 +116,33 @@ public class TileMap {
 	 *            The ImageView, which represents the map
 	 */
 	public void draw(ImageView im) {
-		if(x < 620) {
-			row = 0;
+		if(x < 600) {
 			col = 0;
 			mapWidth = 32;
-		}
-		if (x >= 620 && x < 1570) {
-			// Tile 31 asdf bsdf
+			
+		} 
+		else if (x >= 600 && x < 1575) {
+			// Tile 31
 			col = 11;
-			row = 0;
 			mapWidth = 52;
 		} 
-		if(x >= 1570 && x < 2540) {
+		else if(x >= 1575 && x < 2046) {
 			col = 31;
-			row = 0;
-			mapWidth = 72;
+			mapWidth = 62;
+		} 
+		else if(x >= 2046 && x < 2590) {
+			col = 41;
+			mapWidth = 73;
+		} 
+		else if(x >= 2590 && x < 3070) {
+			col = 51;
+			mapWidth = 83;
 		}
-		if(x >= 2540) {
-			row = 0;
-			col = 52;
+		else if(x >= 3070) {
+			col = 62;
 			mapWidth = 96;
 		}
-		for (; row < mapHeight; row++) { // mapHeight
+		for (int row = 0; row < mapHeight; row++) { // mapHeight
 			for (; col < mapWidth; col++) { // mapWidth
 				int rc = map[row][col];
 				im = new ImageView(images[rc]);
@@ -161,6 +164,7 @@ public class TileMap {
 
 	/**
 	 * Returns the X coordinate for the tiles
+	 * 
 	 * @return X coordinate
 	 */
 	public double getX() {
@@ -173,6 +177,7 @@ public class TileMap {
 
 	/**
 	 * Returns the Y coordinate for the tiles
+	 * 
 	 * @return Y coordinate
 	 */
 	public double getY() {
@@ -231,15 +236,19 @@ public class TileMap {
 		Image untergrund = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/untergrund.png"));
 		Image decke = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/decke.png"));
 		Image block = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/block.png"));
-		Image einzelblockU = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/einzelblock_untergrund.png"));
-		Image fliegPlatEinz = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/fliegende_platform_einzelblock.png"));
+		Image einzelblockU = new Image(
+				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/einzelblock_untergrund.png"));
+		Image fliegPlatEinz = new Image(
+				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/fliegende_platform_einzelblock.png"));
 		Image fliegPlat = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/fliegende_platform.png"));
-		Image linksFliegPlat = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/links_fliegende_platform.png"));
+		Image linksFliegPlat = new Image(
+				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/links_fliegende_platform.png"));
 		Image linksUnter = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/links_untergrund.png"));
-		Image rechtsFliegPlat = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/rechts_fliegende_platform.png"));
-		Image rechtsUnter = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/rechts_untergrund.png"));
-		
-		
+		Image rechtsFliegPlat = new Image(
+				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/rechts_fliegende_platform.png"));
+		Image rechtsUnter = new Image(
+				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/rechts_untergrund.png"));
+
 		images[0] = background;
 		images[1] = untergrund;
 		images[2] = decke;
