@@ -123,7 +123,7 @@ public class TileMap {
 			mapWidth = 32;
 		}
 //		if (x >= 620 && x < 1570) {
-//			// Tile 31
+//			// Tile 31 bsdf
 //			col = 11;
 //			mapWidth = 52;
 //		} 
