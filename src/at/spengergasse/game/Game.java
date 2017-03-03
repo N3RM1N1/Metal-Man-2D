@@ -15,7 +15,7 @@ import javafx.event.EventHandler; // F�r Key - Abfragen ben�tigt (Tastatur)
 import javafx.scene.input.KeyEvent; // Pr�ft welche Taste gedr�ckt wurde
 
 public class Game extends Application {
-
+	// Testkommentar wieder da
 	// The Map
 	private TileMap tileMap;
 
