@@ -100,7 +100,7 @@ public class Player {
 		im.setLayoutX(96);
 		im.setLayoutY(120);
 		im.setTranslateX(200);  //96 x 78
-		im.setTranslateY(458);
+		im.setTranslateY(456);
 		if (left == true) {
 			im.setScaleX(-1);
 		}
@@ -140,7 +140,7 @@ public class Player {
 		im.setLayoutX(96);
 		im.setLayoutY(120);
 		im.setTranslateX(200);
-		im.setTranslateY(458);
+		im.setTranslateY(456);
 		if (left == true) {
 			im.setScaleX(-1);
 		}
