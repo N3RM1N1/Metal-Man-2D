@@ -12,24 +12,31 @@ import javafx.scene.paint.Color; // Farben
 import javafx.scene.image.ImageView; // Das Bild, das gezeigt wird
 import javafx.event.ActionEvent; // Es passiert etwas (rendern, update, ...)
 import javafx.event.EventHandler; // F�r Key - Abfragen ben�tigt (Tastatur)
+import javafx.scene.input.KeyCharacterCombination;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent; // Pr�ft welche Taste gedr�ckt wurde
 
 public class Game extends Application {
-	
+
 	// The Map
 	private TileMap tileMap;
 
-	// The Stage
+	// The Player
+	private Player player;
+
+	// The Windows
 	private static Group group;
 
 	// The Scenes
 	private Scene sc;
 
+	// Needed for smooth movement
 	private double smooth;
+
+	// The counter for the player animation
 	private int targetFrameCounter = 0;
 	private int counter;
-
-	private Player player;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -44,7 +51,7 @@ public class Game extends Application {
 		Timeline gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
 
-		KeyFrame kf = new KeyFrame(Duration.seconds(0.017), new EventHandler<ActionEvent>() { // 0.016
+		KeyFrame kf = new KeyFrame(Duration.seconds(0.016), new EventHandler<ActionEvent>() { // 0.016
 																								// ->
 																								// 60
 																								// FPS
@@ -59,19 +66,16 @@ public class Game extends Application {
 					@Override
 					public void handle(KeyEvent event) {
 						switch (event.getCode()) {
-						case Q:
-							System.out.println("Q gedr�ckt!!!!");
-							break;
 						case E:
-							player.moveRight();
 							tileMap.setRight(true);
-							System.out.println("Gesetzt E");
-
+							player.setStanding(true);
+							System.out.println("1");
 							break;
 						case W:
-							player.moveLeft();
 							tileMap.setLeft(true);
-							System.out.println("Gesetzt");
+							player.setStanding(true);
+							System.out.println("2");
+							break;
 						}
 					}
 				});
@@ -82,32 +86,30 @@ public class Game extends Application {
 					public void handle(KeyEvent event) {
 						switch (event.getCode()) {
 						case E:
-							if (player.isLeft() == false) {
-								setSmooth(0.0);
-								player.setRight(false);
-								player.setStanding(true);
-								tileMap.setRight(false); // Don't move anymore
-								System.out.println("E Loslassen");
-							}
+							setSmooth(0.0);
+							player.setRight(false);
+							player.setLeft(false);
+							player.setStanding(true);
+							tileMap.setRight(false); // Don't move anymore
 							break;
 						case W:
-							if (player.isRight() == false) {
-								setSmooth(0.0);
-								player.setStanding(true);
-								tileMap.setLeft(false); // Don't move anymore
-								System.out.println("W Loslassen");
-							}
+							setSmooth(0.0);
+							player.setRight(false);
+							player.setStanding(true);
+							tileMap.setLeft(false); // Don't move anymore
 							break;
 						}
 					}
 				});
 
 				// Moving to the left or the right
-				if (tileMap.getRight() == true && player.isRight() == true && player.getStanding() == false) {
+				if (tileMap.getRight() == true && tileMap.getLeft() == false) {
 					smoothOutMovement(0.3);
+					player.moveRight();
 					tileMap.right(smooth); // Moving 3.0 Pixels to the right
 				}
-				if (tileMap.getLeft() == true && player.isLeft() == true && player.getStanding() == false) {
+				if (tileMap.getLeft() == true && tileMap.getRight() == false) {
+					player.moveLeft();
 					smoothOutMovement(0.3);
 					tileMap.left(smooth);
 				}
@@ -122,14 +124,14 @@ public class Game extends Application {
 				// Drawing the player the last
 				player.drawPlayer(new ImageView(), counter);
 
-				if (targetFrameCounter % 6 == 0) {
+				if (targetFrameCounter % 7 == 0) {
 					counter++;
 				}
 
 				if (counter == 9) {
 					counter = 1;
 				}
-				
+
 				targetFrameCounter++;
 			}
 
@@ -157,7 +159,7 @@ public class Game extends Application {
 		group = new Group();
 
 		// Generating a new window
-		sc = new Scene(group, 960, 720, Color.BLACK); //960 720 48
+		sc = new Scene(group, 960, 720, Color.BLACK); // 960 720 48
 
 		// Creating a new TileMap Object for reading and drawing the game map
 		try {
@@ -177,7 +179,7 @@ public class Game extends Application {
 			smooth += inc;
 		}
 		if (smooth > 2.9) {
-			smooth = 8;
+			smooth = 3;
 		}
 	}
 
