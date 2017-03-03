@@ -118,19 +118,19 @@ public class TileMap {
 	 *            The ImageView, which represents the map
 	 */
 	public void draw(ImageView im) {
-		if (x >= 620 && x < 2400) {
-			// Tile 31
-			col = 11;
-			mapWidth = 52;
-		} 
-		if(x >= 2600 && x < 3900) {
-			col = 39;
+//		if (x >= 620 && x < 1570) {
+//			// Tile 31
+//			col = 11;
+//			mapWidth = 52;
+//		} 
+		if(x >= 1570 && x < 2540) {
+			col = 31;
 			mapWidth = 72;
 		}
-		if(x >= 3900) {
-			col = 59;
-			mapWidth = 96;
-		}
+//		if(x >= 2540) {
+//			col = 52;
+//			mapWidth = 96;
+//		}
 		
 		for (; row < mapHeight; row++) { // mapHeight
 			for (; col < mapWidth; col++) { // mapWidth
@@ -193,11 +193,11 @@ public class TileMap {
 	}
 
 	public void right(double inc) {
-		if (x <= 5440) {
-			if ((x + inc) <= 5440) {
+		if (x <= 3696) {
+			if ((x + inc) <= 3696) {
 				x += inc;
 			} else {
-				x = 5440;
+				x = 3696;
 			}
 		} else
 			System.out.println("Ende");
@@ -205,11 +205,11 @@ public class TileMap {
 	}
 
 	public void left(double inc) {
-		if (x > 64) {
-			if ((x - inc) >= 64) {
+		if (x > 48) {
+			if ((x - inc) >= 48) {
 				x -= inc;
 			} else {
-				x = 64;
+				x = 48;
 			}
 
 		} else {

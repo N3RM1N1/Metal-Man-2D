@@ -176,7 +176,7 @@ public class Game extends Application {
 			smooth += inc;
 		}
 		if (smooth > 2.9) {
-			smooth = 3;
+			smooth = 8;
 		}
 	}
 
