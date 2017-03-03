@@ -118,6 +118,10 @@ public class TileMap {
 	 *            The ImageView, which represents the map
 	 */
 	public void draw(ImageView im) {
+		if(x < 620) {
+			col = 0;
+			mapWidth = 32;
+		}
 //		if (x >= 620 && x < 1570) {
 //			// Tile 31
 //			col = 11;
