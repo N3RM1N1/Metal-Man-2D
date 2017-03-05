@@ -52,7 +52,7 @@ public class Game extends Application {
 		Timeline gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
 
-		KeyFrame kf = new KeyFrame(Duration.millis(16.666), new EventHandler<ActionEvent>() { // 0.017
+		KeyFrame kf = new KeyFrame(Duration.millis(16.666), new EventHandler<ActionEvent>() { // 16.6 milliseconds
 																								// ->
 																								// 60
 																								// FPS
@@ -65,11 +65,27 @@ public class Game extends Application {
 					@Override
 					public void handle(KeyEvent event) {
 						switch (event.getCode()) {
-						case E:
+						case W:
+							/*
+							 * Jumping
+							 */
+						case D:
 							tileMap.setRight(true);
 							player.setStanding(true);
 							break;
-						case W:
+						case A:
+							tileMap.setLeft(true);
+							player.setStanding(true); // If you press E and W the Player will stop
+							break;
+						case SPACE:
+							/*
+							 * Jumping
+							 */
+						case RIGHT:
+							tileMap.setRight(true);
+							player.setStanding(true);
+							break;
+						case LEFT:
 							tileMap.setLeft(true);
 							player.setStanding(true); // If you press E and W the Player will stop
 							break;
@@ -82,12 +98,30 @@ public class Game extends Application {
 					@Override
 					public void handle(KeyEvent event) {
 						switch (event.getCode()) {
-						case E:
+						case W:
+							/*
+							 * Jumping
+							 */
+						case D:
 							setSmooth(0.0);
 							player.setStanding(true);
 							tileMap.setRight(false); // Don't move anymore
 							break;
-						case W:
+						case A:
+							setSmooth(0.0);
+							player.setStanding(true);
+							tileMap.setLeft(false); // Don't move anymore
+							break;
+						case SPACE:
+							/*
+							 * Jumping
+							 */
+						case RIGHT:
+							setSmooth(0.0);
+							player.setStanding(true);
+							tileMap.setRight(false); // Don't move anymore
+							break;
+						case LEFT:
 							setSmooth(0.0);
 							player.setStanding(true);
 							tileMap.setLeft(false); // Don't move anymore
@@ -97,16 +131,19 @@ public class Game extends Application {
 				});
 
 				// Moving to the left or the right
-				if (tileMap.getRight() == true && tileMap.getLeft() == false) {
+				if (tileMap.getRight() == true && tileMap.getLeft() == false && tileMap.getX() < 3696) {
 					player.moveRight();
 					smoothOutMovement(1.0);
 					tileMap.right(smooth); // Moving 5.0 Pixels to the right
-				}
-				if (tileMap.getLeft() == true && tileMap.getRight() == false) {
+				} else
+					// Nothing
+				
+				if (tileMap.getLeft() == true && tileMap.getRight() == false && tileMap.getX() > 48) {
 					player.moveLeft();
 					smoothOutMovement(1.0);
 					tileMap.left(smooth);
-				}
+				} else 
+					player.setStanding(true);
 				
 				if (targetFrameCounter % 6 == 0) {
 					counter++;
@@ -226,6 +263,10 @@ public class Game extends Application {
 
 	public void setCounter(int counter) {
 		this.counter = counter;
+	}
+	
+	public double getXCoordinate() {
+		return tileMap.getX();
 	}
 
 }
