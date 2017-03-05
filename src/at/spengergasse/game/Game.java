@@ -1,6 +1,7 @@
 package at.spengergasse.game;
 
 import at.spengergasse.player.Player;
+import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame; // F�r den Gameloop
 import javafx.animation.Timeline; // F�r den Gameloop (konstante 60 FPS, ...)
 import javafx.application.Application; // Das ganze Programm
@@ -51,7 +52,7 @@ public class Game extends Application {
 		Timeline gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
 
-		KeyFrame kf = new KeyFrame(Duration.seconds(0.017), new EventHandler<ActionEvent>() { // 0.017
+		KeyFrame kf = new KeyFrame(Duration.millis(16.666), new EventHandler<ActionEvent>() { // 0.017
 																								// ->
 																								// 60
 																								// FPS
@@ -70,7 +71,7 @@ public class Game extends Application {
 							break;
 						case W:
 							tileMap.setLeft(true);
-							player.setStanding(true);
+							player.setStanding(true); // If you press E and W the Player will stop
 							break;
 						}
 					}
@@ -106,7 +107,16 @@ public class Game extends Application {
 					smoothOutMovement(1.0);
 					tileMap.left(smooth);
 				}
-//				System.out.println(tileMap.getX());
+				
+				if (targetFrameCounter % 6 == 0) {
+					counter++;
+				}
+
+				if (counter == 9) {
+					counter = 1;
+				}
+
+				targetFrameCounter++;
 
 				// Clear the scene
 				group.getChildren().clear();
@@ -117,17 +127,8 @@ public class Game extends Application {
 				// Drawing the player the last
 				player.drawPlayer(new ImageView(), counter);
 
-				if (targetFrameCounter % 6 == 0) {
-					counter++;
-				}
-
-				if (counter == 9) {
-					counter = 1;
-				}
-
-				targetFrameCounter++;
 			}
-
+			
 		});
 
 		gameLoop.getKeyFrames().add(kf);
@@ -151,8 +152,11 @@ public class Game extends Application {
 		// Creating the group for the tiles
 		group = new Group();
 
+		// The background color, kind of a dark grey
+		Color background = new Color(0.165, 0.165, 0.165, 1);
+		
 		// Generating a new window
-		sc = new Scene(group, 960, 720, Color.BLACK); // 960 720 48
+		sc = new Scene(group, 960, 720, background); // 960 720 48
 
 		// Creating a new TileMap Object for reading and drawing the game map
 		try {

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 
+import javafx.scene.CacheHint;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -145,6 +146,7 @@ public class TileMap {
 		for (int row = 0; row < mapHeight; row++) { // mapHeight
 			for (; col < mapWidth; col++) { // mapWidth
 				int rc = map[row][col];
+				if(rc != 0) {
 				im = new ImageView(images[rc]);
 				im.setFitHeight(tileSize);
 				im.setFitWidth(tileSize);
@@ -152,10 +154,13 @@ public class TileMap {
 				im.setLayoutY(tileSize);
 				im.setTranslateX((col * tileSize) - x); // 352
 				im.setTranslateY((row * tileSize) - y); // 288
+				
 				g.getGroup().getChildren().add(im);
+				}
 			}
 			col = 0;
 		}
+		
 		
 		
 	}
