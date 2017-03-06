@@ -1,7 +1,6 @@
 package at.spengergasse.game;
 
 import at.spengergasse.player.Player;
-import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame; // F�r den Gameloop
 import javafx.animation.Timeline; // F�r den Gameloop (konstante 60 FPS, ...)
 import javafx.application.Application; // Das ganze Programm
@@ -13,9 +12,6 @@ import javafx.scene.paint.Color; // Farben
 import javafx.scene.image.ImageView; // Das Bild, das gezeigt wird
 import javafx.event.ActionEvent; // Es passiert etwas (rendern, update, ...)
 import javafx.event.EventHandler; // F�r Key - Abfragen ben�tigt (Tastatur)
-import javafx.scene.input.KeyCharacterCombination;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent; // Pr�ft welche Taste gedr�ckt wurde
 
 public class Game extends Application {
@@ -69,6 +65,7 @@ public class Game extends Application {
 							/*
 							 * Jumping
 							 */
+							break;
 						case D:
 							tileMap.setRight(true);
 							player.setStanding(true);
@@ -81,6 +78,8 @@ public class Game extends Application {
 							/*
 							 * Jumping
 							 */
+							System.out.println("Jump!");
+							break;
 						case RIGHT:
 							tileMap.setRight(true);
 							player.setStanding(true);
@@ -102,6 +101,7 @@ public class Game extends Application {
 							/*
 							 * Jumping
 							 */
+							break;
 						case D:
 							setSmooth(0.0);
 							player.setStanding(true);
@@ -116,6 +116,7 @@ public class Game extends Application {
 							/*
 							 * Jumping
 							 */
+							break;
 						case RIGHT:
 							setSmooth(0.0);
 							player.setStanding(true);
@@ -208,6 +209,10 @@ public class Game extends Application {
 		player = new Player();
 	}
 
+	/**
+	 * Smooth Movement
+	 * 
+	 */
 	public void smoothOutMovement(double inc) {
 		if (smooth < 4.9) {
 			smooth += inc;
@@ -245,18 +250,6 @@ public class Game extends Application {
 		return tileMap;
 	}
 
-	public void setTileMap(TileMap tileMap) {
-		this.tileMap = tileMap;
-	}
-
-	public static void setGroup(Group group) {
-		Game.group = group;
-	}
-
-	public Scene getScene() {
-		return sc;
-	}
-
 	public int getCounter() {
 		return counter;
 	}
@@ -264,9 +257,4 @@ public class Game extends Application {
 	public void setCounter(int counter) {
 		this.counter = counter;
 	}
-	
-	public double getXCoordinate() {
-		return tileMap.getX();
-	}
-
 }

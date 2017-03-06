@@ -2,19 +2,12 @@ package at.spengergasse.game;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.LineNumberReader;
-import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 
-import javafx.scene.CacheHint;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 
-import javafx.util.*;
 
 public class TileMap {
 	// Game Instanz
