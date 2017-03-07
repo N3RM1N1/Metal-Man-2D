@@ -30,6 +30,10 @@ public class Player {
 
 	private double[][] coordinates;
 
+	private static int TargetFrameCounter = 0;
+	private static int TargetStandingCounter = 1;
+	private static int TargetRunningCounter = 1;
+
 	// TileMap, for getting important map values and moving the map with the
 	// player
 	private Game g;
@@ -49,7 +53,7 @@ public class Player {
 		left = false;
 	}
 
-	public void walk(boolean right) {
+	public void update(boolean right) {
 		if (right) {
 			moveRight();
 		} else {
@@ -77,62 +81,61 @@ public class Player {
 
 	public void drawPlayer(ImageView im, int counter) {
 		if (standing == true) {
-			if (counter == 1 || counter == 6) {
+			if (TargetStandingCounter == 1 || TargetStandingCounter == 6) {
 				Image image = standing1[0];
 				im = new ImageView(image);
-			} else if (counter == 2 || counter == 7) {
+			} else if (TargetStandingCounter == 2 || TargetStandingCounter == 7) {
 				Image image = standing1[1];
 				im = new ImageView(image);
-			} else if (counter == 3 || counter == 8) {
+			} else if (TargetStandingCounter == 3 || TargetStandingCounter == 8) {
 				Image image = standing1[2];
 				im = new ImageView(image);
-			} else if (counter == 4) {
+			} else if (TargetStandingCounter == 4) {
 				Image image = standing1[3];
 				im = new ImageView(image);
-			} else if (counter == 5) {
+			} else if (TargetStandingCounter == 5) {
 				Image image = standing1[4];
 				im = new ImageView(image);
 			}
+
 		} else {
 			running(new ImageView(), counter);
 		}
 
-		im.setTranslateX(200);  //96 x 78
+		im.setTranslateX(200); // 96 x 78
 		im.setTranslateY(576);
 		if (left == true) {
-			im.setScaleX(-1);
+			im.setScaleX(-1); // Spiegelverkehrt
 		}
 		g.getGroup().getChildren().add(im);
 	}
 
 	public void running(ImageView im, int counter) {
 		if (falling == false) {
-			if (counter == 1) {
+			if (TargetRunningCounter == 1 || TargetRunningCounter == 9) {
 				Image image = running[0];
 				im = new ImageView(image);
-			} else if (counter == 2) {
+			} else if (TargetRunningCounter == 2) {
 				Image image = running[1];
 				im = new ImageView(image);
-			} else if (counter == 3) {
+			} else if (TargetRunningCounter == 3) {
 				Image image = running[2];
 				im = new ImageView(image);
-			} else if (counter == 4) {
+			} else if (TargetRunningCounter == 4) {
 				Image image = running[3];
 				im = new ImageView(image);
-			} else if (counter == 5) {
+			} else if (TargetRunningCounter == 5) {
 				Image image = running[4];
 				im = new ImageView(image);
-			} else if (counter == 6) {
+			} else if (TargetRunningCounter == 6) {
 				Image image = running[5];
 				im = new ImageView(image);
-			} else if (counter == 7) {
+			} else if (TargetRunningCounter == 7) {
 				Image image = running[6];
 				im = new ImageView(image);
-			} else if (counter == 8) {
+			} else if (TargetRunningCounter == 8) {
 				Image image = running[7];
 				im = new ImageView(image);
-			} else {
-				System.out.println("Nix");
 			}
 		}
 		im.setTranslateX(200);
@@ -143,6 +146,11 @@ public class Player {
 		g.getGroup().getChildren().add(im);
 	}
 
+	/**
+	 * Loading the images for the player
+	 * Standing, Running, Jumping, Fighting frames
+	 * 
+	 */
 	public void loadImg() {
 		standing1 = new Image[5];
 
@@ -225,5 +233,48 @@ public class Player {
 		return standing;
 	}
 
+	public void checkCounter(double targetCounter) {
+		if (standing == true) {
+			if (TargetStandingCounter == 6) {
+				TargetStandingCounter = 1;
+			}
+			if (targetCounter % 10 == 0) {
+				TargetStandingCounter++;
+			}
+			
+		} else {
+			if (TargetRunningCounter == 9) {
+				TargetRunningCounter = 1;
+			}
+			if (targetCounter % 5 == 0) {
+				TargetRunningCounter++;
+			}
+			
+		}
+	}
+	
+	public void resetCounter() {
+		TargetRunningCounter = 1;
+		TargetStandingCounter = 1;
+	}
+
+	// ------------------------------------------------------------------------------------------------------------------------------------------
+	// Target Running or standing counter for the frames
+	
+	public int getTargetStandingCounter() {
+		return TargetStandingCounter;
+	}
+
+	public void setTargetStandingCounter(int targetStandingCounter) {
+		TargetStandingCounter = targetStandingCounter;
+	}
+
+	public int getTargetRunningCounter() {
+		return TargetRunningCounter;
+	}
+
+	public void setTargetRunningCounter(int targetRunningCounter) {
+		TargetRunningCounter = targetRunningCounter;
+	}
 
 }

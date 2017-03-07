@@ -29,29 +29,22 @@ public class Game extends Application {
 	private Scene sc;
 
 	// Needed for smooth movement
-	private double smooth;
+	private double smooth = 0.0;
 
 	// The counter for the player animation
-	private int targetFrameCounter = 0;
-	private int counter;
+	private double targetFrameCounter = 0;
+	
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
 		// Drawing the game map
-		try {
 			tileMap.draw(new ImageView());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		// The game loop
 		Timeline gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
 
-		KeyFrame kf = new KeyFrame(Duration.millis(16.666), new EventHandler<ActionEvent>() { // 16.6 milliseconds
-																								// ->
-																								// 60
-																								// FPS
+		KeyFrame kf = new KeyFrame(Duration.seconds(1.0/60.0), new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
@@ -78,7 +71,6 @@ public class Game extends Application {
 							/*
 							 * Jumping
 							 */
-							System.out.println("Jump!");
 							break;
 						case RIGHT:
 							tileMap.setRight(true);
@@ -106,11 +98,13 @@ public class Game extends Application {
 							setSmooth(0.0);
 							player.setStanding(true);
 							tileMap.setRight(false); // Don't move anymore
+							player.resetCounter();
 							break;
 						case A:
 							setSmooth(0.0);
 							player.setStanding(true);
 							tileMap.setLeft(false); // Don't move anymore
+							player.resetCounter();
 							break;
 						case SPACE:
 							/*
@@ -121,16 +115,18 @@ public class Game extends Application {
 							setSmooth(0.0);
 							player.setStanding(true);
 							tileMap.setRight(false); // Don't move anymore
+							player.resetCounter();
 							break;
 						case LEFT:
 							setSmooth(0.0);
 							player.setStanding(true);
 							tileMap.setLeft(false); // Don't move anymore
+							player.resetCounter();
 							break;
 						}
 					}
 				});
-
+				
 				// Moving to the left or the right
 				if (tileMap.getRight() == true && tileMap.getLeft() == false && tileMap.getX() < 3696) {
 					player.moveRight();
@@ -146,16 +142,10 @@ public class Game extends Application {
 				} else 
 					player.setStanding(true);
 				
-				if (targetFrameCounter % 6 == 0) {
-					counter++;
-				}
-
-				if (counter == 9) {
-					counter = 1;
-				}
-
 				targetFrameCounter++;
 
+				player.checkCounter(targetFrameCounter);
+				
 				// Clear the scene
 				group.getChildren().clear();
 				
@@ -163,8 +153,9 @@ public class Game extends Application {
 				tileMap.update();
 				
 				// Drawing the player the last
-				player.drawPlayer(new ImageView(), counter);
-
+				player.drawPlayer(new ImageView(), (int) targetFrameCounter);
+				System.out.println(player.getTargetRunningCounter());
+				
 			}
 			
 		});
@@ -190,22 +181,16 @@ public class Game extends Application {
 		// Creating the group for the tiles
 		group = new Group();
 
-		// The background color, kind of a dark grey
+		// The background color, kind of a dark green
 		Color background = new Color(0.165, 0.165, 0.165, 1);
 		
 		// Generating a new window
 		sc = new Scene(group, 960, 720, background); // 960 720 48
 
 		// Creating a new TileMap Object for reading and drawing the game map
-		try {
-			tileMap = new TileMap(48);
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		}
-
-		smooth = 0.0;
-
-		counter = 1;
+		tileMap = new TileMap(48);
+		
+		// Creating the player
 		player = new Player();
 	}
 
@@ -246,15 +231,11 @@ public class Game extends Application {
 		return group;
 	}
 
-	public TileMap getTileMap() {
-		return tileMap;
+	public double getCounter() {
+		return targetFrameCounter;
 	}
 
-	public int getCounter() {
-		return counter;
-	}
-
-	public void setCounter(int counter) {
-		this.counter = counter;
+	public void setCounter(double counter) {
+		this.targetFrameCounter = counter;
 	}
 }

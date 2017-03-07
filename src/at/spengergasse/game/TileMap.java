@@ -140,14 +140,13 @@ public class TileMap {
 			for (; col < mapWidth; col++) { // mapWidth
 				int rc = map[row][col];
 				if(rc != 0) {
-				im = new ImageView(images[rc]);
+				im = new ImageView(images[rc-1]);
 				im.setFitHeight(tileSize);
 				im.setFitWidth(tileSize);
 				im.setLayoutX(tileSize);
 				im.setLayoutY(tileSize);
 				im.setTranslateX((col * tileSize) - x); // 352
 				im.setTranslateY((row * tileSize) - y); // 288
-				
 				g.getGroup().getChildren().add(im);
 				}
 			}
@@ -230,7 +229,6 @@ public class TileMap {
 	public void loadImg() {
 		images = new Image[11];
 
-		Image background = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/background.png"));
 		Image untergrund = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/untergrund.png"));
 		Image decke = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/decke.png"));
 		Image block = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/block.png"));
@@ -247,17 +245,16 @@ public class TileMap {
 		Image rechtsUnter = new Image(
 				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/rechts_untergrund.png"));
 
-		images[0] = background;
-		images[1] = untergrund;
-		images[2] = decke;
-		images[3] = block;
-		images[4] = einzelblockU;
-		images[5] = rechtsUnter;
-		images[6] = fliegPlat;
-		images[7] = linksFliegPlat;
-		images[8] = linksUnter;
-		images[9] = rechtsFliegPlat;
-		images[10] = fliegPlatEinz;
+		images[0] = untergrund;
+		images[1] = decke;
+		images[2] = block;
+		images[3] = einzelblockU;
+		images[4] = rechtsUnter;
+		images[5] = fliegPlat;
+		images[6] = linksFliegPlat;
+		images[7] = linksUnter;
+		images[8] = rechtsFliegPlat;
+		images[9] = fliegPlatEinz;
 	}
 
 }
