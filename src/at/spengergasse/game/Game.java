@@ -154,8 +154,7 @@ public class Game extends Application {
 				
 				// Drawing the player the last
 				player.drawPlayer(new ImageView(), (int) targetFrameCounter);
-				System.out.println(player.getTargetRunningCounter());
-				
+
 			}
 			
 		});

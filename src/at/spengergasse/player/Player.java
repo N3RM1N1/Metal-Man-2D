@@ -8,12 +8,12 @@ public class Player {
 
 	// Walking speed, start and maximum walk speed. Player starts slower and
 	// gets faster
-	private final double ENDWALKSPEED = 3.0;
+	private final double ENDWALKSPEED = 5.0;
 	private final double WALKSPEED = 0.3;
 
 	// Boolean Values for standing and falling
-	private boolean standing;
-	private boolean falling;
+	private boolean isStanding;
+	private boolean isFalling;
 
 	// Jumping speed, Falling speed
 	private final double JUMPSPEED = 1.2;
@@ -29,8 +29,8 @@ public class Player {
 	private double y;
 
 	private double[][] coordinates;
-
-	private static int TargetFrameCounter = 0;
+	
+	// The counter for the Frames
 	private static int TargetStandingCounter = 1;
 	private static int TargetRunningCounter = 1;
 
@@ -46,14 +46,14 @@ public class Player {
 
 	public Player() {
 		g = new Game();
-		standing = true;
-		falling = false;
+		isStanding = true;
+		isFalling = false;
 		loadImg();
 		right = false;
 		left = false;
 	}
 
-	public void update(boolean right) {
+	public void walk(boolean right) {
 		if (right) {
 			moveRight();
 		} else {
@@ -62,25 +62,25 @@ public class Player {
 	}
 
 	public void moveLeft() {
-		if (standing == true && falling == false) {
+		if (isStanding == true && isFalling == false) {
 			g.setCounter(1);
 			left = true;
 			right = false;
-			standing = false;
+			isStanding = false;
 		}
 	}
 
 	public void moveRight() {
-		if (falling == false && standing == true) {
+		if (isFalling == false && isStanding == true) {
 			g.setCounter(1);
 			left = false;
 			right = true;
-			standing = false;
+			isStanding = false;
 		}
 	}
 
 	public void drawPlayer(ImageView im, int counter) {
-		if (standing == true) {
+		if (isStanding == true) {
 			if (TargetStandingCounter == 1 || TargetStandingCounter == 6) {
 				Image image = standing1[0];
 				im = new ImageView(image);
@@ -111,7 +111,7 @@ public class Player {
 	}
 
 	public void running(ImageView im, int counter) {
-		if (falling == false) {
+		if (isFalling == false) {
 			if (TargetRunningCounter == 1 || TargetRunningCounter == 9) {
 				Image image = running[0];
 				im = new ImageView(image);
@@ -194,11 +194,11 @@ public class Player {
 	}
 
 	public boolean isFalling() {
-		return falling;
+		return isFalling;
 	}
 
 	public void setFalling(boolean falling) {
-		this.falling = falling;
+		this.isFalling = falling;
 	}
 
 	public double getJumpSpeed() {
@@ -226,15 +226,15 @@ public class Player {
 	}
 
 	public void setStanding(boolean standing) {
-		this.standing = standing;
+		this.isStanding = standing;
 	}
 
 	public boolean getStanding() {
-		return standing;
+		return isStanding;
 	}
 
 	public void checkCounter(double targetCounter) {
-		if (standing == true) {
+		if (isStanding == true) {
 			if (TargetStandingCounter == 6) {
 				TargetStandingCounter = 1;
 			}

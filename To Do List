@@ -1,0 +1,131 @@
+TO DO List
+
+	Insgesamt:	Den Code aufraeumen !!!!!!!!!!
+	
+	
+	Beim Fertigstellen einer Aufgabe einfach loeschen
+	Bei Unsicherheit statt dem Plus + ein grosses o setzen O
+	
+	Wenn 'Versuchen:' steht nur versuchen. Bei nicht gelingen den vorherigen Standard zuruecksetzen
+	
+
+	- Weitere Animationen des Spielers einfuegen
+	
+		+ Springen
+		+ Zuschlagen (kämpfen)
+		
+		--> Weiter counter einfuegen, damit die richtigen Frames abgespielt werden
+		--> Methode checkCounter() umschreiben
+	
+	
+	- Echten Sprung erzeugen
+	
+		+ Der Spieler springt und der y Wert aendert sich
+		+ Bei fallen wird Gravity benutzt, um den Spieler zu Boden zu bringen
+	
+		--> Mit Taste W oder Space wird der Jump aufgerufen --> Die Animation wird geaendert
+	
+	
+	- Die Map dynamisch machen
+	
+		+ Fixe x und y Werte durch Berechnungen ersetzten, sodass beim aendern der Map nicht
+		  der Code geaendert werden muss
+		+ Versuchen: Die Bewegungen der Map in die TileMap Klasse zu verschieben
+	
+		--> Das Verschieben findet momentan in der Klasse Game statt
+	
+	
+	- Hit Detection
+	
+		+ Der Spieler muss erkennen, ob vor ihm eine Wand oder ein Loch steht oder nicht
+		+ Dies soll wieder dynamisch umgesetzt werden dh., beim aendern der Map muss nicht
+		  der Code umgeschrieben werden
+		  
+		  
+	- Map Erweitern
+	
+		+ Die momentane groesse der Map aendern und fertigmachen
+		+ Die Boss Map ueberlegen
+		+ Den Map Buffer dynamisch setzen (20 Bloecke werden geladen, wenn er sich bewegt wird weitergeladen ...)
+		
+		
+	- Die Gegner
+	
+		+ Wenn möglich: Bessere Enemie Tiles finden :)
+		+ Gegner implementieren
+		+ Bei Beruehrung mit dem Spieler --> hit detection
+		+ Der Spieler wird nur ein Leben haben
+		+ Bei einem Angriff vom Player wird der Gegner verschwinden --> tot 
+		
+		Fuer die Gegner wird ein eigenes Package mit dem Namen at.spengergasse.enemies erstellt
+		Klasse --> Enemies
+		
+		
+	- Die Level
+	
+		+ Die Klasse TileMap ist nur da um die Map zu laden!
+		+ Alle anderen Aktionen finden in dem Package .level statt
+		+ Level Laden (TileMap) dynamisch machen 
+	
+	
+	- Das KeyEvent (Tastendruck) aufraeumen
+	
+		+ Momentan Switch und Case
+			--> Einfach if's benutzen um wiedeholten code zu vermeiden
+		+ Unnoetige Aktionen finden und entfernen, sofern moeglich
+		+ Versuchen: (Player: Statt moveLeft und right Methode: walk() benutzen)
+	
+	
+	- Den Projektordner aufrauemen
+	
+		+ Die Resourcen in die jeweiligen Packages verschieben und fuer Ordnung sorgen
+		+ Die Mapdateien ins Package .level verschieben
+	
+	
+------------------------------------------------------------------------------------------------------------------------------------------------	
+	
+	
+	Eventuell:
+	
+	- Sound
+	
+		+ Wenn passende Musik gefunden wird, kann diese benutzt werden
+		
+	
+	- HUD
+	
+		+ Eine Punkteanzahl rechts in der Ecke
+		+ Ein Abschuss der Gegner 100 Punkte, bei Groesseren mit mehr Schuessen mehr
+		+ (Links die Zeit / Anzahl der Versuche)
+		
+		
+	- Game Launcher
+	
+		+ Start
+			--> Uebersicht ueber die Level
+			
+		+ Multiplayer
+			--> siehe Multiplayer (Zeile 123)
+			
+		+ Options
+			--> Musik: An oder Aus
+				(Aufloesung aendern)
+				Vollbildmodus: An oder Aus
+		+ Quit
+			--> Beendet das Programm (Fenster wird geschlossen)
+			
+			
+	- Speichern des Spielstandes
+	
+		+ Eine Datei mit allen noetigen Log Daten wird erstellt
+		+ Fuer die Zukunft
+		
+	- Multiplayer
+		
+		+ Minispiele
+		+ Zeitspiel
+		+ (Gegeneinander antreten)
+		
+		Nur im Fullscreen moeglich!
+	
+	
