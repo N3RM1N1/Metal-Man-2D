@@ -202,6 +202,10 @@ public class TileMap {
 	public void setRight(boolean right) {
 		this.right = right;
 	}
+	
+	public int getLength() {
+		return mapLength;
+	}
 
 	public void right(double inc) {
 		if (x <= (mapLength-19)*48) {

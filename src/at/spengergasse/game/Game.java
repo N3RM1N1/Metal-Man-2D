@@ -55,11 +55,9 @@ public class Game extends Application {
 					public void handle(KeyEvent event) {
 						if(event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT){
 							tileMap.setRight(true);
-							player.setStanding(true);
 						}
 						if(event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT){
 							tileMap.setLeft(true);
-							player.setStanding(true);
 						}
 					}
 				});
@@ -83,7 +81,7 @@ public class Game extends Application {
 				});
 
 				// Moving to the left or the right
-				if (tileMap.getRight() == true && tileMap.getLeft() == false && tileMap.getX() < 3696) {
+				if (tileMap.getRight() == true && tileMap.getLeft() == false && tileMap.getX() < ((tileMap.getLength()-19)*48)) {
 					player.moveRight();
 					smoothOutMovement(1.0);
 					tileMap.right(smooth); // Moving 5.0 Pixels to the right

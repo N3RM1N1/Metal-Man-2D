@@ -67,7 +67,7 @@ TO DO List
 		Klasse --> Enemies
 		
 		
-	- Die Level
+	- Die Level k
 	
 		+ Die Klasse TileMap ist nur da um die Map zu laden!
 		+ Alle anderen Aktionen finden in dem Package .level statt
@@ -76,7 +76,6 @@ TO DO List
 	
 	- Das KeyEvent (Tastendruck) aufraeumen
 	
-		
 		+ Unnoetige Aktionen finden und entfernen, sofern moeglich
 		+ Versuchen: (Player: Statt moveLeft und right Methode: walk() benutzen)
 	
