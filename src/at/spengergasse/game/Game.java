@@ -16,7 +16,6 @@ import javafx.scene.input.KeyEvent; // Pr�ft welche Taste gedr�ckt wurde
 
 public class Game extends Application {
 
-	// Kannst du mir 2€ borgen?
 	// The Map
 	private TileMap tileMap;
 
