@@ -81,15 +81,14 @@ public class TileMap {
 			FileReader fr = new FileReader("map");
 			BufferedReader br = new BufferedReader(fr);
 
-			mapWidth = Integer.parseInt(br.readLine());
-			mapLength = mapWidth;
+			mapLength = Integer.parseInt(br.readLine());
 			mapHeight = Integer.parseInt(br.readLine());
-			map = new int[mapHeight][mapWidth];
+			map = new int[mapHeight][mapLength];
 
 			for (int row = 0; row < mapHeight; row++) {
 				String line = br.readLine();
 				String[] zeichen = line.split(" ");
-				for (int col = 0; col < mapWidth; col++) {
+				for (int col = 0; col < mapLength; col++) {
 					map[row][col] = Integer.parseInt(zeichen[col]);
 				}
 			}

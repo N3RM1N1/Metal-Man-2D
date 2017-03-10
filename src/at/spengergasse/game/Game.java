@@ -43,43 +43,61 @@ public class Game extends Application {
 		// The game loop
 		Timeline gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
+		
+		sc.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent event) {
+				if(event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT){
+					tileMap.setRight(true);
+				}
+				if(event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT){
+					tileMap.setLeft(true);
+				}
+			}
+		});
+		sc.setOnKeyReleased(new EventHandler<KeyEvent>() { // Releasing
+															// key
+
+			@Override
+			public void handle(KeyEvent event) {	
+				if(event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT){
+					player.setStanding(true);
+					tileMap.setRight(false); // Don't move anymore
+					player.resetCounter();
+				}
+				if(event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT){
+					player.setStanding(true);
+					tileMap.setLeft(false); // Don't move anymore
+					player.resetCounter();
+				}
+				
+			}
+		});
 
 		KeyFrame kf = new KeyFrame(Duration.seconds(1.0 / 60.0), new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 
-				sc.setOnKeyPressed(new EventHandler<KeyEvent>() {
+				update();
 
-					@Override
-					public void handle(KeyEvent event) {
-						if(event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT){
-							tileMap.setRight(true);
-						}
-						if(event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT){
-							tileMap.setLeft(true);
-						}
-					}
-				});
-				sc.setOnKeyReleased(new EventHandler<KeyEvent>() { // Releasing
-																	// key
+				render();
 
-					@Override
-					public void handle(KeyEvent event) {	
-						if(event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT){
-							player.setStanding(true);
-							tileMap.setRight(false); // Don't move anymore
-							player.resetCounter();
-						}
-						if(event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT){
-							player.setStanding(true);
-							tileMap.setLeft(false); // Don't move anymore
-							player.resetCounter();
-						}
-						
-					}
-				});
+			}
 
+			private void render() {
+				// Clear the scene
+				group.getChildren().clear();
+
+				// Update the map
+				tileMap.update();
+
+				// Drawing the player the last
+				player.drawPlayer(new ImageView(), (int) targetFrameCounter);
+			}
+
+			private void update() {
 				// Moving to the left or the right
 				if (tileMap.getRight() == true && tileMap.getLeft() == false && tileMap.getX() < ((tileMap.getLength()-19)*48)) {
 					player.moveRight();
@@ -98,16 +116,6 @@ public class Game extends Application {
 				targetFrameCounter++;
 
 				player.checkCounter(targetFrameCounter);
-
-				// Clear the scene
-				group.getChildren().clear();
-
-				// Update the map
-				tileMap.update();
-
-				// Drawing the player the last
-				player.drawPlayer(new ImageView(), (int) targetFrameCounter);
-
 			}
 
 		});
