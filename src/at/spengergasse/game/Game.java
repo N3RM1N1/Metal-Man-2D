@@ -54,6 +54,10 @@ public class Game extends Application {
 				if(event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT){
 					tileMap.setLeft(true);
 				}
+				if(event.getCode() == KeyCode.SPACE){
+					tileMap.setRight(true);
+					player.setJumping(true);
+				}
 			}
 		});
 		sc.setOnKeyReleased(new EventHandler<KeyEvent>() { // Releasing

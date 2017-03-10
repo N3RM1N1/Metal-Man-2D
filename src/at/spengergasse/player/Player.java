@@ -33,6 +33,7 @@ public class Player {
 	// The counter for the Frames
 	private static int TargetStandingCounter = 1;
 	private static int TargetRunningCounter = 1;
+	private static int TargetJumpCounter = 1;
 
 	// TileMap, for getting important map values and moving the map with the
 	// player
@@ -100,8 +101,11 @@ public class Player {
 				im = new ImageView(image);
 			}
 
-		} else {
-			running(new ImageView(), counter);
+		} else if(jumping == true) {
+			jump(im, counter);
+		}
+		else {
+			running(im, counter);
 		}
 
 		im.setTranslateX(200); // 96 x 78
@@ -146,6 +150,69 @@ public class Player {
 			im.setScaleX(-1);
 		}
 		g.getGroup().getChildren().add(im);
+	}
+	
+	public void jump(ImageView im, int counter){
+		if(TargetJumpCounter == 1 || TargetJumpCounter == 16){
+			Image image = jump[0];
+			im = new ImageView(image);
+		}
+		else if(TargetJumpCounter == 2){
+			Image image = jump[1];
+			im = new ImageView(image);
+		}
+		else if(TargetJumpCounter == 3){
+			Image image = jump[2];
+			im = new ImageView(image);
+		}
+		else if(TargetJumpCounter == 4){
+			Image image = jump[3];
+			im = new ImageView(image);
+		}
+		else if(TargetJumpCounter == 5){
+			Image image = jump[4];
+			im = new ImageView(image);
+		}
+		else if(TargetJumpCounter == 6){
+			Image image = jump[5];
+			im = new ImageView(image);
+		}
+		else if(TargetJumpCounter == 7){
+			Image image = jump[6];
+			im = new ImageView(image);
+		}
+		else if(TargetJumpCounter == 8){
+			Image image = jump[7];
+			im = new ImageView(image);
+		}
+		else if(TargetJumpCounter == 9){
+			Image image = jump[8];
+			im = new ImageView(image);
+		}
+		else if(TargetJumpCounter == 10){
+			Image image = jump[9];
+			im = new ImageView(image);
+		}
+		else if(TargetJumpCounter == 11){
+			Image image = jump[10];
+			im = new ImageView(image);
+		}
+		else if(TargetJumpCounter == 12){
+			Image image = jump[11];
+			im = new ImageView(image);
+		}
+		else if(TargetJumpCounter == 13){
+			Image image = jump[12];
+			im = new ImageView(image);
+		}
+		else if(TargetJumpCounter == 14){
+			Image image = jump[13];
+			im = new ImageView(image);
+		}
+		else if(TargetJumpCounter == 15){
+			Image image = jump[14];
+			im = new ImageView(image);
+		}
 	}
 
 	/**
@@ -264,6 +331,20 @@ public class Player {
 	public void setRight(boolean right) {
 		this.right = right;
 	}
+	
+	/**
+	 * @return the jumping
+	 */
+	public boolean isJumping() {
+		return jumping;
+	}
+
+	/**
+	 * @param jumping the jumping to set
+	 */
+	public void setJumping(boolean jumping) {
+		this.jumping = jumping;
+	}
 
 	public void setStanding(boolean standing) {
 		this.isStanding = standing;
@@ -282,7 +363,15 @@ public class Player {
 				TargetStandingCounter++;
 			}
 			
-		} else {
+		} else if(jumping == true) {
+			if(TargetJumpCounter == 16){
+				TargetJumpCounter = 1;
+			}
+			if(targetCounter % 16 == 0){
+				TargetJumpCounter ++;
+			}
+		}
+		else {
 			if (TargetRunningCounter == 9) {
 				TargetRunningCounter = 1;
 			}
