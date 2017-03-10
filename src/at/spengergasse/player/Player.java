@@ -44,6 +44,7 @@ public class Player {
 
 	private boolean left;
 	private boolean right;
+	private boolean jumping;
 
 	public Player() {
 		g = new Game();
