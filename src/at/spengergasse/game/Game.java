@@ -16,6 +16,7 @@ import javafx.scene.input.KeyEvent; // Pr�ft welche Taste gedr�ckt wurde
 
 public class Game extends Application {
 
+	// Kannst du mir 2€ borgen?
 	// The Map
 	private TileMap tileMap;
 
@@ -33,18 +34,17 @@ public class Game extends Application {
 
 	// The counter for the player animation
 	private double targetFrameCounter = 0;
-	
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
 		// Drawing the game map
-			tileMap.draw(new ImageView());
+		tileMap.draw(new ImageView());
 		// The game loop
 		Timeline gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
 
-		KeyFrame kf = new KeyFrame(Duration.seconds(1.0/60.0), new EventHandler<ActionEvent>() {
+		KeyFrame kf = new KeyFrame(Duration.seconds(1.0 / 60.0), new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
@@ -65,7 +65,8 @@ public class Game extends Application {
 							break;
 						case A:
 							tileMap.setLeft(true);
-							player.setStanding(true); // If you press E and W the Player will stop
+							player.setStanding(true); // If you press E and W
+														// the Player will stop
 							break;
 						case SPACE:
 							/*
@@ -78,7 +79,8 @@ public class Game extends Application {
 							break;
 						case LEFT:
 							tileMap.setLeft(true);
-							player.setStanding(true); // If you press E and W the Player will stop
+							player.setStanding(true); // If you press E and W
+														// the Player will stop
 							break;
 						}
 					}
@@ -126,37 +128,37 @@ public class Game extends Application {
 						}
 					}
 				});
-				
+
 				// Moving to the left or the right
 				if (tileMap.getRight() == true && tileMap.getLeft() == false && tileMap.getX() < 3696) {
 					player.moveRight();
 					smoothOutMovement(1.0);
 					tileMap.right(smooth); // Moving 5.0 Pixels to the right
 				} else
-					// Nothing
-				
+				// Nothing
+
 				if (tileMap.getLeft() == true && tileMap.getRight() == false && tileMap.getX() > 48) {
 					player.moveLeft();
 					smoothOutMovement(1.0);
 					tileMap.left(smooth);
-				} else 
+				} else
 					player.setStanding(true);
-				
+
 				targetFrameCounter++;
 
 				player.checkCounter(targetFrameCounter);
-				
+
 				// Clear the scene
 				group.getChildren().clear();
-				
+
 				// Update the map
 				tileMap.update();
-				
+
 				// Drawing the player the last
 				player.drawPlayer(new ImageView(), (int) targetFrameCounter);
 
 			}
-			
+
 		});
 
 		gameLoop.getKeyFrames().add(kf);
@@ -182,13 +184,13 @@ public class Game extends Application {
 
 		// The background color, kind of a dark green
 		Color background = new Color(0.165, 0.165, 0.165, 1);
-		
+
 		// Generating a new window
 		sc = new Scene(group, 960, 720, background); // 960 720 48
 
 		// Creating a new TileMap Object for reading and drawing the game map
 		tileMap = new TileMap(48);
-		
+
 		// Creating the player
 		player = new Player();
 	}
