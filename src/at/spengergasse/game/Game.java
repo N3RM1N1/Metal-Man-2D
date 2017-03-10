@@ -53,36 +53,6 @@ public class Game extends Application {
 
 					@Override
 					public void handle(KeyEvent event) {
-//						switch (event.getCode()) {
-//						case W:
-//							/*
-//							 * Jumping
-//							 */
-//							break;
-//						case D:
-//							tileMap.setRight(true);
-//							player.setStanding(true);
-//							break;
-//						case A:
-//							tileMap.setLeft(true);
-//							player.setStanding(true); // If you press E and W
-//														// the Player will stop
-//							break;
-//						case SPACE:
-//							/*
-//							 * Jumping
-//							 */
-//							break;
-//						case RIGHT:
-//							tileMap.setRight(true);
-//							player.setStanding(true);
-//							break;
-//						case LEFT:
-//							tileMap.setLeft(true);
-//							player.setStanding(true); // If you press E and W
-//														// the Player will stop
-//							break;
-//						}
 						if(event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT){
 							tileMap.setRight(true);
 							player.setStanding(true);
@@ -98,42 +68,6 @@ public class Game extends Application {
 
 					@Override
 					public void handle(KeyEvent event) {	
-//						switch (event.getCode()) {
-//						case W:
-//							/*
-//							 * Jumping
-//							 */
-//							break;
-//						case D:
-//							setSmooth(0.0);
-//							player.setStanding(true);
-//							tileMap.setRight(false); // Don't move anymore
-//							player.resetCounter();
-//							break;
-//						case A:
-//							setSmooth(0.0);
-//							player.setStanding(true);
-//							tileMap.setLeft(false); // Don't move anymore
-//							player.resetCounter();
-//							break;
-//						case SPACE:
-//							/*
-//							 * Jumping
-//							 */
-//							break;
-//						case RIGHT:
-//							setSmooth(0.0);
-//							player.setStanding(true);
-//							tileMap.setRight(false); // Don't move anymore
-//							player.resetCounter();
-//							break;
-//						case LEFT:
-//							setSmooth(0.0);
-//							player.setStanding(true);
-//							tileMap.setLeft(false); // Don't move anymore
-//							player.resetCounter();
-//							break;
-//						}
 						if(event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT){
 							player.setStanding(true);
 							tileMap.setRight(false); // Don't move anymore

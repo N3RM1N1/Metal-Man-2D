@@ -26,6 +26,7 @@ public class TileMap {
 	// Height and width of the Map
 	private int mapWidth;
 	private int mapHeight;
+	private int mapLength;
 
 	// Boolean value for moving to the left or the right
 	private boolean left;
@@ -81,6 +82,7 @@ public class TileMap {
 			BufferedReader br = new BufferedReader(fr);
 
 			mapWidth = Integer.parseInt(br.readLine());
+			mapLength = mapWidth;
 			mapHeight = Integer.parseInt(br.readLine());
 			map = new int[mapHeight][mapWidth];
 
@@ -202,11 +204,11 @@ public class TileMap {
 	}
 
 	public void right(double inc) {
-		if (x <= 3696) {
-			if ((x + inc) <= 3696) {
+		if (x <= (mapLength-19)*48) {
+			if ((x + inc) <= (mapLength-19)*48) {
 				x += inc;
 			} else {
-				x = 3696;
+				x = (mapLength-19)*48;
 			}
 		} else
 			System.out.println("Ende");
