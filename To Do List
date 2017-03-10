@@ -76,8 +76,6 @@ TO DO List
 	
 	- Das KeyEvent (Tastendruck) aufraeumen
 	
-		+ Momentan Switch und Case
-			--> Einfach if's benutzen um wiedeholten code zu vermeiden
 		+ Unnoetige Aktionen finden und entfernen, sofern moeglich
 		+ Versuchen: (Player: Statt moveLeft und right Methode: walk() benutzen)
 	
