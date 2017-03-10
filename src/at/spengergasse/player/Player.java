@@ -40,6 +40,7 @@ public class Player {
 
 	private Image[] standing1;
 	private Image[] running;
+	private Image[] jump;
 
 	private boolean left;
 	private boolean right;
@@ -185,6 +186,44 @@ public class Player {
 		running[5] = image6;
 		running[6] = image7;
 		running[7] = image8;
+		
+		jump = new Image[15];
+		
+		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_0_delay-0.13s.gif"));
+		image2 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_1_delay-0.13s.gif"));
+		image3 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_2_delay-0.06s.gif"));
+		image4 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_3_delay-0.06s.gif"));
+		image5 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_4_delay-0.06s.gif"));
+		image6 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_5_delay-0.06s.gif"));
+		image7 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_6_delay-0.06s.gif"));
+		image8 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_7_delay-0.06s.gif"));
+		Image image9 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_8_delay-0.06s.gif"));
+		Image image10 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_9_delay-0.03s.gif"));
+		Image image11 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_10_delay-0.03s.gif"));
+		Image image12 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_11_delay-0.13s.gif"));
+		Image image13 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_12_delay-0.13s.gif"));
+		Image image14 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_13_delay-0.06s.gif"));
+		Image image15 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_14_delay-0.13s.gif"));
+		
+		jump[0] = image1;
+		jump[1] = image2;
+		jump[2] = image3;
+		jump[3] = image4;
+		jump[4] = image5;
+		jump[5] = image6;
+		jump[6] = image7;
+		jump[7] = image8;
+		jump[8] = image9;
+		jump[9] = image10;
+		jump[10] = image11;
+		jump[11] = image12;
+		jump[12] = image13;
+		jump[13] = image14;
+		jump[14] = image15;
+		
+//		for(int i = 0; i < 14; i++ ){
+//			image[i] = image + i;
+//		}
 	}
 
 	// GET SET Methods
