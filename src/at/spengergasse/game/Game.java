@@ -55,7 +55,6 @@ public class Game extends Application {
 					tileMap.setLeft(true);
 				}
 				if(event.getCode() == KeyCode.SPACE){
-					tileMap.setRight(true);
 					player.setJumping(true);
 				}
 			}
@@ -116,7 +115,7 @@ public class Game extends Application {
 					tileMap.left(smooth);
 				} else
 					player.setStanding(true);
-
+				
 				targetFrameCounter++;
 
 				player.checkCounter(targetFrameCounter);

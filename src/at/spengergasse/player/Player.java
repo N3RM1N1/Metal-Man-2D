@@ -16,13 +16,15 @@ public class Player {
 	private boolean isFalling;
 
 	// Jumping speed, Falling speed
-	private final double JUMPSPEED = 1.2;
+	private final double JUMPSPEED = 6;
 	private final double JUMPSPEEDMAX = 4.0;
 	private final double FALLINGSPEED = 1.2;
 	private final double FALLINGSPEEDMAX = 4.0;
+	
+	private int i = 5550;
 
 	// The gravity --> used for falling to increase slowly the falling speed
-	private final double GRAVITY = 1.2;
+	private final double GRAVITY = 7.5;
 
 	// The coordinates of the player
 	private double x;
@@ -65,7 +67,7 @@ public class Player {
 	}
 
 	public void moveLeft() {
-		if (isStanding == true && isFalling == false) {
+		if (isStanding == true) {
 			g.setCounter(1);
 			left = true;
 			right = false;
@@ -74,7 +76,7 @@ public class Player {
 	}
 
 	public void moveRight() {
-		if (isFalling == false && isStanding == true) {
+		if (isStanding == true) {
 			g.setCounter(1);
 			left = false;
 			right = true;
@@ -83,31 +85,37 @@ public class Player {
 	}
 
 	public void drawPlayer(ImageView im, int counter) {
-		if (isStanding == true) {
-			if (TargetStandingCounter == 1 || TargetStandingCounter == 6) {
-				Image image = standing1[0];
-				im = new ImageView(image);
-			} else if (TargetStandingCounter == 2 || TargetStandingCounter == 7) {
-				Image image = standing1[1];
-				im = new ImageView(image);
-			} else if (TargetStandingCounter == 3 || TargetStandingCounter == 8) {
-				Image image = standing1[2];
-				im = new ImageView(image);
-			} else if (TargetStandingCounter == 4) {
-				Image image = standing1[3];
-				im = new ImageView(image);
-			} else if (TargetStandingCounter == 5) {
-				Image image = standing1[4];
-				im = new ImageView(image);
-			}
-
-		} else if(jumping == true) {
+		System.out.println(TargetRunningCounter);
+		if (isStanding == true && jumping == false) {
+			standing(im);
+		}
+		else if(jumping == true) {
 			jump(im, counter);
 		}
 		else {
 			running(im, counter);
 		}
 
+	}
+
+	public void standing(ImageView im) {
+		if (TargetStandingCounter == 1 || TargetStandingCounter == 6) {
+			Image image = standing1[0];
+			im = new ImageView(image);
+		} else if (TargetStandingCounter == 2 || TargetStandingCounter == 7) {
+			Image image = standing1[1];
+			im = new ImageView(image);
+		} else if (TargetStandingCounter == 3 || TargetStandingCounter == 8) {
+			Image image = standing1[2];
+			im = new ImageView(image);
+		} else if (TargetStandingCounter == 4) {
+			Image image = standing1[3];
+			im = new ImageView(image);
+		} else if (TargetStandingCounter == 5) {
+			Image image = standing1[4];
+			im = new ImageView(image);
+		}
+		
 		im.setTranslateX(200); // 96 x 78
 		im.setTranslateY(576);
 		if (left == true) {
@@ -117,7 +125,7 @@ public class Player {
 	}
 
 	public void running(ImageView im, int counter) {
-		if (isFalling == false) {
+		if (isFalling == false && jumping == false) {
 			if (TargetRunningCounter == 1 || TargetRunningCounter == 9) {
 				Image image = running[0];
 				im = new ImageView(image);
@@ -153,66 +161,91 @@ public class Player {
 	}
 	
 	public void jump(ImageView im, int counter){
-		if(TargetJumpCounter == 1 || TargetJumpCounter == 16){
-			Image image = jump[0];
-			im = new ImageView(image);
+		if(jumping == true) {
+			if(TargetJumpCounter == 1 || TargetJumpCounter == 16){
+				Image image = jump[0];
+				im = new ImageView(image);
+			}
+			else if(TargetJumpCounter == 2){
+				Image image = jump[1];
+				im = new ImageView(image);
+			}
+			else if(TargetJumpCounter == 3){
+				Image image = jump[2];
+				im = new ImageView(image);
+				i-= (JUMPSPEED*10);
+			}
+			else if(TargetJumpCounter == 4){
+				Image image = jump[3];
+				im = new ImageView(image);
+				i-= (JUMPSPEED*10);
+			}
+			else if(TargetJumpCounter == 5){
+				Image image = jump[4];
+				im = new ImageView(image);
+				i-= (JUMPSPEED*10);
+			}
+			else if(TargetJumpCounter == 6){
+				Image image = jump[5];
+				im = new ImageView(image);
+				i-= (JUMPSPEED*10);
+			}
+			else if(TargetJumpCounter == 7){
+				Image image = jump[6];
+				im = new ImageView(image);
+				i-= (JUMPSPEED*10);
+			}
+			else if(TargetJumpCounter == 8){
+				Image image = jump[7];
+				im = new ImageView(image);
+			}
+			else if(TargetJumpCounter == 9){
+				Image image = jump[8];
+				im = new ImageView(image);
+			}
+			else if(TargetJumpCounter == 10){
+				Image image = jump[9];
+				im = new ImageView(image);
+				i+=GRAVITY*10;
+			}
+			else if(TargetJumpCounter == 11){
+				Image image = jump[10];
+				im = new ImageView(image);
+				isFalling = true;
+				i+=GRAVITY*10;
+			}
+			else if(TargetJumpCounter == 12){
+				Image image = jump[11];
+				im = new ImageView(image);
+				i+=GRAVITY*10;
+			}
+			else if(TargetJumpCounter == 13){
+				Image image = jump[12];
+				im = new ImageView(image);
+				i+=GRAVITY*10;
+			}
+			else if(TargetJumpCounter == 14){
+				Image image = jump[13];
+				im = new ImageView(image);
+			}
+//			else if(TargetJumpCounter == 15){
+//				Image image = jump[14];
+//				im = new ImageView(image);
+//			}
 		}
-		else if(TargetJumpCounter == 2){
-			Image image = jump[1];
-			im = new ImageView(image);
+		im.setTranslateX(203);
+		im.setTranslateY(i/10);
+		if (left == true) {
+			im.setScaleX(-1);
+			im.setTranslateX(191);
 		}
-		else if(TargetJumpCounter == 3){
-			Image image = jump[2];
-			im = new ImageView(image);
+		if(i < 2000) {
+			i = 5550;
 		}
-		else if(TargetJumpCounter == 4){
-			Image image = jump[3];
-			im = new ImageView(image);
+		if(i > 5550) {
+			i = 5550;
 		}
-		else if(TargetJumpCounter == 5){
-			Image image = jump[4];
-			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 6){
-			Image image = jump[5];
-			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 7){
-			Image image = jump[6];
-			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 8){
-			Image image = jump[7];
-			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 9){
-			Image image = jump[8];
-			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 10){
-			Image image = jump[9];
-			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 11){
-			Image image = jump[10];
-			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 12){
-			Image image = jump[11];
-			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 13){
-			Image image = jump[12];
-			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 14){
-			Image image = jump[13];
-			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 15){
-			Image image = jump[14];
-			im = new ImageView(image);
-		}
+		g.getGroup().getChildren().add(im);
 	}
 
 	/**
@@ -289,9 +322,6 @@ public class Player {
 		jump[13] = image14;
 		jump[14] = image15;
 		
-//		for(int i = 0; i < 14; i++ ){
-//			image[i] = image + i;
-//		}
 	}
 
 	// GET SET Methods
@@ -355,19 +385,22 @@ public class Player {
 	}
 
 	public void checkCounter(double targetCounter) {
-		if (isStanding == true) {
+		if (isStanding == true && jumping == false) {
 			if (TargetStandingCounter == 6) {
 				TargetStandingCounter = 1;
 			}
-			if (targetCounter % 10 == 0) {
+			if (targetCounter % 8 == 0) {
 				TargetStandingCounter++;
 			}
 			
 		} else if(jumping == true) {
-			if(TargetJumpCounter == 16){
+			if(TargetJumpCounter == 15){
 				TargetJumpCounter = 1;
+				jumping = false;
+				isFalling = false;
+				resetCounter();
 			}
-			if(targetCounter % 16 == 0){
+			if(targetCounter % 8 == 0){
 				TargetJumpCounter ++;
 			}
 		}
@@ -386,7 +419,7 @@ public class Player {
 		TargetRunningCounter = 1;
 		TargetStandingCounter = 1;
 	}
-
+	
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 	// Target Running or standing counter for the frames
 	
