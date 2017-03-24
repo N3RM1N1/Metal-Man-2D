@@ -14,10 +14,11 @@ public class Player {
 	// Boolean Values for standing and falling
 	private boolean isStanding;
 	private boolean isFalling;
+	private boolean isJumping;
 
 	// Jumping speed, Falling speed
-	private final double JUMPSPEED = 1.2;
-	private final double JUMPSPEEDMAX = 4.0;
+	private final double JUMPSPEED = 10.0;
+	private final double JUMPSPEEDMAX = 10.0;
 	private final double FALLINGSPEED = 1.2;
 	private final double FALLINGSPEEDMAX = 4.0;
 
@@ -29,7 +30,7 @@ public class Player {
 	private double y;
 
 	private double[][] coordinates;
-	
+
 	// The counter for the Frames
 	private static int TargetStandingCounter = 1;
 	private static int TargetRunningCounter = 1;
@@ -100,12 +101,10 @@ public class Player {
 				Image image = standing1[4];
 				im = new ImageView(image);
 			}
-
-		} else if(jumping == true) {
-			jump(im, counter);
-		}
-		else {
+		} else if(left == true || right == true){
 			running(im, counter);
+		} else if(isJumping == true) {
+			jump(im, counter);
 		}
 
 		im.setTranslateX(200); // 96 x 78
@@ -151,73 +150,59 @@ public class Player {
 		}
 		g.getGroup().getChildren().add(im);
 	}
-	
-	public void jump(ImageView im, int counter){
-		if(TargetJumpCounter == 1 || TargetJumpCounter == 16){
+
+	public void jump(ImageView im, int counter) {
+		if (TargetJumpCounter == 1 || TargetJumpCounter == 16) {
 			Image image = jump[0];
 			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 2){
+		} else if (TargetJumpCounter == 2) {
 			Image image = jump[1];
 			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 3){
+		} else if (TargetJumpCounter == 3) {
 			Image image = jump[2];
 			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 4){
+		} else if (TargetJumpCounter == 4) {
 			Image image = jump[3];
 			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 5){
+		} else if (TargetJumpCounter == 5) {
 			Image image = jump[4];
 			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 6){
+		} else if (TargetJumpCounter == 6) {
 			Image image = jump[5];
 			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 7){
+		} else if (TargetJumpCounter == 7) {
 			Image image = jump[6];
 			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 8){
+		} else if (TargetJumpCounter == 8) {
 			Image image = jump[7];
 			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 9){
+		} else if (TargetJumpCounter == 9) {
 			Image image = jump[8];
 			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 10){
+		} else if (TargetJumpCounter == 10) {
 			Image image = jump[9];
 			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 11){
+		} else if (TargetJumpCounter == 11) {
 			Image image = jump[10];
 			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 12){
+		} else if (TargetJumpCounter == 12) {
 			Image image = jump[11];
 			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 13){
+		} else if (TargetJumpCounter == 13) {
 			Image image = jump[12];
 			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 14){
+		} else if (TargetJumpCounter == 14) {
 			Image image = jump[13];
 			im = new ImageView(image);
-		}
-		else if(TargetJumpCounter == 15){
+		} else if (TargetJumpCounter == 15) {
 			Image image = jump[14];
 			im = new ImageView(image);
 		}
 	}
 
 	/**
-	 * Loading the images for the player
-	 * Standing, Running, Jumping, Fighting frames
+	 * Loading the images for the player Standing, Running, Jumping, Fighting
+	 * frames
 	 * 
 	 */
 	public void loadImg() {
@@ -254,9 +239,9 @@ public class Player {
 		running[5] = image6;
 		running[6] = image7;
 		running[7] = image8;
-		
+
 		jump = new Image[15];
-		
+
 		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_0_delay-0.13s.gif"));
 		image2 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_1_delay-0.13s.gif"));
 		image3 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_2_delay-0.06s.gif"));
@@ -272,7 +257,7 @@ public class Player {
 		Image image13 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_12_delay-0.13s.gif"));
 		Image image14 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_13_delay-0.06s.gif"));
 		Image image15 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_14_delay-0.13s.gif"));
-		
+
 		jump[0] = image1;
 		jump[1] = image2;
 		jump[2] = image3;
@@ -288,10 +273,10 @@ public class Player {
 		jump[12] = image13;
 		jump[13] = image14;
 		jump[14] = image15;
-		
-//		for(int i = 0; i < 14; i++ ){
-//			image[i] = image + i;
-//		}
+
+		// for(int i = 0; i < 14; i++ ){
+		// image[i] = image + i;
+		// }
 	}
 
 	// GET SET Methods
@@ -331,7 +316,7 @@ public class Player {
 	public void setRight(boolean right) {
 		this.right = right;
 	}
-	
+
 	/**
 	 * @return the jumping
 	 */
@@ -340,10 +325,11 @@ public class Player {
 	}
 
 	/**
-	 * @param jumping the jumping to set
+	 * @param jumping
+	 *            the jumping to set
 	 */
 	public void setJumping(boolean jumping) {
-		this.jumping = jumping;
+		this.isJumping = jumping;
 	}
 
 	public void setStanding(boolean standing) {
@@ -362,26 +348,25 @@ public class Player {
 			if (targetCounter % 10 == 0) {
 				TargetStandingCounter++;
 			}
-			
-		} else if(jumping == true) {
-			if(TargetJumpCounter == 16){
+
+		} else if (jumping == true) {
+			if (TargetJumpCounter == 16) {
 				TargetJumpCounter = 1;
 			}
-			if(targetCounter % 16 == 0){
-				TargetJumpCounter ++;
+			if (targetCounter % 16 == 0) {
+				TargetJumpCounter++;
 			}
-		}
-		else {
+		} else {
 			if (TargetRunningCounter == 9) {
 				TargetRunningCounter = 1;
 			}
 			if (targetCounter % 5 == 0) {
 				TargetRunningCounter++;
 			}
-			
+
 		}
 	}
-	
+
 	public void resetCounter() {
 		TargetRunningCounter = 1;
 		TargetStandingCounter = 1;
@@ -389,7 +374,7 @@ public class Player {
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 	// Target Running or standing counter for the frames
-	
+
 	public int getTargetStandingCounter() {
 		return TargetStandingCounter;
 	}
