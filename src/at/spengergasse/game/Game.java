@@ -61,7 +61,7 @@ public class Game extends Application {
 		});
 		sc.setOnKeyReleased(new EventHandler<KeyEvent>() { // Releasing
 															// key
-
+ 
 			@Override
 			public void handle(KeyEvent event) {	
 				if(event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT){
@@ -74,7 +74,6 @@ public class Game extends Application {
 					tileMap.setLeft(false); // Don't move anymore
 					player.resetCounter();
 				}
-				
 			}
 		});
 

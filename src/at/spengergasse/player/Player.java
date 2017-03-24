@@ -112,7 +112,7 @@ public class Player {
 			im = new ImageView(image);
 		} else if (TargetStandingCounter == 5) {
 			Image image = standing1[4];
-			im = new ImageView(image); 
+			im = new ImageView(image);
 		}
 		
 		im.setTranslateX(200); // 96 x 78
