@@ -85,7 +85,6 @@ public class Player {
 	}
 
 	public void drawPlayer(ImageView im, int counter) {
-		System.out.println(TargetRunningCounter);
 		if (isStanding == true && jumping == false) {
 			standing(im);
 		}
