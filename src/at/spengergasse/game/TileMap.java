@@ -36,6 +36,8 @@ public class TileMap {
 	private int tileSize;
 
 	private int col;
+	
+	private double smooth = 0.0;
 
 	public TileMap(int tileSize) {
 
@@ -101,7 +103,22 @@ public class TileMap {
 	}
 
 	public void update() {
-		draw(new ImageView());
+		if(left) {
+			left(smooth);
+			smoothOutMovement(1.0);
+		} else if(right) {
+			right(smooth);
+			smoothOutMovement(1.0);
+		}
+	}
+	
+	public void smoothOutMovement(double inc) {
+		if (smooth < 6.9) {
+			smooth += inc;
+		}
+		if (smooth > 6.9) {
+			smooth = 7;
+		}
 	}
 
 	/**

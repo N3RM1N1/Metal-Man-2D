@@ -1,6 +1,7 @@
 package at.spengergasse.game;
 
 import at.spengergasse.player.Player;
+import at.spengergasse.soundEffects.Sound;
 import javafx.animation.KeyFrame; // F�r den Gameloop
 import javafx.animation.Timeline; // F�r den Gameloop (konstante 60 FPS, ...)
 import javafx.application.Application; // Das ganze Programm
@@ -14,6 +15,7 @@ import javafx.event.ActionEvent; // Es passiert etwas (rendern, update, ...)
 import javafx.event.EventHandler; // F�r Key - Abfragen ben�tigt (Tastatur)
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent; // Pr�ft welche Taste gedr�ckt wurde
+import javafx.scene.media.MediaPlayer;
 
 public class Game extends Application {
 
@@ -22,6 +24,8 @@ public class Game extends Application {
 
 	// The Player
 	private Player player;
+	private MediaPlayer mediaPlayer;
+	private Sound soundEffects;
 
 	// The Windows
 	private static Group group;
@@ -33,7 +37,7 @@ public class Game extends Application {
 	private double smooth = 0.0;
 
 	// The counter for the player animation
-	private double targetFrameCounter = 0;
+	private int targetFrameCounter = 0;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -43,33 +47,41 @@ public class Game extends Application {
 		// The game loop
 		Timeline gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
-		
+
 		sc.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			@Override
 			public void handle(KeyEvent event) {
-				if(event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT){
+				if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {
 					tileMap.setRight(true);
+					setCounter(-1);
 				}
-				if(event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT){
+				if (event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT) {
 					tileMap.setLeft(true);
+					setCounter(-1);
 				}
-				if(event.getCode() == KeyCode.SPACE){
+				if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.W || event.getCode() == KeyCode.UP) {
 					player.setJumping(true);
+					setCounter(-1);
+
+					mediaPlayer = new MediaPlayer(soundEffects.playJumpSound());
+					mediaPlayer.play();
+					System.out.println("true");
+
 				}
 			}
 		});
 		sc.setOnKeyReleased(new EventHandler<KeyEvent>() { // Releasing
 															// key
- 
+
 			@Override
-			public void handle(KeyEvent event) {	
-				if(event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT){
+			public void handle(KeyEvent event) {
+				if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {
 					player.setStanding(true);
 					tileMap.setRight(false); // Don't move anymore
 					player.resetCounter();
 				}
-				if(event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT){
+				if (event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT) {
 					player.setStanding(true);
 					tileMap.setLeft(false); // Don't move anymore
 					player.resetCounter();
@@ -93,28 +105,31 @@ public class Game extends Application {
 				group.getChildren().clear();
 
 				// Update the map
-				tileMap.update();
+				tileMap.draw(new ImageView());
 
 				// Drawing the player the last
-				player.drawPlayer(new ImageView(), (int) targetFrameCounter);
+				player.drawPlayer(new ImageView());
 			}
 
 			private void update() {
 				// Moving to the left or the right
-				if (tileMap.getRight() == true && tileMap.getLeft() == false && tileMap.getX() < ((tileMap.getLength()-19)*48)) {
+				if (tileMap.getRight() == true && tileMap.getLeft() == false
+						&& tileMap.getX() < ((tileMap.getLength() - 19) * 48)) {
 					player.moveRight();
-					smoothOutMovement(1.0);
-					tileMap.right(smooth); // Moving 5.0 Pixels to the right
+					// smoothOutMovement(1.0);
+					// tileMap.right(smooth); // Moving 5.0 Pixels to the right
+					tileMap.update();
 				} else
 				// Nothing
 
 				if (tileMap.getLeft() == true && tileMap.getRight() == false && tileMap.getX() > 48) {
 					player.moveLeft();
-					smoothOutMovement(1.0);
-					tileMap.left(smooth);
+					// smoothOutMovement(1.0);
+					// tileMap.left(smooth);
+					tileMap.update();
 				} else
 					player.setStanding(true);
-				
+
 				targetFrameCounter++;
 
 				player.checkCounter(targetFrameCounter);
@@ -154,24 +169,25 @@ public class Game extends Application {
 
 		// Creating the player
 		player = new Player();
+
+		soundEffects = new Sound();
+
+		mediaPlayer = new MediaPlayer(soundEffects.playJumpSound());
+
 	}
 
 	/**
 	 * Smooth Movement
 	 * 
 	 */
-	public void smoothOutMovement(double inc) {
-		if (smooth < 4.9) {
-			smooth += inc;
-		}
-		if (smooth > 4.9) {
-			smooth = 5;
-		}
-	}
-
-	public void setSmooth(double value) {
-		this.smooth = value;
-	}
+	// public void smoothOutMovement(double inc) {
+	// if (smooth < 4.9) {
+	// smooth += inc;
+	// }
+	// if (smooth > 4.9) {
+	// smooth = 5;
+	// }
+	// }
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 	// Main
@@ -197,7 +213,7 @@ public class Game extends Application {
 		return targetFrameCounter;
 	}
 
-	public void setCounter(double counter) {
+	public void setCounter(int counter) {
 		this.targetFrameCounter = counter;
 	}
 }
