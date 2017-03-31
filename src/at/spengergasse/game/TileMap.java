@@ -8,7 +8,6 @@ import java.io.FileNotFoundException;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-
 public class TileMap {
 	// Game Instanz
 	private Game g;
@@ -22,7 +21,8 @@ public class TileMap {
 	// The coordinates
 	private double x;
 	private double y;
-
+	private double savedX;
+	private int savedCol;
 	// Height and width of the Map
 	private int mapWidth;
 	private int mapHeight;
@@ -36,7 +36,7 @@ public class TileMap {
 	private int tileSize;
 
 	private int col;
-	
+
 	private double smooth = 0.0;
 
 	public TileMap(int tileSize) {
@@ -66,7 +66,7 @@ public class TileMap {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		savedX = x;
 		loadImg();
 	}
 
@@ -94,7 +94,9 @@ public class TileMap {
 					map[row][col] = Integer.parseInt(zeichen[col]);
 				}
 			}
-			mapWidth = 32;
+			col = 0;
+			mapWidth = 21;
+			savedCol = col;
 			fr.close();
 			br.close();
 		} catch (FileNotFoundException e) {
@@ -103,15 +105,15 @@ public class TileMap {
 	}
 
 	public void update() {
-		if(left) {
+		if (left) {
 			left(smooth);
 			smoothOutMovement(1.0);
-		} else if(right) {
+		} else if (right) {
 			right(smooth);
 			smoothOutMovement(1.0);
 		}
 	}
-	
+
 	public void smoothOutMovement(double inc) {
 		if (smooth < 6.9) {
 			smooth += inc;
@@ -121,6 +123,10 @@ public class TileMap {
 		}
 	}
 
+	public void resetMovement() {
+		smooth = 0.0;
+	}
+
 	/**
 	 * Drawing Method This method draws the map of the game
 	 * 
@@ -128,51 +134,37 @@ public class TileMap {
 	 *            The ImageView, which represents the map
 	 */
 	public void draw(ImageView im) {
-		if(x < 600) {
-			col = 0;
-			mapWidth = 32;
-			
-		} 
-		else if (x >= 600 && x < 1575) {
-			// Tile 31
-			col = 11;
-			mapWidth = 52;
-		} 
-		else if(x >= 1575 && x < 2046) {
-			col = 31;
-			mapWidth = 62;
-		} 
-		else if(x >= 2046 && x < 2590) {
-			col = 41;
-			mapWidth = 73;
-		} 
-		else if(x >= 2590 && x < 3070) {
-			col = 51;
-			mapWidth = 83;
+		if (this.x > (col + 2) * tileSize) {
+			if (mapWidth < 120) {
+				col++;
+				mapWidth++;
+				savedX = x;
+			}
+		} else if (this.x < (col + 1) * tileSize) {
+			if (col > 0) {
+				col--;
+				mapWidth--;
+				savedX = x;
+			}
 		}
-		else if(x >= 3070) {
-			col = 62;
-			mapWidth = 96;
-		}
+		this.savedCol = col;
 		for (int row = 0; row < mapHeight; row++) { // mapHeight
-			for (; col < mapWidth; col++) { // mapWidth
+			for (; this.col < mapWidth; col++) { // mapWidth
 				int rc = map[row][col];
-				if(rc != 0) {
-				im = new ImageView(images[rc-1]);
-				im.setFitHeight(tileSize);
-				im.setFitWidth(tileSize);
-				im.setLayoutX(tileSize);
-				im.setLayoutY(tileSize);
-				im.setTranslateX((col * tileSize) - x); // 352
-				im.setTranslateY((row * tileSize) - y); // 288
-				g.getGroup().getChildren().add(im);
+				if (rc != 0) {
+					im = new ImageView(images[rc - 1]);
+					im.setFitHeight(tileSize);
+					im.setFitWidth(tileSize);
+					im.setLayoutX(tileSize);
+					im.setLayoutY(tileSize);
+					im.setTranslateX((col * tileSize) - x); // 352
+					im.setTranslateY((row * tileSize) - y); // 288
+					g.getGroup().getChildren().add(im);
 				}
 			}
-			col = 0;
+			col = savedCol;
 		}
-		
-		
-		
+
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -218,17 +210,17 @@ public class TileMap {
 	public void setRight(boolean right) {
 		this.right = right;
 	}
-	
+
 	public int getLength() {
 		return mapLength;
 	}
 
 	public void right(double inc) {
-		if (x <= (mapLength-19)*48) {
-			if ((x + inc) <= (mapLength-19)*48) {
+		if (x <= (mapLength - 19) * 48) {
+			if ((x + inc) <= (mapLength - 19) * 48) {
 				x += inc;
 			} else {
-				x = (mapLength-19)*48;
+				x = (mapLength - 19) * 48;
 			}
 		} else
 			System.out.println("Ende");

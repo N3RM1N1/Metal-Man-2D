@@ -79,11 +79,13 @@ public class Game extends Application {
 				if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {
 					player.setStanding(true);
 					tileMap.setRight(false); // Don't move anymore
+					tileMap.resetMovement();
 					player.resetCounter();
 				}
 				if (event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT) {
 					player.setStanding(true);
 					tileMap.setLeft(false); // Don't move anymore
+					tileMap.resetMovement();
 					player.resetCounter();
 				}
 			}
@@ -176,19 +178,7 @@ public class Game extends Application {
 
 	}
 
-	/**
-	 * Smooth Movement
-	 * 
-	 */
-	// public void smoothOutMovement(double inc) {
-	// if (smooth < 4.9) {
-	// smooth += inc;
-	// }
-	// if (smooth > 4.9) {
-	// smooth = 5;
-	// }
-	// }
-
+	
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 	// Main
 
