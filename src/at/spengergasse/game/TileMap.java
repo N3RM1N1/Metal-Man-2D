@@ -143,7 +143,7 @@ public class TileMap {
 		} else if (this.x < (col + 1) * tileSize) {
 			if (col > 0) {
 				col--;
-				mapWidth--;
+				mapWidth--; 
 				savedX = x;
 			}
 		}
