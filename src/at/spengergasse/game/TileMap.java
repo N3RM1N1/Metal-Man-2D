@@ -243,22 +243,48 @@ public class TileMap {
 	public void loadImg() {
 		images = new Image[11];
 
-		Image untergrund = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/untergrund.png"));
-		Image decke = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/decke.png"));
-		Image block = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/block.png"));
+//		Image untergrund = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/untergrund.png"));
+//		Image decke = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/decke.png"));
+//		Image block = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/block.png"));
+//		Image einzelblockU = new Image(
+//				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/einzelblock_untergrund.png"));
+//		Image fliegPlatEinz = new Image(
+//				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/fliegende_platform_einzelblock.png"));
+//		Image fliegPlat = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/fliegende_platform.png"));
+//		Image linksFliegPlat = new Image(
+//				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/links_fliegende_platform.png"));
+//		Image linksUnter = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/links_untergrund.png"));
+//		Image rechtsFliegPlat = new Image(
+//				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/rechts_fliegende_platform.png"));
+//		Image rechtsUnter = new Image(
+//				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/rechts_untergrund.png"));
+//
+//		images[0] = untergrund;
+//		images[1] = decke;
+//		images[2] = block;
+//		images[3] = einzelblockU;
+//		images[4] = rechtsUnter;
+//		images[5] = fliegPlat;
+//		images[6] = linksFliegPlat;
+//		images[7] = linksUnter;
+//		images[8] = rechtsFliegPlat;
+//		images[9] = fliegPlatEinz;
+		Image untergrund = new Image(getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/untergrund.png"));
+		Image decke = new Image(getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/decke.png"));
+		Image block = new Image(getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/block.png"));
 		Image einzelblockU = new Image(
-				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/einzelblock_untergrund.png"));
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/einzelblock_untergrund.png"));
 		Image fliegPlatEinz = new Image(
-				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/fliegende_platform_einzelblock.png"));
-		Image fliegPlat = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/fliegende_platform.png"));
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/fliegende_platform_einzelblock.png"));
+		Image fliegPlat = new Image(getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/fliegende_platform.png"));
 		Image linksFliegPlat = new Image(
-				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/links_fliegende_platform.png"));
-		Image linksUnter = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/links_untergrund.png"));
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/links_fliegende_platform.png"));
+		Image linksUnter = new Image(getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/links_untergrund.png"));
 		Image rechtsFliegPlat = new Image(
-				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/rechts_fliegende_platform.png"));
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/rechts_fliegende_platform.png"));
 		Image rechtsUnter = new Image(
-				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/rechts_untergrund.png"));
-
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/rechts_untergrund.png"));
+		
 		images[0] = untergrund;
 		images[1] = decke;
 		images[2] = block;

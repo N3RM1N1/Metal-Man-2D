@@ -43,7 +43,7 @@ public class Game extends Application {
 	public void start(Stage primaryStage) throws Exception {
 
 		// Drawing the game map
-		tileMap.draw(new ImageView());
+//		tileMap.draw(new ImageView());
 		// The game loop
 		Timeline gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
@@ -54,19 +54,18 @@ public class Game extends Application {
 			public void handle(KeyEvent event) {
 				if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {
 					tileMap.setRight(true);
-					setCounter(-1);
+//					setCounter(0);
 				}
 				if (event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT) {
 					tileMap.setLeft(true);
-					setCounter(-1);
+//					setCounter(-1);
 				}
 				if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.W || event.getCode() == KeyCode.UP) {
 					player.setJumping(true);
-					setCounter(-1);
+//					setCounter(-1);
 
 					mediaPlayer = new MediaPlayer(soundEffects.playJumpSound());
 					mediaPlayer.play();
-					System.out.println("true");
 
 				}
 			}
@@ -110,7 +109,7 @@ public class Game extends Application {
 				tileMap.draw(new ImageView());
 
 				// Drawing the player the last
-				player.drawPlayer(new ImageView());
+				player.draw(new ImageView());
 			}
 
 			private void update() {
@@ -135,6 +134,7 @@ public class Game extends Application {
 				targetFrameCounter++;
 
 				player.checkCounter(targetFrameCounter);
+				System.out.println(player.getTargetJumpCounter());
 			}
 
 		});

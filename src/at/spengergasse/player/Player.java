@@ -38,9 +38,9 @@ public class Player {
 	// player
 	private Game g;
 
-	private Image[] standing1;
-	private Image[] running;
-	private Image[] jump;
+	private ImageView[] standing;
+	private ImageView[] running;
+	private ImageView[] jump;
 
 	private boolean left;
 	private boolean right;
@@ -82,7 +82,7 @@ public class Player {
 		}
 	}
 
-	public void drawPlayer(ImageView im) {
+	public void draw(ImageView im) {
 		if (isStanding == true && jumping == false) {
 			drawStanding(im);
 		} else if (jumping == true) {
@@ -95,20 +95,20 @@ public class Player {
 
 	public void drawStanding(ImageView im) {
 		if (TargetStandingCounter == 1 || TargetStandingCounter == 6) {
-			Image image = standing1[0];
-			im = new ImageView(image);
+//			Image image = standing[0];
+			im = standing[0];
 		} else if (TargetStandingCounter == 2 || TargetStandingCounter == 7) {
-			Image image = standing1[1];
-			im = new ImageView(image);
+//			Image image = standing[1];
+			im = standing[1];
 		} else if (TargetStandingCounter == 3 || TargetStandingCounter == 8) {
-			Image image = standing1[2];
-			im = new ImageView(image);
+//			Image image = standing[2];
+			im = standing[2];
 		} else if (TargetStandingCounter == 4) {
-			Image image = standing1[3];
-			im = new ImageView(image);
+//			Image image = standing[3];
+			im = standing[3];
 		} else if (TargetStandingCounter == 5) {
-			Image image = standing1[4];
-			im = new ImageView(image);
+//			Image image = standing[4];
+			im = standing[4];
 		}
 
 		im.setTranslateX(200); // 96 x 78
@@ -117,6 +117,8 @@ public class Player {
 //		im.setFitWidth(82.5);
 		if (left == true) {
 			im.setScaleX(-1); // Spiegelverkehrt
+		} else if(right == true) {
+			im.setScaleX(1);
 		}
 		g.getGroup().getChildren().add(im);
 	}
@@ -124,61 +126,56 @@ public class Player {
 	public void drawRunning(ImageView im) {
 		if (isFalling == false && jumping == false) {
 			if (TargetRunningCounter == 1 || TargetRunningCounter == 9) {
-				Image image = running[0];
-				im = new ImageView(image);
+//				Image image = running[0];
+				im = running[0];
 			} else if (TargetRunningCounter == 2) {
-				Image image = running[1];
-				im = new ImageView(image);
+//				Image image = running[1];
+				im = running[1];
 			} else if (TargetRunningCounter == 3) {
-				Image image = running[2];
-				im = new ImageView(image);
+//				Image image = running[2];
+				im = running[2];
 			} else if (TargetRunningCounter == 4) {
-				Image image = running[3];
-				im = new ImageView(image);
+//				Image image = running[3];
+				im = running[3];
 			} else if (TargetRunningCounter == 5) {
-				Image image = running[4];
-				im = new ImageView(image);
+//				Image image = running[4];
+				im = running[4];
 			} else if (TargetRunningCounter == 6) {
-				Image image = running[5];
-				im = new ImageView(image);
+//				Image image = running[5];
+				im = running[5];
 			} else if (TargetRunningCounter == 7) {
-				Image image = running[6];
-				im = new ImageView(image);
+//				Image image = running[6];
+				im = running[6];
 			} else if (TargetRunningCounter == 8) {
-				Image image = running[7];
-				im = new ImageView(image);
+//				Image image = running[7];
+				im = running[7];
 			}
 		}
 		im.setTranslateX(200);
 		im.setTranslateY(576);
 		if (left == true) {
 			im.setScaleX(-1);
+		} else if(right == true){
+			im.setScaleX(1);
 		}
 		g.getGroup().getChildren().add(im);
 	}
 
 	public void drawJump(ImageView im) {
 		if (TargetJumpCounter == 1) {
-			Image image = jump[1];
-			im = new ImageView(image);
+			im = jump[1];
 		} else if (TargetJumpCounter == 2) {
-			Image image = jump[2];
-			im = new ImageView(image);
+			im = jump[2];
 		} else if (TargetJumpCounter == 3) {
-			Image image = jump[3];
-			im = new ImageView(image);
+			im = jump[3];
 		} else if (TargetJumpCounter == 4) {
-			Image image = jump[4];
-			im = new ImageView(image);
+			im = jump[4];
 		} else if (TargetJumpCounter == 5) {
-			Image image = jump[5];
-			im = new ImageView(image);
+			im = jump[5];
 		} else if (TargetJumpCounter == 6) {
-			Image image = jump[6];
-			im = new ImageView(image);
+			im = jump[6];
 		} else if (TargetJumpCounter == 7) {
-			Image image = jump[7];
-			im = new ImageView(image);
+			im = jump[7];
 			isFalling = true;
 		} else {
 			im = drawFalling(im);
@@ -199,23 +196,17 @@ public class Player {
 
 	public ImageView drawFalling(ImageView im) {
 		if (TargetJumpCounter == 8) {
-			Image image = jump[8];
-			im = new ImageView(image);
+			im = jump[8];
 		} else if (TargetJumpCounter == 9) {
-			Image image = jump[9];
-			im = new ImageView(image);
+			im = jump[9];
 		} else if (TargetJumpCounter == 10) {
-			Image image = jump[10];
-			im = new ImageView(image);
+			im = jump[10];
 		} else if (TargetJumpCounter == 11) {
-			Image image = jump[11];
-			im = new ImageView(image);
+			im = jump[11];
 		} else if (TargetJumpCounter == 12) {
-			Image image = jump[12];
-			im = new ImageView(image);
+			im = jump[12];
 		} else if(TargetJumpCounter == 13) {
-			Image image = jump[13];
-			im = new ImageView(image);
+			im = jump[13];
 		}
 		return im;
 	}
@@ -251,68 +242,68 @@ public class Player {
 	 * 
 	 */
 	public void loadImg() {
-		standing1 = new Image[5];
+		standing = new ImageView[5];
 
-		Image image1 = new Image(getClass().getResourceAsStream("/Res/player-frame_1.gif"));
-		standing1[0] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/player-frame_2.gif"));
-		standing1[1] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/player-frame_3.gif"));
-		standing1[2] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/player-frame_4.gif"));
-		standing1[3] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/player-frame_5.gif"));
-		standing1[4] = image1;
+		ImageView image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/standing/player-frame_1.gif")));
+		standing[0] = image1;
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/standing/player-frame_2.gif")));
+		standing[1] = image1;
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/standing/player-frame_3.gif")));
+		standing[2] = image1;
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/standing/player-frame_4.gif")));
+		standing[3] = image1;
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/standing/player-frame_5.gif")));
+		standing[4] = image1;
 
-		running = new Image[8];
-
-		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Running/frame_0_delay-0.13s.gif"));
+		running = new ImageView[8];
+		
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/running/frame_0_delay-0.13s.gif")));
 		running[0] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Running/frame_1_delay-0.13s.gif"));
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/running/frame_1_delay-0.13s.gif")));
 		running[1] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Running/frame_2_delay-0.13s.gif"));
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/running/frame_2_delay-0.13s.gif")));
 		running[2] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Running/frame_3_delay-0.13s.gif"));
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/running/frame_3_delay-0.13s.gif")));
 		running[3] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Running/frame_4_delay-0.13s.gif"));
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/running/frame_4_delay-0.13s.gif")));
 		running[4] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Running/frame_5_delay-0.13s.gif"));
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/running/frame_5_delay-0.13s.gif")));
 		running[5] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Running/frame_6_delay-0.13s.gif"));
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/running/frame_6_delay-0.13s.gif")));
 		running[6] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Running/frame_7_delay-0.13s.gif"));
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/running/frame_7_delay-0.13s.gif")));
 		running[7] = image1;
 		
 
-		jump = new Image[15];
+		jump = new ImageView[15];
 
-		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_0_delay-0.13s.gif"));
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_0_delay-0.13s.gif")));
 		jump[0] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_1_delay-0.13s.gif"));
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_1_delay-0.13s.gif")));
 		jump[1] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_2_delay-0.06s.gif"));
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_2_delay-0.06s.gif")));
 		jump[2] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_3_delay-0.06s.gif"));
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_3_delay-0.06s.gif")));
 		jump[3] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_4_delay-0.06s.gif"));
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_4_delay-0.06s.gif")));
 		jump[4] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_5_delay-0.06s.gif"));
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_5_delay-0.06s.gif")));
 		jump[5] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_6_delay-0.06s.gif"));
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_6_delay-0.06s.gif")));
 		jump[6] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_7_delay-0.06s.gif"));
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_7_delay-0.06s.gif")));
 		jump[7] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_8_delay-0.06s.gif"));
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_8_delay-0.06s.gif")));
 		jump[8] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_9_delay-0.03s.gif"));
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_9_delay-0.03s.gif")));
 		jump[9] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_10_delay-0.03s.gif"));
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_10_delay-0.03s.gif")));
 		jump[10] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_11_delay-0.13s.gif"));
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_11_delay-0.13s.gif")));
 		jump[11] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_12_delay-0.13s.gif"));
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_12_delay-0.13s.gif")));
 		jump[12] = image1;
-		image1 = new Image(getClass().getResourceAsStream("/Res/Player_Frames_Jump/frame_13_delay-0.06s.gif")); 
+		image1 = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_13_delay-0.06s.gif"))); 
 		jump[13] = image1;
 
 	}
@@ -398,7 +389,7 @@ public class Player {
 				isFalling = false;
 				resetCounter();
 			}
-		} else {
+		} else if(right == true || left == true){
 			if (TargetRunningCounter == 9) {
 				TargetRunningCounter = 1;
 			}
@@ -432,5 +423,14 @@ public class Player {
 	public void setTargetRunningCounter(int targetRunningCounter) {
 		TargetRunningCounter = targetRunningCounter;
 	}
+
+	public static int getTargetJumpCounter() {
+		return TargetJumpCounter;
+	}
+
+	public static void setTargetJumpCounter(int targetJumpCounter) {
+		TargetJumpCounter = targetJumpCounter;
+	}
+	
 
 }
