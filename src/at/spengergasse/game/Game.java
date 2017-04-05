@@ -31,10 +31,7 @@ public class Game extends Application {
 	private static Group group;
 
 	// The Scenes
-	private Scene sc;
-
-	// Needed for smooth movement
-	private double smooth = 0.0;
+	private static Scene sc;
 
 	// The counter for the player animation
 	private int targetFrameCounter = 0;
@@ -42,8 +39,6 @@ public class Game extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		// Drawing the game map
-//		tileMap.draw(new ImageView());
 		// The game loop
 		Timeline gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
@@ -54,16 +49,15 @@ public class Game extends Application {
 			public void handle(KeyEvent event) {
 				if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {
 					tileMap.setRight(true);
-//					setCounter(0);
+					player.setRight(true);
 				}
 				if (event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT) {
 					tileMap.setLeft(true);
-//					setCounter(-1);
+					player.setLeft(true);
 				}
 				if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.W || event.getCode() == KeyCode.UP) {
 					player.setJumping(true);
-//					setCounter(-1);
-
+					
 					mediaPlayer = new MediaPlayer(soundEffects.playJumpSound());
 					mediaPlayer.play();
 
@@ -76,12 +70,14 @@ public class Game extends Application {
 			@Override
 			public void handle(KeyEvent event) {
 				if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {
+					player.setRight(false);
 					player.setStanding(true);
 					tileMap.setRight(false); // Don't move anymore
 					tileMap.resetMovement();
 					player.resetCounter();
 				}
 				if (event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT) {
+					player.setLeft(false);
 					player.setStanding(true);
 					tileMap.setLeft(false); // Don't move anymore
 					tileMap.resetMovement();
@@ -113,28 +109,12 @@ public class Game extends Application {
 			}
 
 			private void update() {
-				// Moving to the left or the right
-				if (tileMap.getRight() == true && tileMap.getLeft() == false
-						&& tileMap.getX() < ((tileMap.getLength() - 19) * 48)) {
-					player.moveRight();
-					// smoothOutMovement(1.0);
-					// tileMap.right(smooth); // Moving 5.0 Pixels to the right
-					tileMap.update();
-				} else
-				// Nothing
-
-				if (tileMap.getLeft() == true && tileMap.getRight() == false && tileMap.getX() > 48) {
-					player.moveLeft();
-					// smoothOutMovement(1.0);
-					// tileMap.left(smooth);
-					tileMap.update();
-				} else
-					player.setStanding(true);
-
+				player.update();
+				tileMap.update();
+				
 				targetFrameCounter++;
 
 				player.checkCounter(targetFrameCounter);
-				System.out.println(player.getTargetJumpCounter());
 			}
 
 		});
@@ -202,8 +182,8 @@ public class Game extends Application {
 	public double getCounter() {
 		return targetFrameCounter;
 	}
-
-	public void setCounter(int counter) {
-		this.targetFrameCounter = counter;
+	
+	public static Scene getSc() {
+		return sc;
 	}
 }

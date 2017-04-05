@@ -2,6 +2,9 @@ package at.spengergasse.game;
 
 import java.io.FileReader;
 import java.io.IOException;
+
+import at.spengergasse.player.Player;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 
@@ -19,25 +22,24 @@ public class TileMap {
 	private Image[] images;
 
 	// The coordinates
-	private double x;
+	private static double x;
 	private double y;
-	private double savedX;
 	private int savedCol;
 	// Height and width of the Map
-	private int mapWidth;
-	private int mapHeight;
-	private int mapLength;
+	private static int mapWidth;
+	private static int mapHeight;
+	private static int mapLength;
 
 	// Boolean value for moving to the left or the right
 	private boolean left;
 	private boolean right;
 
 	// The size of the tile
-	private int tileSize;
+	public static int tileSize;
 
-	private int col;
+	private static int col;
 
-	private double smooth = 0.0;
+	private static double smooth = 0.0;
 
 	public TileMap(int tileSize) {
 
@@ -66,7 +68,6 @@ public class TileMap {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		savedX = x;
 		loadImg();
 	}
 
@@ -105,16 +106,18 @@ public class TileMap {
 	}
 
 	public void update() {
-		if (left) {
-			left(smooth);
-			smoothOutMovement(1.0);
-		} else if (right) {
-			right(smooth);
-			smoothOutMovement(1.0);
+		if(Player.getX() == 200) {
+			if (left == true && right == false) {
+				left(smooth);
+				smoothOutMovement(1.0);
+			} else if (right == true && left == false) {
+				right(smooth);
+				smoothOutMovement(1.0);
+			}
 		}
 	}
 
-	public void smoothOutMovement(double inc) {
+	public static void smoothOutMovement(double inc) {
 		if (smooth < 6.9) {
 			smooth += inc;
 		}
@@ -125,6 +128,10 @@ public class TileMap {
 
 	public void resetMovement() {
 		smooth = 0.0;
+	}
+
+	public static double getSmooth() {
+		return smooth;
 	}
 
 	/**
@@ -138,13 +145,11 @@ public class TileMap {
 			if (mapWidth < 120) {
 				col++;
 				mapWidth++;
-				savedX = x;
 			}
 		} else if (this.x < (col + 1) * tileSize) {
 			if (col > 0) {
 				col--;
-				mapWidth--; 
-				savedX = x;
+				mapWidth--;
 			}
 		}
 		this.savedCol = col;
@@ -174,7 +179,7 @@ public class TileMap {
 	 * 
 	 * @return X coordinate
 	 */
-	public double getX() {
+	public static double getX() {
 		return x;
 	}
 
@@ -222,8 +227,7 @@ public class TileMap {
 			} else {
 				x = (mapLength - 19) * 48;
 			}
-		} else
-			System.out.println("Ende");
+		}
 
 	}
 
@@ -234,57 +238,52 @@ public class TileMap {
 			} else {
 				x = 48;
 			}
-
-		} else {
-			System.out.println("Ende");
 		}
+	}
+
+	public static boolean isBeginning() {
+		if(x <= tileSize) {
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean isEnd() {
+		if(x >= (mapLength-19) * 48) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static int getCol() {
+		return col;
+	}
+	
+	public static int getMapLength() {
+		return mapLength;
 	}
 
 	public void loadImg() {
 		images = new Image[11];
-
-//		Image untergrund = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/untergrund.png"));
-//		Image decke = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/decke.png"));
-//		Image block = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/block.png"));
-//		Image einzelblockU = new Image(
-//				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/einzelblock_untergrund.png"));
-//		Image fliegPlatEinz = new Image(
-//				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/fliegende_platform_einzelblock.png"));
-//		Image fliegPlat = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/fliegende_platform.png"));
-//		Image linksFliegPlat = new Image(
-//				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/links_fliegende_platform.png"));
-//		Image linksUnter = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/links_untergrund.png"));
-//		Image rechtsFliegPlat = new Image(
-//				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/rechts_fliegende_platform.png"));
-//		Image rechtsUnter = new Image(
-//				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/rechts_untergrund.png"));
-//
-//		images[0] = untergrund;
-//		images[1] = decke;
-//		images[2] = block;
-//		images[3] = einzelblockU;
-//		images[4] = rechtsUnter;
-//		images[5] = fliegPlat;
-//		images[6] = linksFliegPlat;
-//		images[7] = linksUnter;
-//		images[8] = rechtsFliegPlat;
-//		images[9] = fliegPlatEinz;
-		Image untergrund = new Image(getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/untergrund.png"));
+		Image untergrund = new Image(
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/untergrund.png"));
 		Image decke = new Image(getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/decke.png"));
 		Image block = new Image(getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/block.png"));
 		Image einzelblockU = new Image(
 				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/einzelblock_untergrund.png"));
-		Image fliegPlatEinz = new Image(
-				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/fliegende_platform_einzelblock.png"));
-		Image fliegPlat = new Image(getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/fliegende_platform.png"));
+		Image fliegPlatEinz = new Image(getClass()
+				.getResourceAsStream("/at/spengergasse/resources/map/textures/fliegende_platform_einzelblock.png"));
+		Image fliegPlat = new Image(
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/fliegende_platform.png"));
 		Image linksFliegPlat = new Image(
 				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/links_fliegende_platform.png"));
-		Image linksUnter = new Image(getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/links_untergrund.png"));
-		Image rechtsFliegPlat = new Image(
-				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/rechts_fliegende_platform.png"));
+		Image linksUnter = new Image(
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/links_untergrund.png"));
+		Image rechtsFliegPlat = new Image(getClass()
+				.getResourceAsStream("/at/spengergasse/resources/map/textures/rechts_fliegende_platform.png"));
 		Image rechtsUnter = new Image(
 				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/rechts_untergrund.png"));
-		
+
 		images[0] = untergrund;
 		images[1] = decke;
 		images[2] = block;
