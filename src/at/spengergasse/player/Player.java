@@ -50,7 +50,8 @@ public class Player {
 	private ImageView[] standing;
 	private ImageView[] running;
 	private ImageView[] jump;
-
+	private ImageView[] fight;
+	
 	private boolean left;
 	private boolean right;
 	private boolean standingLeft;
@@ -373,6 +374,36 @@ public class Player {
 		image1 = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_13_delay-0.06s.gif")));
 		jump[13] = image1;
+		
+		fight = new ImageView[7];
+		
+		image1 = new ImageView(new Image(getClass()
+				.getResourceAsStream("/at/spengergasse/resources/player/frames/fight/frame_0_delay-0.33s.gif")));
+		fight[0] = image1;
+		
+		image1 = new ImageView(new Image(getClass()
+				.getResourceAsStream("/at/spengergasse/resources/player/frames/fight/frame_1_delay-0.1s.gif")));
+		fight[1] = image1;
+		
+		image1 = new ImageView(new Image(getClass()
+				.getResourceAsStream("/at/spengergasse/resources/player/frames/fight/frame_2_delay-0.1s.gif")));
+		fight[2] = image1;
+		
+		image1 = new ImageView(new Image(getClass()
+				.getResourceAsStream("/at/spengergasse/resources/player/frames/fight/frame_3_delay-0.1s.gif")));
+		fight[3] = image1;
+		
+		image1 = new ImageView(new Image(getClass()
+				.getResourceAsStream("/at/spengergasse/resources/player/frames/fight/frame_4_delay-0.1s.gif")));
+		fight[4] = image1;
+		
+		image1 = new ImageView(new Image(getClass()
+				.getResourceAsStream("/at/spengergasse/resources/player/frames/fight/frame_5_delay-0.06s.gif")));
+		fight[5] = image1;
+		
+		image1 = new ImageView(new Image(getClass()
+				.getResourceAsStream("/at/spengergasse/resources/player/frames/fight/frame_6_delay-0.1s.gif")));
+		fight[6] = image1;
 
 	}
 
