@@ -17,13 +17,13 @@ public class Player {
 	private boolean goIn = true;
 
 	// Jumping speed, Falling speed
-	private final double JUMPSPEED = 4;
+	private final double JUMPSPEED = 100;
 	private double VELOCITY = 0;
 	private final double JUMPSPEEDMAX = 140;
 	private final double FALLINGSPEEDMAX = 60;
 
 	// The gravity --> used for falling to increase slowly the falling speed
-	private final double GRAVITY = 5;
+	private final double GRAVITY = 4;
 
 	// The coordinates of the player
 	private static double x = 200;
@@ -175,7 +175,7 @@ public class Player {
 	}
 
 	public void drawRunning(ImageView im) {
-		if (isFalling == false && jumping == false) {
+		if (jumping == false) {
 			if (TargetRunningCounter == 1 || TargetRunningCounter == 9) {
 				im = running[0];
 			} else if (TargetRunningCounter == 2) {
@@ -219,7 +219,6 @@ public class Player {
 			im = jump[6];
 		} else if (TargetJumpCounter == 7) {
 			im = jump[7];
-			isFalling = true;
 		} else {
 			im = drawFalling(im);
 		}
@@ -249,26 +248,20 @@ public class Player {
 			im = jump[11];
 		} else if (TargetJumpCounter == 12) {
 			im = jump[12];
-		} else if (TargetJumpCounter == 13) {
+		} else if (TargetJumpCounter >= 13) {
 			im = jump[13];
 		}
 		return im;
 	}
 
 	public void calculateJump() {
-		if (VELOCITY < JUMPSPEEDMAX && goIn == true) {
-			VELOCITY = JUMPSPEEDMAX;
-		} else if (VELOCITY <= 0) {
+		if (jumping) {
 			calculateFalling();
-		} else if (isFalling == false) {
-			goIn = false;
-			VELOCITY -= JUMPSPEED;
-			y -= VELOCITY;
 		}
 	}
 
 	private void calculateFalling() {
-		if (VELOCITY <= 0 && VELOCITY >= -FALLINGSPEEDMAX) {
+		if (VELOCITY >= -FALLINGSPEEDMAX) {
 			VELOCITY -= GRAVITY;
 		}
 		if (y - VELOCITY <= 5550) {
@@ -276,6 +269,7 @@ public class Player {
 		} else {
 			y = 5550;
 			VELOCITY = 0;
+			jumping = false;
 		}
 	}
 
@@ -457,7 +451,12 @@ public class Player {
 	 *            the jumping to set
 	 */
 	public void setJumping(boolean jumping) {
+		if(!this.jumping && jumping) {
+			VELOCITY = JUMPSPEED;
+			TargetJumpCounter = 0;
+		}
 		this.jumping = jumping;
+		
 	}
 
 	public void setStanding(boolean standing) {
@@ -481,12 +480,6 @@ public class Player {
 		if (jumping == true) {
 			if (targetCounter % 8 == 0 && targetCounter > 0) {
 				TargetJumpCounter++;
-			}
-			if (TargetJumpCounter == 14) {
-				TargetJumpCounter = 0;
-				jumping = false;
-				isFalling = false;
-				resetCounter();
 			}
 		} else if (right == true || left == true) {
 			if (TargetRunningCounter == 9) {
