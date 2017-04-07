@@ -60,7 +60,9 @@ public class Game extends Application {
 					
 					mediaPlayer = new MediaPlayer(soundEffects.playJumpSound());
 					mediaPlayer.play();
-
+				}
+				if(event.getCode() == KeyCode.E) {
+					player.setFighting(true);
 				}
 			}
 		});

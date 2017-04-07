@@ -14,7 +14,7 @@ public class Player {
 	// Boolean Values for standing and falling
 	private boolean isStanding;
 	private boolean isFalling;
-	private boolean goIn = true;
+	private boolean fighting;
 
 	// Jumping speed, Falling speed
 	private final double JUMPSPEED = 140;
@@ -42,6 +42,7 @@ public class Player {
 	private static int TargetStandingCounter = 1;
 	private static int TargetRunningCounter = 1;
 	private static int TargetJumpCounter = 1;
+	private static int TargetFightCounter = 1;
 
 	// TileMap, for getting important map values and moving the map with the
 	// player
@@ -92,7 +93,6 @@ public class Player {
 				x -= speed;
 			} else if (x - speed < 200) {
 				x = 200;
-				System.out.println("ja");
 			}
 		}
 		if(TileMap.isBeginning()) {
@@ -141,14 +141,17 @@ public class Player {
 	}
 
 	public void draw(ImageView im) {
-		if (isStanding == true && jumping == false) {
+		if (isStanding == true && jumping == false && fighting == false) {
 			drawStanding(im);
 		} else if (jumping == true) {
 			drawJump(im);
+		} else if(fighting == true) {
+			drawFight(im);
+			System.out.println("true");
 		} else {
 			drawRunning(im);
 		}
-		System.out.println(TargetJumpCounter);
+		System.out.println(y);
 
 	}
 
@@ -272,6 +275,35 @@ public class Player {
 			VELOCITY = 0;
 			jumping = false;
 		}
+	}
+	
+	public void drawFight(ImageView im) {
+		if (TargetFightCounter == 1) {
+			im = fight[0];
+		} else if (TargetFightCounter == 2) {
+			im = fight[1];
+		} else if (TargetFightCounter == 3) {
+			im = fight[2];
+		} else if (TargetFightCounter == 4) {
+			im = fight[3];
+		} else if (TargetFightCounter == 5) {
+			im = fight[4];
+		} else if (TargetFightCounter == 6) {
+			im = fight[5];
+		} else if(TargetFightCounter == 7) {
+			im = fight[6];
+			fighting = false;
+		}
+		
+		im.setTranslateX(x);
+		im.setTranslateY(y / 10 - 3);
+		if (standingLeft == true) {
+			im.setScaleX(-1);
+			im.setTranslateX(x);
+		} else if (standingLeft == false) {
+			im.setScaleX(1);
+		}
+		g.getGroup().getChildren().add(im);
 	}
 
 	/**
@@ -467,6 +499,17 @@ public class Player {
 	public boolean getStanding() {
 		return isStanding;
 	}
+	
+	public boolean isFighting() {
+		return fighting;
+	}
+
+	public void setFighting(boolean fighting) {
+		if(this.fighting != fighting) {
+			this.fighting = fighting;
+			TargetFightCounter = 1;
+		}
+	}
 
 	public void checkCounter(int targetCounter) {
 		if (isStanding == true && jumping == false) {
@@ -489,7 +532,11 @@ public class Player {
 			if (targetCounter % 5 == 0) {
 				TargetRunningCounter++;
 			}
-
+		}
+		if(fighting == true) {
+			if(targetCounter % 5 == 0 && targetCounter > 0) {
+				TargetFightCounter ++;
+			}
 		}
 	}
 
