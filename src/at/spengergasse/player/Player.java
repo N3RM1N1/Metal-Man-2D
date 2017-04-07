@@ -17,7 +17,7 @@ public class Player {
 	private boolean goIn = true;
 
 	// Jumping speed, Falling speed
-	private final double JUMPSPEED = 100;
+	private final double JUMPSPEED = 140;
 	private double VELOCITY = 0;
 	private final double JUMPSPEEDMAX = 140;
 	private final double FALLINGSPEEDMAX = 60;
@@ -148,6 +148,7 @@ public class Player {
 		} else {
 			drawRunning(im);
 		}
+		System.out.println(TargetJumpCounter);
 
 	}
 
@@ -453,7 +454,7 @@ public class Player {
 	public void setJumping(boolean jumping) {
 		if(!this.jumping && jumping) {
 			VELOCITY = JUMPSPEED;
-			TargetJumpCounter = 0;
+			TargetJumpCounter = 1;
 		}
 		this.jumping = jumping;
 		
