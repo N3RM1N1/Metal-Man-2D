@@ -2,12 +2,14 @@ package at.spengergasse.game;
 
 import java.io.FileReader;
 import java.io.IOException;
+
+import at.spengergasse.player.Player;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 
 public class TileMap {
 	// Game Instanz
@@ -20,24 +22,24 @@ public class TileMap {
 	private Image[] images;
 
 	// The coordinates
-	private double x;
+	private static double x;
 	private double y;
-
+	private int savedCol;
 	// Height and width of the Map
-	private int mapWidth;
-	private int mapHeight;
-	private int mapLength;
+	private static int mapWidth;
+	private static int mapHeight;
+	private static int mapLength;
 
 	// Boolean value for moving to the left or the right
 	private boolean left;
 	private boolean right;
 
 	// The size of the tile
-	private int tileSize;
+	public static int tileSize;
 
-	private int col;
-	
-	private double smooth = 0.0;
+	private static int col;
+
+	private static double smooth = 0.0;
 
 	public TileMap(int tileSize) {
 
@@ -66,7 +68,6 @@ public class TileMap {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		loadImg();
 	}
 
@@ -94,7 +95,9 @@ public class TileMap {
 					map[row][col] = Integer.parseInt(zeichen[col]);
 				}
 			}
-			mapWidth = 32;
+			col = 0;
+			mapWidth = 21;
+			savedCol = col;
 			fr.close();
 			br.close();
 		} catch (FileNotFoundException e) {
@@ -103,22 +106,32 @@ public class TileMap {
 	}
 
 	public void update() {
-		if(left) {
-			left(smooth);
-			smoothOutMovement(1.0);
-		} else if(right) {
-			right(smooth);
-			smoothOutMovement(1.0);
+		if(Player.getX() == 200) {
+			if (left == true && right == false) {
+				left(smooth);
+				smoothOutMovement(1.0);
+			} else if (right == true && left == false) {
+				right(smooth);
+				smoothOutMovement(1.0);
+			}
 		}
 	}
-	
-	public void smoothOutMovement(double inc) {
+
+	public static void smoothOutMovement(double inc) {
 		if (smooth < 6.9) {
 			smooth += inc;
 		}
 		if (smooth > 6.9) {
 			smooth = 7;
 		}
+	}
+
+	public void resetMovement() {
+		smooth = 0.0;
+	}
+
+	public static double getSmooth() {
+		return smooth;
 	}
 
 	/**
@@ -128,51 +141,35 @@ public class TileMap {
 	 *            The ImageView, which represents the map
 	 */
 	public void draw(ImageView im) {
-		if(x < 600) {
-			col = 0;
-			mapWidth = 32;
-			
-		} 
-		else if (x >= 600 && x < 1575) {
-			// Tile 31
-			col = 11;
-			mapWidth = 52;
-		} 
-		else if(x >= 1575 && x < 2046) {
-			col = 31;
-			mapWidth = 62;
-		} 
-		else if(x >= 2046 && x < 2590) {
-			col = 41;
-			mapWidth = 73;
-		} 
-		else if(x >= 2590 && x < 3070) {
-			col = 51;
-			mapWidth = 83;
+		if (this.x > (col + 2) * tileSize) {
+			if (mapWidth < 120) {
+				col++;
+				mapWidth++;
+			}
+		} else if (this.x < (col + 1) * tileSize) {
+			if (col > 0) {
+				col--;
+				mapWidth--;
+			}
 		}
-		else if(x >= 3070) {
-			col = 62;
-			mapWidth = 96;
-		}
+		this.savedCol = col;
 		for (int row = 0; row < mapHeight; row++) { // mapHeight
-			for (; col < mapWidth; col++) { // mapWidth
+			for (; this.col < mapWidth; col++) { // mapWidth
 				int rc = map[row][col];
-				if(rc != 0) {
-				im = new ImageView(images[rc-1]);
-				im.setFitHeight(tileSize);
-				im.setFitWidth(tileSize);
-				im.setLayoutX(tileSize);
-				im.setLayoutY(tileSize);
-				im.setTranslateX((col * tileSize) - x); // 352
-				im.setTranslateY((row * tileSize) - y); // 288
-				g.getGroup().getChildren().add(im);
+				if (rc != 0) {
+					im = new ImageView(images[rc - 1]);
+					im.setFitHeight(tileSize);
+					im.setFitWidth(tileSize);
+					im.setLayoutX(tileSize);
+					im.setLayoutY(tileSize);
+					im.setTranslateX((col * tileSize) - x); // 352
+					im.setTranslateY((row * tileSize) - y); // 288
+					g.getGroup().getChildren().add(im);
 				}
 			}
-			col = 0;
+			col = savedCol;
 		}
-		
-		
-		
+
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -182,7 +179,7 @@ public class TileMap {
 	 * 
 	 * @return X coordinate
 	 */
-	public double getX() {
+	public static double getX() {
 		return x;
 	}
 
@@ -218,20 +215,19 @@ public class TileMap {
 	public void setRight(boolean right) {
 		this.right = right;
 	}
-	
+
 	public int getLength() {
 		return mapLength;
 	}
 
 	public void right(double inc) {
-		if (x <= (mapLength-19)*48) {
-			if ((x + inc) <= (mapLength-19)*48) {
+		if (x <= (mapLength - 19) * 48) {
+			if ((x + inc) <= (mapLength - 19) * 48) {
 				x += inc;
 			} else {
-				x = (mapLength-19)*48;
+				x = (mapLength - 19) * 48;
 			}
-		} else
-			System.out.println("Ende");
+		}
 
 	}
 
@@ -242,30 +238,51 @@ public class TileMap {
 			} else {
 				x = 48;
 			}
-
-		} else {
-			System.out.println("Ende");
 		}
+	}
+
+	public static boolean isBeginning() {
+		if(x <= tileSize) {
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean isEnd() {
+		if(x >= (mapLength-19) * 48) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static int getCol() {
+		return col;
+	}
+	
+	public static int getMapLength() {
+		return mapLength;
 	}
 
 	public void loadImg() {
 		images = new Image[11];
-
-		Image untergrund = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/untergrund.png"));
-		Image decke = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/decke.png"));
-		Image block = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/block.png"));
+		Image untergrund = new Image(
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/untergrund.png"));
+		Image decke = new Image(getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/decke.png"));
+		Image block = new Image(getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/block.png"));
 		Image einzelblockU = new Image(
-				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/einzelblock_untergrund.png"));
-		Image fliegPlatEinz = new Image(
-				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/fliegende_platform_einzelblock.png"));
-		Image fliegPlat = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/fliegende_platform.png"));
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/einzelblock_untergrund.png"));
+		Image fliegPlatEinz = new Image(getClass()
+				.getResourceAsStream("/at/spengergasse/resources/map/textures/fliegende_platform_einzelblock.png"));
+		Image fliegPlat = new Image(
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/fliegende_platform.png"));
 		Image linksFliegPlat = new Image(
-				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/links_fliegende_platform.png"));
-		Image linksUnter = new Image(getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/links_untergrund.png"));
-		Image rechtsFliegPlat = new Image(
-				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/rechts_fliegende_platform.png"));
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/links_fliegende_platform.png"));
+		Image linksUnter = new Image(
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/links_untergrund.png"));
+		Image rechtsFliegPlat = new Image(getClass()
+				.getResourceAsStream("/at/spengergasse/resources/map/textures/rechts_fliegende_platform.png"));
 		Image rechtsUnter = new Image(
-				getClass().getResourceAsStream("/Res/Map_Textures_Dungeon/rechts_untergrund.png"));
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/rechts_untergrund.png"));
 
 		images[0] = untergrund;
 		images[1] = decke;

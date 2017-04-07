@@ -54,16 +54,15 @@ public class Game extends Application {
 			public void handle(KeyEvent event) {
 				if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {
 					tileMap.setRight(true);
-//					setCounter(-1);
+					player.setRight(true);
 				}
 				if (event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT) {
 					tileMap.setLeft(true);
-//					setCounter(-1);
+					player.setLeft(true);
 				}
 				if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.W || event.getCode() == KeyCode.UP) {
 					player.setJumping(true);
-//					setCounter(-1);
-
+					
 					mediaPlayer = new MediaPlayer(soundEffects.playJumpSound());
 					mediaPlayer.play();
 					System.out.println("true");
@@ -108,7 +107,7 @@ public class Game extends Application {
 				tileMap.draw(new ImageView());
 
 				// Drawing the player the last
-				player.drawPlayer(new ImageView());
+				player.draw(new ImageView());
 			}
 
 			private void update() {
