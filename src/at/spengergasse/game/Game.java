@@ -1,5 +1,7 @@
 package at.spengergasse.game;
 
+import java.io.File;
+
 import at.spengergasse.player.Player;
 import at.spengergasse.soundEffects.Sound;
 import javafx.animation.KeyFrame; // F�r den Gameloop
@@ -15,6 +17,7 @@ import javafx.event.ActionEvent; // Es passiert etwas (rendern, update, ...)
 import javafx.event.EventHandler; // F�r Key - Abfragen ben�tigt (Tastatur)
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent; // Pr�ft welche Taste gedr�ckt wurde
+import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 public class Game extends Application {
@@ -56,10 +59,13 @@ public class Game extends Application {
 					player.setLeft(true);
 				}
 				if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.W || event.getCode() == KeyCode.UP) {
+					if(player.isJumping() == false && player.isFighting() == false) {
+						mediaPlayer = new MediaPlayer(soundEffects.playJumpSound());
+						mediaPlayer.setVolume(0.3);
+						mediaPlayer.play();
+					}
 					player.setJumping(true);
 					
-					mediaPlayer = new MediaPlayer(soundEffects.playJumpSound());
-					mediaPlayer.play();
 				}
 				if(event.getCode() == KeyCode.E) {
 					player.setFighting(true);
@@ -87,8 +93,11 @@ public class Game extends Application {
 				}
 			}
 		});
+		MediaPlayer gameTrack = new MediaPlayer(new Media(new File("src/at/spengergasse/resources/game/soundEffects/Game_Sound_Track.wav").toURI().toString()));
+		
 
 		KeyFrame kf = new KeyFrame(Duration.seconds(1.0 / 60.0), new EventHandler<ActionEvent>() {
+			
 
 			@Override
 			public void handle(ActionEvent event) {
@@ -96,7 +105,7 @@ public class Game extends Application {
 				update();
 
 				render();
-
+				
 			}
 
 			private void render() {
@@ -114,11 +123,14 @@ public class Game extends Application {
 				player.update();
 				tileMap.update();
 				
+				gameTrack.setCycleCount(Timeline.INDEFINITE);
+				gameTrack.play();
+				
 				targetFrameCounter++;
 
 				player.checkCounter(targetFrameCounter);
 			}
-
+			
 		});
 
 		gameLoop.getKeyFrames().add(kf);

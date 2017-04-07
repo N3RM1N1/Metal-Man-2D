@@ -20,7 +20,7 @@ public class Player {
 	private final double JUMPSPEED = 140;
 	private double VELOCITY = 0;
 	private final double JUMPSPEEDMAX = 140;
-	private final double FALLINGSPEEDMAX = 60;
+	private final double FALLINGSPEEDMAX = 100;
 
 	// The gravity --> used for falling to increase slowly the falling speed
 	private final double GRAVITY = 4;
@@ -147,11 +147,11 @@ public class Player {
 			drawJump(im);
 		} else if(fighting == true) {
 			drawFight(im);
-			System.out.println("true");
+			
 		} else {
 			drawRunning(im);
 		}
-		System.out.println(y);
+		System.out.println(TargetFightCounter + "\n" + fighting);
 
 	}
 
@@ -242,19 +242,20 @@ public class Player {
 	}
 
 	public ImageView drawFalling(ImageView im) {
-		if (TargetJumpCounter == 8) {
-			im = jump[8];
-		} else if (TargetJumpCounter == 9) {
-			im = jump[9];
-		} else if (TargetJumpCounter == 10) {
-			im = jump[10];
-		} else if (TargetJumpCounter == 11) {
-			im = jump[11];
-		} else if (TargetJumpCounter == 12) {
-			im = jump[12];
-		} else if (TargetJumpCounter >= 13) {
-			im = jump[13];
-		}
+//		if (TargetJumpCounter == 8) {
+//			im = jump[8];
+//		} else if (TargetJumpCounter == 9) {
+//			im = jump[9];
+//		} else if (TargetJumpCounter == 10) {
+//			im = jump[10];
+//		} else if (TargetJumpCounter == 11) {
+//			im = jump[11];
+//		} else if (TargetJumpCounter == 12) {
+//			im = jump[12];
+//		} else if (TargetJumpCounter >= 13) {
+//			im = jump[13];
+//		}
+		im = jump[TargetJumpCounter];
 		return im;
 	}
 
@@ -299,7 +300,7 @@ public class Player {
 		im.setTranslateY(y / 10 - 3);
 		if (standingLeft == true) {
 			im.setScaleX(-1);
-			im.setTranslateX(x);
+			im.setTranslateX(x-30);
 		} else if (standingLeft == false) {
 			im.setScaleX(1);
 		}
@@ -488,8 +489,8 @@ public class Player {
 			VELOCITY = JUMPSPEED;
 			TargetJumpCounter = 1;
 		}
-		this.jumping = jumping;
-		
+		if(!fighting)
+			this.jumping = jumping;
 	}
 
 	public void setStanding(boolean standing) {
@@ -505,7 +506,7 @@ public class Player {
 	}
 
 	public void setFighting(boolean fighting) {
-		if(this.fighting != fighting) {
+		if(this.fighting != fighting && isJumping() != true) {
 			this.fighting = fighting;
 			TargetFightCounter = 1;
 		}

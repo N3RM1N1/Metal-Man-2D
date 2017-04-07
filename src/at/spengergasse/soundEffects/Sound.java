@@ -11,7 +11,7 @@ public class Sound {
 	}
 	
 	public Media playJumpSound() {
-		String jumpSoundFile = "Jump.wav";
+		String jumpSoundFile = "src/at/spengergasse/resources/game/soundEffects/Jump.wav";
 		Media sound = new Media(new File(jumpSoundFile).toURI().toString());
 		
 		return sound;
