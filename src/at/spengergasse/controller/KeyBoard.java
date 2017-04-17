@@ -38,14 +38,16 @@ public class KeyBoard implements EventHandler<KeyEvent>{
 			if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {
 				if(player.isRight() == false) {
 					g.setTargetFrameCounter(0);
-					player.setRight(true);
+					tileMap.resetMovement();
 					tileMap.setRight(true);
+					player.setRight(true);
 				}
 			}
 			if (event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT) {
 				if(player.isLeft() == false) {
 					g.setTargetFrameCounter(0);
 					tileMap.setLeft(true);
+					tileMap.resetMovement();
 					player.setLeft(true);
 				}
 			}
@@ -63,13 +65,13 @@ public class KeyBoard implements EventHandler<KeyEvent>{
 			if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {
 				player.setRight(false);
 				player.setStanding(true);
-				tileMap.setRight(false); // Don't move anymore
+				tileMap.setRight(false);
 				tileMap.resetMovement();
 			}
 			if (event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT) {
 				player.setLeft(false);
 				player.setStanding(true);
-				tileMap.setLeft(false); // Don't move anymore
+				tileMap.setLeft(false);
 				tileMap.resetMovement();
 			}
 		}

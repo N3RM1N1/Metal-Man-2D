@@ -3,6 +3,7 @@ package at.spengergasse.gui;
 import java.util.List;
 
 import at.spengergasse.controller.KeyBoard;
+import at.spengergasse.model.Extentions;
 import at.spengergasse.model.Player;
 import at.spengergasse.model.TileMap;
 import javafx.animation.KeyFrame;
@@ -20,6 +21,7 @@ public class FrameFX extends Stage {
 
 	final private TileMap tileMap;
 	final private Player player;
+	final private Extentions ext;
 	final private Sound soundEffects;
 
 	// The counter for the player animation
@@ -43,6 +45,8 @@ public class FrameFX extends Stage {
 		this.tileMap = new TileMap(48, "Level1.txt", this);
 
 		this.player = new Player(this, tileMap);
+		
+		this.ext = new Extentions(this, tileMap);
 
 		this.soundEffects = new Sound();
 
@@ -65,6 +69,7 @@ public class FrameFX extends Stage {
 				update();
 
 				render();
+				
 			}
 
 			private void render() {
@@ -76,15 +81,17 @@ public class FrameFX extends Stage {
 
 				// Drawing the player the last
 				player.render();
+				
+				ext.render();
 			}
 
 			private void update() {
-				
 				targetFrameCounter++;
 				player.checkCounter(targetFrameCounter);
-				
-				player.update();
+				ext.checkCounter(targetFrameCounter);
 				tileMap.update();
+				player.update();
+				ext.update();
 				
 			}
 			

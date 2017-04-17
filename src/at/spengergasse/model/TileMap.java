@@ -16,7 +16,7 @@ public class TileMap {
 	private FrameFX g;
 
 	// Die Matrix der Map
-	private static int[][] map;
+	private int[][] map;
 
 	// The Images will be saved here
 	private Image[] tiles;
@@ -25,9 +25,9 @@ public class TileMap {
 	private double x;
 	private double y;
 	// Height and width of the Map
-	private static int mapWidth;
-	private static int mapHeight;
-	private static int mapLength;
+	private int mapWidth;
+	private int mapHeight;
+	private int mapLength;
 
 	// Boolean value for moving to the left or the right
 	private boolean left;
@@ -59,18 +59,17 @@ public class TileMap {
 
 		// Setting the tile size
 		this.tileSize = tileSize;
-
+		
+		loadImg();
+		
 		// Initialization of the map
 		try {
 			initGameMap();
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		loadImg();
 	}
 
 	/**
@@ -107,7 +106,7 @@ public class TileMap {
 	}
 
 	public void update() {
-		if(Player.getX() == 200) {
+		if(Player.getX() == 192) {
 			if (left == true && right == false) {
 				left(smooth);
 				smoothOutMovement(0.3);
@@ -121,30 +120,7 @@ public class TileMap {
 	public void render() {
 		draw(new ImageView());
 	}
-
-	public void smoothOutMovement(double inc) {
-		if (smooth < 7) {
-			smooth += inc;
-		}
-		if (smooth > 7) {
-			smooth = 7;
-		}
-	}
-
-	public void resetMovement() {
-		smooth = 0.0;
-	}
-
-	public double getSmooth() {
-		return smooth;
-	}
-
-	/**
-	 * Drawing Method This method draws the map of the game
-	 * 
-	 * @param im
-	 *            The ImageView, which represents the map
-	 */
+	
 	public void draw(ImageView im) {
 		if (this.x > (col + 2) * tileSize) {
 			if (mapWidth < 120) {
@@ -175,26 +151,38 @@ public class TileMap {
 
 	}
 
+	public void smoothOutMovement(double inc) {
+		if (smooth < 7) {
+			smooth += inc;
+		} else if (smooth > 7) {
+			smooth = 7;
+		}
+	}
+
+	public void resetMovement() {
+		smooth = 0.0;
+
+	}
+
+	public double getSmooth() {
+		return smooth;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Returns the X coordinate for the tiles
-	 * 
-	 * @return X coordinate
-	 */
 	public double getX() {
 		return x;
 	}
 
 	public void setX(double x) {
-		this.x = x;
+		if(x >= 48) {
+			left = false;
+			right = false;
+			resetMovement();
+			this.x = x;
+		}
 	}
 
-	/**
-	 * Returns the Y coordinate for the tiles
-	 * 
-	 * @return Y coordinate
-	 */
 	public double getY() {
 		return y;
 	}
@@ -202,7 +190,7 @@ public class TileMap {
 	public void setY(double y) {
 		this.y = y;
 	}
-
+	
 	public boolean getLeft() {
 		return left;
 	}
@@ -217,10 +205,6 @@ public class TileMap {
 
 	public void setRight(boolean right) {
 		this.right = right;
-	}
-
-	public int getLength() {
-		return mapLength;
 	}
 
 	public void right(double inc) {
@@ -258,12 +242,20 @@ public class TileMap {
 		return false;
 	}
 	
-	public int getCol() {
-		return col;
+	public int getMapLength() {
+		return this.mapLength;
 	}
 	
-	public static int getMapLength() {
-		return mapLength;
+	public int[][] getMap() {
+		return map;
+	}
+	
+	public int getCol() {
+		return this.col;
+	}
+	
+	public int getRow() {
+		return mapHeight;
 	}
 
 	public void loadImg() {
