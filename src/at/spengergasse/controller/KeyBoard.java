@@ -7,6 +7,7 @@ import at.spengergasse.gui.FrameFX;
 import at.spengergasse.gui.Sound;
 import at.spengergasse.model.Player;
 import at.spengergasse.model.TileMap;
+import javafx.animation.Animation;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -42,24 +43,29 @@ public class KeyBoard implements EventHandler<KeyEvent>{
 					tileMap.setRight(true);
 					player.setRight(true);
 				}
-			}
-			if (event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT) {
+			} else if (event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT) {
 				if(player.isLeft() == false) {
 					g.setTargetFrameCounter(0);
 					tileMap.setLeft(true);
 					tileMap.resetMovement();
 					player.setLeft(true);
 				}
-			}
-			if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.W || event.getCode() == KeyCode.UP) {
+			} else if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.W || event.getCode() == KeyCode.UP) {
 				if(player.isJumping() == false && player.isFighting() == false) {
 					soundEffects.playJumpSound();
 					g.setTargetFrameCounter(0);
 					player.setJumping(true);
 				}
-			}
-			if(event.getCode() == KeyCode.E) {
+			} else if(event.getCode() == KeyCode.E) {
 				player.setFighting(true);
+			}
+			if(event.getCode() == KeyCode.ESCAPE) {
+				if(g.getGameLoop().getStatus() == Animation.Status.PAUSED) {
+					g.getGameLoop().play();
+				} else {
+					g.getGameLoop().pause();
+				}
+				
 			}
 		} else if(event.getEventType() == KeyEvent.KEY_RELEASED) {
 			if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {

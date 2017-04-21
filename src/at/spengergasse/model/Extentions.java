@@ -45,12 +45,11 @@ public class Extentions extends Player {
 	
 	public void update() {
 		if(level.getCol() - (xCoordinate+1) < x/48 ) {
-			if((level.isBeginning() == false || !level.isEnd() == false) && level.getRight()) {
+			if((level.isBeginning() == false && level.isEnd() == false) && level.getRight()) {
 				x -= level.getSmooth();
-			} else if((level.isBeginning() == false || level.isEnd() == false) && level.getLeft()) {
+			} else if((level.isBeginning() == false && level.isEnd() == false) && level.getLeft()) {
 				x += level.getSmooth();
 			}
-			System.out.println(xCoordinate);
 		}
 	}
 	

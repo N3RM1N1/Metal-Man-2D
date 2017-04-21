@@ -183,22 +183,34 @@ public class Player {
 					}
 				}
 			}
+			if (TargetJumpCounter != -1) {
+				calculateJump();
+			}
 
 		} else if(isFalling) {
 			if(standingLeft) {
-				if(map[getYTiles()+1][((getXTiles()+50)/48)-1] == 1) {
+				if(map[getYTiles()+1][((getXTiles()+20)/48)-1] == 1 || map[getYTiles()+1][((getXTiles()+20)/48)] == 1
+						|| map[getYTiles()+1][((getXTiles()+20)/48)-1] == 5 || map[getYTiles()+1][((getXTiles()+20)/48)] == 5
+						|| map[getYTiles()+1][((getXTiles()+20)/48)-1] == 10 || map[getYTiles()+1][((getXTiles()+20)/48)] == 10
+						|| map[getYTiles()+1][((getXTiles()+20)/48)-1] == 3 || map[getYTiles()+1][((getXTiles()+20)/48)] == 3) {
 					calculateHit = ((getYTiles())*480)-490;
 					System.out.println(calculateHit);
 				} else  {
 					calculateHit += 48;
 				}
 			} else if(!standingLeft) {
-				if(map[getYTiles()+1][((getXTiles()+20)/48)-2] == 1) {
+				if(map[getYTiles()+1][((getXTiles()+30)/48)-2] == 1 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 1
+						|| map[getYTiles()+1][((getXTiles()+30)/48)-2] == 5 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 5
+						|| map[getYTiles()+1][((getXTiles()+30)/48)-2] == 10 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 10
+						|| map[getYTiles()+1][((getXTiles()+30)/48)-2] == 3 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 3) {
 					calculateHit = ((getYTiles())*480)-490;
 					System.out.println(calculateHit);
 				} else {
 					calculateHit += 48;
 				}
+			}
+			if (TargetJumpCounter != -1) {
+				calculateJump();
 			}
 		}
 		
@@ -238,6 +250,9 @@ public class Player {
 				setStanding(true);
 				level.setRight(right);
 			}
+			if(map[getYTiles()+1][((getXTiles()+30)/48)-2] == 1 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 1) {
+				
+			}
 			 
 		} else if(left && right) {
 			setStanding(true);
@@ -247,6 +262,16 @@ public class Player {
 
 		if (x == level.tileSize || x == 835) {
 			setStanding(true);
+		}
+		
+		if(!standingLeft) {
+			if(map[getYTiles()+1][((getXTiles()+30)/48)-2] == 0 && map[getYTiles()+1][((getXTiles()-15)/48)-2] == 0) {
+				isFalling = true;
+			}
+		} else if(standingLeft) {
+			if(map[getYTiles()+1][((getXTiles())/48)] == 1 || map[getYTiles()+1][((getXTiles()+15)/48)] == 1) {
+				System.out.println("asfijfnkkfnsnalkfkklk");
+			}
 		}
 		
 //		System.out.println("X Tiles: " + getXTiles()/48);
@@ -338,9 +363,6 @@ public class Player {
 		} else {
 			im = drawFalling(im);
 		}
-		if (TargetJumpCounter != -1) {
-			calculateJump();
-		}
 
 		im.setTranslateX(x);
 		im.setTranslateY(y / 10);
@@ -359,9 +381,7 @@ public class Player {
 	}
 
 	public void calculateJump() {
-		if (jumping) {
-			calculateFalling();
-		}
+		calculateFalling();
 	}
 
 	private void calculateFalling() {
@@ -389,7 +409,7 @@ public class Player {
 		}
 
 		im.setTranslateX(x);
-		im.setTranslateY(y / 10 - 3);
+		im.setTranslateY((y / 10) - 23);
 		if (standingLeft == true) {
 			im.setScaleX(-1);
 			im.setTranslateX(x - 30);

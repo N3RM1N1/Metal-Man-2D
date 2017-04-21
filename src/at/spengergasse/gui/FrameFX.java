@@ -23,6 +23,7 @@ public class FrameFX extends Stage {
 	final private Player player;
 	final private Extentions ext;
 	final private Sound soundEffects;
+	private Timeline gameLoop;
 
 	// The counter for the player animation
 	private int targetFrameCounter = 0;
@@ -55,7 +56,7 @@ public class FrameFX extends Stage {
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, input);
 		scene.addEventHandler(KeyEvent.KEY_RELEASED, input);
 		
-		Timeline gameLoop = new Timeline();
+		gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
 		
 
@@ -79,7 +80,7 @@ public class FrameFX extends Stage {
 				// Update the map
 				tileMap.render();
 
-				// Drawing the player the last
+				// Drawing the player
 				player.render();
 				
 				ext.render();
@@ -139,5 +140,10 @@ public class FrameFX extends Stage {
 
 	public Group getRoot() {
 		return root;
+	}
+
+
+	public Timeline getGameLoop() {
+		return gameLoop;
 	}
 }
