@@ -13,32 +13,14 @@ TO DO List
 	
 	
 	Wenn 'Versuchen:' steht nur versuchen. Bei nicht gelingen den vorherigen Standard zuruecksetzen
-	
-
-	- Weitere Animationen des Spielers einfuegen
-	
-		+ Springen
-		+ Zuschlagen (k�mpfen)
 		
-		--> Weiter counter einfuegen, damit die richtigen Frames abgespielt werden
-		--> Methode checkCounter() umschreiben
-	
-	
-	- Echten Sprung erzeugen
-	
-		+ Der Spieler springt und der y Wert aendert sich
-		+ Bei fallen wird Gravity benutzt, um den Spieler zu Boden zu bringen
-	
-		--> Mit Taste W oder Space wird der Jump aufgerufen --> Die Animation wird geaendert
-	
+
 	
 	- Die Map dynamisch machen
 	
 		+ Fixe x und y Werte durch Berechnungen ersetzten, sodass beim aendern der Map nicht
 		  der Code geaendert werden muss
-		+ Versuchen: Die Bewegungen der Map in die TileMap Klasse zu verschieben
 	
-		--> Das Verschieben findet momentan in der Klasse Game statt
 	
 	
 	- Hit Detection
@@ -52,12 +34,11 @@ TO DO List
 	
 		+ Die momentane groesse der Map aendern und fertigmachen
 		+ Die Boss Map ueberlegen
-		+ Den Map Buffer dynamisch setzen (20 Bloecke werden geladen, wenn er sich bewegt wird weitergeladen ...)
 		
 		
 	- Die Gegner
 	
-		+ Wenn m�glich: Bessere Enemie Tiles finden :)
+		+ Wenn moeglich: Bessere Enemie Tiles finden :)
 		+ Gegner implementieren
 		+ Bei Beruehrung mit dem Spieler --> hit detection
 		+ Der Spieler wird nur ein Leben haben
@@ -77,7 +58,6 @@ TO DO List
 	- Das KeyEvent (Tastendruck) aufraeumen
 	
 		+ Unnoetige Aktionen finden und entfernen, sofern moeglich
-		+ Versuchen: (Player: Statt moveLeft und right Methode: walk() benutzen)
 	
 	
 	- Den Projektordner aufrauemen
@@ -109,7 +89,7 @@ TO DO List
 			--> Uebersicht ueber die Level
 			
 		+ Multiplayer
-			--> siehe Multiplayer (Zeile 129)
+			--> siehe Multiplayer (Zeile 107)
 			
 		+ Options
 			--> Musik: An oder Aus

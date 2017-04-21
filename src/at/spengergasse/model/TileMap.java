@@ -1,9 +1,9 @@
-package at.spengergasse.game;
+package at.spengergasse.model;
 
 import java.io.FileReader;
 import java.io.IOException;
 
-import at.spengergasse.player.Player;
+import at.spengergasse.gui.FrameFX;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -13,39 +13,41 @@ import javafx.scene.image.ImageView;
 
 public class TileMap {
 	// Game Instanz
-	private Game g;
+	private FrameFX g;
 
 	// Die Matrix der Map
-	private static int[][] map;
+	private int[][] map;
 
 	// The Images will be saved here
-	private Image[] images;
+	private Image[] tiles;
 
 	// The coordinates
-	private static double x;
+	private double x;
 	private double y;
-	private int savedCol;
 	// Height and width of the Map
-	private static int mapWidth;
-	private static int mapHeight;
-	private static int mapLength;
+	private int mapWidth;
+	private int mapHeight;
+	private int mapLength;
 
 	// Boolean value for moving to the left or the right
 	private boolean left;
 	private boolean right;
 
 	// The size of the tile
-	public static int tileSize;
+	public int tileSize;
 
-	private static int col;
+	private int col;
 
-	private static double smooth = 0.0;
+	private double smooth = 0.0;
+	
+	private String levelName;
 
-	public TileMap(int tileSize) {
+	public TileMap(int tileSize, String levelName, FrameFX frame) {
 
 		// setting the coordinates for the tiles
 		this.x = tileSize;
 		this.y = tileSize;
+		this.levelName = levelName;
 
 		left = false;
 		right = false;
@@ -53,22 +55,21 @@ public class TileMap {
 		col = 0;
 
 		// Creating a new Game
-		g = new Game();
+		this.g = frame;
 
 		// Setting the tile size
 		this.tileSize = tileSize;
-
+		
+		loadImg();
+		
 		// Initialization of the map
 		try {
 			initGameMap();
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		loadImg();
 	}
 
 	/**
@@ -81,7 +82,7 @@ public class TileMap {
 	 */
 	public void initGameMap() throws NumberFormatException, IOException {
 		try {
-			FileReader fr = new FileReader("map");
+			FileReader fr = new FileReader("src/at/spengergasse/mapLevels/" + levelName);
 			BufferedReader br = new BufferedReader(fr);
 
 			mapLength = Integer.parseInt(br.readLine());
@@ -97,7 +98,6 @@ public class TileMap {
 			}
 			col = 0;
 			mapWidth = 21;
-			savedCol = col;
 			fr.close();
 			br.close();
 		} catch (FileNotFoundException e) {
@@ -106,40 +106,21 @@ public class TileMap {
 	}
 
 	public void update() {
-		if(Player.getX() == 200) {
+		if(Player.getX() == 192) {
 			if (left == true && right == false) {
 				left(smooth);
-				smoothOutMovement(1.0);
+				smoothOutMovement(0.3);
 			} else if (right == true && left == false) {
 				right(smooth);
-				smoothOutMovement(1.0);
+				smoothOutMovement(0.3);
 			}
 		}
 	}
-
-	public static void smoothOutMovement(double inc) {
-		if (smooth < 6.9) {
-			smooth += inc;
-		}
-		if (smooth > 6.9) {
-			smooth = 7;
-		}
+	
+	public void render() {
+		draw(new ImageView());
 	}
-
-	public void resetMovement() {
-		smooth = 0.0;
-	}
-
-	public static double getSmooth() {
-		return smooth;
-	}
-
-	/**
-	 * Drawing Method This method draws the map of the game
-	 * 
-	 * @param im
-	 *            The ImageView, which represents the map
-	 */
+	
 	public void draw(ImageView im) {
 		if (this.x > (col + 2) * tileSize) {
 			if (mapWidth < 120) {
@@ -152,46 +133,56 @@ public class TileMap {
 				mapWidth--;
 			}
 		}
-		this.savedCol = col;
 		for (int row = 0; row < mapHeight; row++) { // mapHeight
-			for (; this.col < mapWidth; col++) { // mapWidth
-				int rc = map[row][col];
+			for (int i = col; i < mapWidth; i++) { // mapWidth
+				int rc = map[row][i];
 				if (rc != 0) {
-					im = new ImageView(images[rc - 1]);
+					im = new ImageView(tiles[rc - 1]);
 					im.setFitHeight(tileSize);
 					im.setFitWidth(tileSize);
 					im.setLayoutX(tileSize);
 					im.setLayoutY(tileSize);
-					im.setTranslateX((col * tileSize) - x); // 352
+					im.setTranslateX((i * tileSize) - x); // 352
 					im.setTranslateY((row * tileSize) - y); // 288
-					g.getGroup().getChildren().add(im);
+					g.getRoot().getChildren().add(im);
 				}
 			}
-			col = savedCol;
 		}
 
 	}
 
+	public void smoothOutMovement(double inc) {
+		if (smooth < 7) {
+			smooth += inc;
+		} else if (smooth > 7) {
+			smooth = 7;
+		}
+	}
+
+	public void resetMovement() {
+		smooth = 0.0;
+
+	}
+
+	public double getSmooth() {
+		return smooth;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Returns the X coordinate for the tiles
-	 * 
-	 * @return X coordinate
-	 */
-	public static double getX() {
+	public double getX() {
 		return x;
 	}
 
 	public void setX(double x) {
-		this.x = x;
+		if(x >= 48) {
+			left = false;
+			right = false;
+			resetMovement();
+			this.x = x;
+		}
 	}
 
-	/**
-	 * Returns the Y coordinate for the tiles
-	 * 
-	 * @return Y coordinate
-	 */
 	public double getY() {
 		return y;
 	}
@@ -199,7 +190,7 @@ public class TileMap {
 	public void setY(double y) {
 		this.y = y;
 	}
-
+	
 	public boolean getLeft() {
 		return left;
 	}
@@ -214,10 +205,6 @@ public class TileMap {
 
 	public void setRight(boolean right) {
 		this.right = right;
-	}
-
-	public int getLength() {
-		return mapLength;
 	}
 
 	public void right(double inc) {
@@ -241,30 +228,38 @@ public class TileMap {
 		}
 	}
 
-	public static boolean isBeginning() {
+	public boolean isBeginning() {
 		if(x <= tileSize) {
 			return true;
 		}
 		return false;
 	}
 
-	public static boolean isEnd() {
+	public boolean isEnd() {
 		if(x >= (mapLength-19) * 48) {
 			return true;
 		}
 		return false;
 	}
 	
-	public static int getCol() {
-		return col;
+	public int getMapLength() {
+		return this.mapLength;
 	}
 	
-	public static int getMapLength() {
-		return mapLength;
+	public int[][] getMap() {
+		return map;
+	}
+	
+	public int getCol() {
+		return this.col;
+	}
+	
+	public int getRow() {
+		return mapHeight;
 	}
 
 	public void loadImg() {
-		images = new Image[11];
+		tiles = new Image[11];
 		Image untergrund = new Image(
 				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/untergrund.png"));
 		Image decke = new Image(getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/decke.png"));
@@ -284,16 +279,16 @@ public class TileMap {
 		Image rechtsUnter = new Image(
 				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/rechts_untergrund.png"));
 
-		images[0] = untergrund;
-		images[1] = decke;
-		images[2] = block;
-		images[3] = einzelblockU;
-		images[4] = rechtsUnter;
-		images[5] = fliegPlat;
-		images[6] = linksFliegPlat;
-		images[7] = linksUnter;
-		images[8] = rechtsFliegPlat;
-		images[9] = fliegPlatEinz;
+		tiles[0] = untergrund;
+		tiles[1] = decke;
+		tiles[2] = block;
+		tiles[3] = einzelblockU;
+		tiles[4] = rechtsUnter;
+		tiles[5] = fliegPlat;
+		tiles[6] = linksFliegPlat;
+		tiles[7] = linksUnter;
+		tiles[8] = rechtsFliegPlat;
+		tiles[9] = fliegPlatEinz;
 	}
 
 }
