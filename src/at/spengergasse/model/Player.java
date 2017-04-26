@@ -119,61 +119,23 @@ public class Player {
 	}
 
 	public void update() {
-//		if (jumping) {
-//
-//		} else if (isFalling) {
-//
-//		}
-//
-//		if (left && !right) {
-//			
-//			if(map[getYTiles()][getXTiles()/48-1] != 3) {
-//				
-//				walkLeft(level.getSmooth());
-//				moveLeft();
-//				calculateHit = ((((int)getXTiles()/48)-4)*48);
-//				
-//			} else if(level.getX() - level.getSmooth() > calculateHit) {
-//				
-//				walkLeft(WALKSPEED);
-//				moveLeft();
-//				
-//			} else {
-//				level.setX(calculateHit);
-//				setStanding(true);
-//				level.setLeft(left);
-//			}
-//			
-//		} else if (right && !left) {
-//			if (map[getYTiles()][(int) (getXTiles() / 48)-1] != 3) { 
-//				System.out.println("ja");
-//				walkRight(level.getSmooth());
-//				moveRight();
-//				calculateHit = ((((int)getXTiles()/48)-5)*48)+21;
-//
-//			} else if (level.getX() + level.getSmooth() < calculateHit) {
-//				walkRight(level.getSmooth());
-//				moveRight();
-//
-//			} else {
-//				
-//				level.setX(calculateHit);
-//				setStanding(true);
-//				level.setRight(right);
-//			}
-//		} else if (left && right) {
-//			setStanding(true);
-//		} else {
-//			setStanding(true);
-//		}
-		
 		if(jumping && !isFalling) {
 			if(!standingLeft) {
+				if(right) {
+					if(map[getYTiles()-2][(getXTiles()/48)-1] == 2
+							|| map[getYTiles()-2][(getXTiles()/48)-1] == 3) {
+						if(VELOCITY > 0) {
+							VELOCITY = 0;
+						}
+						isFalling = true;
+					}
+				}
 	 			if(map[getYTiles()-2][(getXTiles()/48)-2] == 2 
 	 					|| map[getYTiles()-2][(getXTiles()/48)-2] == 3) {
 					if(VELOCITY > 0) {
 						VELOCITY = 0;
 					}
+					isFalling = true;
 				}
 			} else if(standingLeft) {
 				if(map[getYTiles()-2][(getXTiles()/48)] == 2 
@@ -181,9 +143,10 @@ public class Player {
 					if(VELOCITY > 0) {
 						VELOCITY = 0;
 					}
+					isFalling = true;
 				}
 			}
-			if (TargetJumpCounter != -1) {
+			if (TargetJumpCounter >= 1) {
 				calculateJump();
 			}
 
@@ -192,26 +155,32 @@ public class Player {
 				if(map[getYTiles()+1][((getXTiles()+20)/48)-1] == 1 || map[getYTiles()+1][((getXTiles()+20)/48)] == 1
 						|| map[getYTiles()+1][((getXTiles()+20)/48)-1] == 5 || map[getYTiles()+1][((getXTiles()+20)/48)] == 5
 						|| map[getYTiles()+1][((getXTiles()+20)/48)-1] == 10 || map[getYTiles()+1][((getXTiles()+20)/48)] == 10
-						|| map[getYTiles()+1][((getXTiles()+20)/48)-1] == 3 || map[getYTiles()+1][((getXTiles()+20)/48)] == 3) {
+						|| map[getYTiles()+1][((getXTiles()+20)/48)-1] == 3 || map[getYTiles()+1][((getXTiles()+20)/48)] == 3
+						|| map[getYTiles()+1][((getXTiles()+20)/48)-1] == 4 || map[getYTiles()+1][((getXTiles()+20)/48)] == 4
+						|| map[getYTiles()+1][((getXTiles()+20)/48)-1] == 6 || map[getYTiles()+1][((getXTiles()+20)/48)] == 6
+						|| map[getYTiles()+1][((getXTiles()+20)/48)-1] == 7 || map[getYTiles()+1][((getXTiles()+20)/48)] == 7
+						|| map[getYTiles()+1][((getXTiles()+20)/48)-1] == 8 || map[getYTiles()+1][((getXTiles()+20)/48)] == 8
+						|| map[getYTiles()+1][((getXTiles()+20)/48)-1] == 9 || map[getYTiles()+1][((getXTiles()+20)/48)] == 9) {
 					calculateHit = ((getYTiles())*480)-490;
-					System.out.println(calculateHit);
 				} else  {
-					calculateHit += 48;
+					calculateHit += FALLINGSPEEDMAX;
 				}
 			} else if(!standingLeft) {
 				if(map[getYTiles()+1][((getXTiles()+30)/48)-2] == 1 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 1
 						|| map[getYTiles()+1][((getXTiles()+30)/48)-2] == 5 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 5
 						|| map[getYTiles()+1][((getXTiles()+30)/48)-2] == 10 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 10
-						|| map[getYTiles()+1][((getXTiles()+30)/48)-2] == 3 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 3) {
+						|| map[getYTiles()+1][((getXTiles()+30)/48)-2] == 3 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 3
+						|| map[getYTiles()+1][((getXTiles()+30)/48)-2] == 4 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 4
+						|| map[getYTiles()+1][((getXTiles()+30)/48)-2] == 6 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 6
+						|| map[getYTiles()+1][((getXTiles()+30)/48)-2] == 7 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 7
+						|| map[getYTiles()+1][((getXTiles()+30)/48)-2] == 8 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 8
+						|| map[getYTiles()+1][((getXTiles()+30)/48)-2] == 9 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 9) {
 					calculateHit = ((getYTiles())*480)-490;
-					System.out.println(calculateHit);
 				} else {
-					calculateHit += 48;
+					calculateHit += FALLINGSPEEDMAX;
 				}
 			}
-			if (TargetJumpCounter != -1) {
-				calculateJump();
-			}
+			calculateJump();
 		}
 		
 		if(left && !right) {
@@ -259,31 +228,17 @@ public class Player {
 		} else {
 			setStanding(true);
 		}
-
-		if (x == level.tileSize || x == 835) {
-			setStanding(true);
-		}
 		
-		if(!standingLeft) {
+		// falling
+		if(!standingLeft && !jumping) {
 			if(map[getYTiles()+1][((getXTiles()+30)/48)-2] == 0 && map[getYTiles()+1][((getXTiles()-15)/48)-2] == 0) {
 				isFalling = true;
 			}
-		} else if(standingLeft) {
-			if(map[getYTiles()+1][((getXTiles())/48)] == 1 || map[getYTiles()+1][((getXTiles()+15)/48)] == 1) {
-				System.out.println("asfijfnkkfnsnalkfkklk");
+		} else if(standingLeft && !jumping) {
+			if(map[getYTiles()+1][((getXTiles()-25)/48)] == 0 && map[getYTiles()+1][((getXTiles()+16)/48)] == 0) {
+				isFalling = true;
 			}
 		}
-		
-//		System.out.println("X Tiles: " + getXTiles()/48);
-//		System.out.println("Level x: " + level.getX());
-//		System.out.println("X: " + x);
-//		System.out.println("Left: " + left);
-//		System.out.println("Right: " + right + "\n");
-//		System.out.println(y);
-//		System.out.println("Falling: " + isFalling);
-//		System.out.println();
-//		System.out.println(calculateHit);
-		
 	}
 
 	public void render() {
@@ -358,7 +313,7 @@ public class Player {
 	}
 
 	public void drawJump(ImageView im) {
-		if (TargetJumpCounter <= 7 && !isFalling) {
+		if (TargetJumpCounter <= 7) {
 			im = jump[TargetJumpCounter+1];
 		} else {
 			im = drawFalling(im);
@@ -376,7 +331,9 @@ public class Player {
 	}
 
 	public ImageView drawFalling(ImageView im) {
-		im = jump[TargetJumpCounter];
+		if(TargetJumpCounter > 7) {
+			im = jump[TargetJumpCounter];
+		}
 		return im;
 	}
 
@@ -432,7 +389,11 @@ public class Player {
 	public int getYTiles() {
 		int position = (int) this.y / 480;
 		position += 2;
-		return position;
+		if(position < 14) {
+			return position;
+		}
+		return 1;
+		
 	}
 
 	/**
@@ -619,7 +580,8 @@ public class Player {
 	}
 
 	public void setStanding(boolean standing) {
-		this.isStanding = standing;
+		if(!isFalling)
+			this.isStanding = standing;
 	}
 
 	public boolean getStanding() {

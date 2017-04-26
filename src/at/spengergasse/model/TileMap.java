@@ -2,6 +2,7 @@ package at.spengergasse.model;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import at.spengergasse.gui.FrameFX;
 
@@ -40,6 +41,8 @@ public class TileMap {
 
 	private double smooth = 0.0;
 	
+	private ArrayList<Extensions> extentions;
+	
 	private String levelName;
 
 	public TileMap(int tileSize, String levelName, FrameFX frame) {
@@ -48,6 +51,7 @@ public class TileMap {
 		this.x = tileSize;
 		this.y = tileSize;
 		this.levelName = levelName;
+		this.extentions = new ArrayList<Extensions>();
 
 		left = false;
 		right = false;
@@ -94,6 +98,11 @@ public class TileMap {
 				String[] zeichen = line.split(" ");
 				for (int col = 0; col < mapLength; col++) {
 					map[row][col] = Integer.parseInt(zeichen[col]);
+					if(map[row][col] == 11) {
+						Extensions ext = new Extensions(g);
+						ext.initCoordinates(row, col);
+						extentions.add(ext);
+					}
 				}
 			}
 			col = 0;
@@ -115,10 +124,21 @@ public class TileMap {
 				smoothOutMovement(0.3);
 			}
 		}
+		if(!extentions.isEmpty()) {
+			for(Extensions e : extentions) {
+				e.checkCounter(g.getTargetFrameCounter());
+			}
+		}
 	}
 	
 	public void render() {
 		draw(new ImageView());
+		if(!extentions.isEmpty()) {
+			for(Extensions e : extentions) {
+				e.render();
+			}
+		}
+		
 	}
 	
 	public void draw(ImageView im) {
@@ -133,10 +153,11 @@ public class TileMap {
 				mapWidth--;
 			}
 		}
+		
 		for (int row = 0; row < mapHeight; row++) { // mapHeight
 			for (int i = col; i < mapWidth; i++) { // mapWidth
 				int rc = map[row][i];
-				if (rc != 0) {
+				if (rc != 0 && rc < 11) {
 					im = new ImageView(tiles[rc - 1]);
 					im.setFitHeight(tileSize);
 					im.setFitWidth(tileSize);
@@ -148,7 +169,6 @@ public class TileMap {
 				}
 			}
 		}
-
 	}
 
 	public void smoothOutMovement(double inc) {
@@ -181,6 +201,11 @@ public class TileMap {
 			resetMovement();
 			this.x = x;
 		}
+//		if(!extentions.isEmpty()) {
+//			for(Extentions e : extentions) {
+//				e.setX(x);
+//			}
+//		}
 	}
 
 	public double getY() {
@@ -189,6 +214,11 @@ public class TileMap {
 
 	public void setY(double y) {
 		this.y = y;
+//		if(!extentions.isEmpty()) {
+//			for(Extentions e : extentions) {
+//				e.setY(y);
+//			}
+//		}
 	}
 	
 	public boolean getLeft() {
@@ -211,6 +241,9 @@ public class TileMap {
 		if (x <= (mapLength - 19) * 48) {
 			if ((x + inc) <= (mapLength - 19) * 48) {
 				x += inc;
+				for(Extensions e : extentions) {
+					e.incX(e.getX()-inc);
+				}
 			} else {
 				x = (mapLength - 19) * 48;
 			}
@@ -222,6 +255,9 @@ public class TileMap {
 		if (x > 48) {
 			if ((x - inc) >= 48) {
 				x -= inc;
+				for(Extensions e : extentions) {
+					e.incX(e.getX()+inc);
+				}
 			} else {
 				x = 48;
 			}
@@ -261,23 +297,23 @@ public class TileMap {
 	public void loadImg() {
 		tiles = new Image[11];
 		Image untergrund = new Image(
-				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/untergrund.png"));
-		Image decke = new Image(getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/decke.png"));
-		Image block = new Image(getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/block.png"));
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/untergrund.gif"));
+		Image decke = new Image(getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/decke.gif"));
+		Image block = new Image(getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/block.gif"));
 		Image einzelblockU = new Image(
-				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/einzelblock_untergrund.png"));
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/einzelblock_untergrund.gif"));
 		Image fliegPlatEinz = new Image(getClass()
-				.getResourceAsStream("/at/spengergasse/resources/map/textures/fliegende_platform_einzelblock.png"));
+				.getResourceAsStream("/at/spengergasse/resources/map/textures/fliegende_platform_einzelblock.gif"));
 		Image fliegPlat = new Image(
-				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/fliegende_platform.png"));
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/fliegende_platform.gif"));
 		Image linksFliegPlat = new Image(
-				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/links_fliegende_platform.png"));
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/links_fliegende_platform.gif"));
 		Image linksUnter = new Image(
-				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/links_untergrund.png"));
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/links_untergrund.gif"));
 		Image rechtsFliegPlat = new Image(getClass()
-				.getResourceAsStream("/at/spengergasse/resources/map/textures/rechts_fliegende_platform.png"));
+				.getResourceAsStream("/at/spengergasse/resources/map/textures/rechts_fliegende_platform.gif"));
 		Image rechtsUnter = new Image(
-				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/rechts_untergrund.png"));
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/rechts_untergrund.gif"));
 
 		tiles[0] = untergrund;
 		tiles[1] = decke;

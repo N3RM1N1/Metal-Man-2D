@@ -5,6 +5,7 @@ import java.io.File;
 import javafx.animation.Timeline;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 
 public class Sound {
 	
@@ -12,7 +13,6 @@ public class Sound {
 	private MediaPlayer effects;
 
 	public Sound() {
-		// TODO Auto-generated constructor stub
 		String gameTrackFile = "src/at/spengergasse/resources/game/soundEffects/Game_Sound_Track.wav";
 		Media sound1 = new Media(new File(gameTrackFile).toURI().toString());
 		gameTrack = new MediaPlayer(sound1);

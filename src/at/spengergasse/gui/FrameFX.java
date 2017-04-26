@@ -3,13 +3,16 @@ package at.spengergasse.gui;
 import java.util.List;
 
 import at.spengergasse.controller.KeyBoard;
-import at.spengergasse.model.Extentions;
+import at.spengergasse.model.Enemies;
+import at.spengergasse.model.Extensions;
 import at.spengergasse.model.Player;
 import at.spengergasse.model.TileMap;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.paint.Color;
@@ -21,8 +24,9 @@ public class FrameFX extends Stage {
 
 	final private TileMap tileMap;
 	final private Player player;
-	final private Extentions ext;
 	final private Sound soundEffects;
+	final private Background background;
+	final private Enemies enemies;
 	private Timeline gameLoop;
 
 	// The counter for the player animation
@@ -33,23 +37,28 @@ public class FrameFX extends Stage {
 	
 	private Group root;
 	
+	
 	public FrameFX(List<String> args) {
 		super();
 		this.args = args;
 		
 		root = new Group();
 
-		Color background = new Color(0.165, 0.165, 0.165, 1);
+//		Color background = new Color(0.165, 0.165, 0.165, 1);
+		
 
-		Scene scene = new Scene(root, 960, 720, background); // 960 720 48
+		Scene scene = new Scene(root, 960, 720); // 960 720 48
+		
 
 		this.tileMap = new TileMap(48, "Level1.txt", this);
 
 		this.player = new Player(this, tileMap);
-		
-		this.ext = new Extentions(this, tileMap);
 
 		this.soundEffects = new Sound();
+		
+		this.background = new Background(this, tileMap, player);
+		
+		this.enemies = new Enemies(this, tileMap);
 
 		this.input = new KeyBoard(tileMap, player, soundEffects, this);
 		
@@ -58,6 +67,7 @@ public class FrameFX extends Stage {
 		
 		gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
+		
 		
 
 		
@@ -77,23 +87,27 @@ public class FrameFX extends Stage {
 				// Clear the scene
 				root.getChildren().clear();
 
+				// Render Background
+				background.render();
+
 				// Update the map
 				tileMap.render();
+				
+				// Rendering enemies
+				enemies.render();
 
 				// Drawing the player
 				player.render();
-				
-				ext.render();
 			}
 
 			private void update() {
 				targetFrameCounter++;
+				background.update();
 				player.checkCounter(targetFrameCounter);
-				ext.checkCounter(targetFrameCounter);
+				enemies.checkCoutner(targetFrameCounter);
 				tileMap.update();
+				enemies.update();
 				player.update();
-				ext.update();
-				
 			}
 			
 		});
