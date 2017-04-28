@@ -90,6 +90,8 @@ public class Enemies {
 			if(TargetFrameCounter == 6) {
 				TargetFrameCounter = 0;
 			}
+		} else if(targetCounter < TargetFrames) {
+			TargetFrames = targetCounter-1;
 		}
 		
 	}

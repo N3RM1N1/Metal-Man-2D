@@ -41,7 +41,7 @@ public class TileMap {
 
 	private double smooth = 0.0;
 	
-	private ArrayList<Extensions> extentions;
+	private ArrayList<Extensions> extensions;
 	
 	private String levelName;
 
@@ -51,7 +51,7 @@ public class TileMap {
 		this.x = tileSize;
 		this.y = tileSize;
 		this.levelName = levelName;
-		this.extentions = new ArrayList<Extensions>();
+		this.extensions = new ArrayList<Extensions>();
 
 		left = false;
 		right = false;
@@ -100,8 +100,7 @@ public class TileMap {
 					map[row][col] = Integer.parseInt(zeichen[col]);
 					if(map[row][col] == 11) {
 						Extensions ext = new Extensions(g);
-						ext.initCoordinates(row, col);
-						extentions.add(ext);
+						extensions.add(ext);
 					}
 				}
 			}
@@ -124,8 +123,8 @@ public class TileMap {
 				smoothOutMovement(0.3);
 			}
 		}
-		if(!extentions.isEmpty()) {
-			for(Extensions e : extentions) {
+		if(!extensions.isEmpty()) {
+			for(Extensions e : extensions) {
 				e.checkCounter(g.getTargetFrameCounter());
 			}
 		}
@@ -133,11 +132,6 @@ public class TileMap {
 	
 	public void render() {
 		draw(new ImageView());
-		if(!extentions.isEmpty()) {
-			for(Extensions e : extentions) {
-				e.render();
-			}
-		}
 		
 	}
 	
@@ -166,6 +160,9 @@ public class TileMap {
 					im.setTranslateX((i * tileSize) - x); // 352
 					im.setTranslateY((row * tileSize) - y); // 288
 					g.getRoot().getChildren().add(im);
+				} else if(rc == 11) {
+//					e.draw(new ImageView(), x, y);
+//					System.out.println(e);
 				}
 			}
 		}
@@ -201,11 +198,6 @@ public class TileMap {
 			resetMovement();
 			this.x = x;
 		}
-//		if(!extentions.isEmpty()) {
-//			for(Extentions e : extentions) {
-//				e.setX(x);
-//			}
-//		}
 	}
 
 	public double getY() {
@@ -214,11 +206,6 @@ public class TileMap {
 
 	public void setY(double y) {
 		this.y = y;
-//		if(!extentions.isEmpty()) {
-//			for(Extentions e : extentions) {
-//				e.setY(y);
-//			}
-//		}
 	}
 	
 	public boolean getLeft() {
@@ -241,9 +228,6 @@ public class TileMap {
 		if (x <= (mapLength - 19) * 48) {
 			if ((x + inc) <= (mapLength - 19) * 48) {
 				x += inc;
-				for(Extensions e : extentions) {
-					e.incX(e.getX()-inc);
-				}
 			} else {
 				x = (mapLength - 19) * 48;
 			}
@@ -255,9 +239,6 @@ public class TileMap {
 		if (x > 48) {
 			if ((x - inc) >= 48) {
 				x -= inc;
-				for(Extensions e : extentions) {
-					e.incX(e.getX()+inc);
-				}
 			} else {
 				x = 48;
 			}

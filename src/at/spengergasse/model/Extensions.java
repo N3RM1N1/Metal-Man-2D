@@ -9,9 +9,6 @@ public class Extensions {
 	private int TargetSpinCounter = 0;
 	private FrameFX g;
 
-	private double x;
-	private double y;
-
 
 	private boolean collected;
 
@@ -23,20 +20,7 @@ public class Extensions {
 		loadImg();
 	}
 
-	public void initCoordinates(int row, int col) {
-		y = row * 48;
-		x = col * 48;
-	}
-
-//	public void update() {
-//		
-//	}
-
-	public void render() {
-		draw(new ImageView());
-	}
-
-	public void draw(ImageView im) {
+	public void draw(ImageView im, double x, double y) {
 		if (TargetSpinCounter == 0 || TargetSpinCounter == 6) {
 			im = coin[0];
 		} else if (TargetSpinCounter == 1) {
@@ -63,26 +47,6 @@ public class Extensions {
 		if (targetCounter % 9 == 0) {
 			TargetSpinCounter++;
 		}
-	}
-
-	public double getX() {
-		return x;
-	}
-	
-	public void incX(double x) {
-		this.x = x;
-	}
-
-	public void setX(double x) {
-		this.x = ((int)(x-this.x)/48)*48;
-	}
-
-	public double getY() {
-		return y;
-	}
-
-	public void setY(double y) {
-		this.y = y;
 	}
 
 	public void loadImg() {
