@@ -68,7 +68,8 @@ public class FrameFX extends Stage {
 		gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
 		
-		
+		Image im = new Image("/at/spengergasse/icon/icon.jpg");
+		getIcons().add(im);
 
 		
 		KeyFrame kf = new KeyFrame(Duration.seconds(1.0 / 60.0), new EventHandler<ActionEvent>() {
