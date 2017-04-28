@@ -4,20 +4,13 @@ import java.util.List;
 
 import at.spengergasse.controller.KeyBoard;
 import at.spengergasse.model.Enemies;
-import at.spengergasse.model.Extensions;
 import at.spengergasse.model.Player;
 import at.spengergasse.model.TileMap;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import javafx.scene.paint.Color;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 
 public class FrameFX extends Stage {
@@ -27,7 +20,7 @@ public class FrameFX extends Stage {
 	final private Sound soundEffects;
 	final private Background background;
 	final private Enemies enemies;
-	private Timeline gameLoop;
+	final AnimationTimer gameLoop;
 
 	// The counter for the player animation
 	private int targetFrameCounter = 0;
@@ -65,25 +58,18 @@ public class FrameFX extends Stage {
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, input);
 		scene.addEventHandler(KeyEvent.KEY_RELEASED, input);
 		
-		gameLoop = new Timeline();
-		gameLoop.setCycleCount(Timeline.INDEFINITE);
-		
-		Image im = new Image("/at/spengergasse/icon/icon.jpg");
+		Image im = new Image("/at/spengergasse/icon/Icon2.png");
 		getIcons().add(im);
 
 		
-		KeyFrame kf = new KeyFrame(Duration.seconds(1.0 / 60.0), new EventHandler<ActionEvent>() {
+		gameLoop = new AnimationTimer() {
 			
-
 			@Override
-			public void handle(ActionEvent event) {
-
+			public void handle(long now) {
 				update();
-
 				render();
-				
 			}
-
+			
 			private void render() {
 				// Clear the scene
 				root.getChildren().clear();
@@ -110,11 +96,8 @@ public class FrameFX extends Stage {
 				enemies.update();
 				player.update();
 			}
-			
-		});
-
-		gameLoop.getKeyFrames().add(kf);
-		gameLoop.play();
+		};
+		gameLoop.start();
 		
 		setScene(scene);
 		setTitle("Metal Man 2D");
@@ -156,9 +139,8 @@ public class FrameFX extends Stage {
 	public Group getRoot() {
 		return root;
 	}
-
-
-	public Timeline getGameLoop() {
+	
+	public AnimationTimer getGameLoop() {
 		return gameLoop;
 	}
 }

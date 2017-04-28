@@ -277,35 +277,25 @@ public class TileMap {
 
 	public void loadImg() {
 		tiles = new Image[11];
-		Image untergrund = new Image(
-				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/untergrund.gif"));
-		Image decke = new Image(getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/decke.gif"));
-		Image block = new Image(getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/block.gif"));
-		Image einzelblockU = new Image(
-				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/einzelblock_untergrund.gif"));
-		Image fliegPlatEinz = new Image(getClass()
-				.getResourceAsStream("/at/spengergasse/resources/map/textures/fliegende_platform_einzelblock.gif"));
-		Image fliegPlat = new Image(
-				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/fliegende_platform.gif"));
-		Image linksFliegPlat = new Image(
-				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/links_fliegende_platform.gif"));
-		Image linksUnter = new Image(
-				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/links_untergrund.gif"));
-		Image rechtsFliegPlat = new Image(getClass()
-				.getResourceAsStream("/at/spengergasse/resources/map/textures/rechts_fliegende_platform.gif"));
-		Image rechtsUnter = new Image(
-				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/rechts_untergrund.gif"));
 
-		tiles[0] = untergrund;
-		tiles[1] = decke;
-		tiles[2] = block;
-		tiles[3] = einzelblockU;
-		tiles[4] = rechtsUnter;
-		tiles[5] = fliegPlat;
-		tiles[6] = linksFliegPlat;
-		tiles[7] = linksUnter;
-		tiles[8] = rechtsFliegPlat;
-		tiles[9] = fliegPlatEinz;
+		tiles[0] = new Image(
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/untergrund.gif"));
+		tiles[1] = new Image(getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/decke.gif"));
+		tiles[2] = new Image(getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/block.gif"));
+		tiles[3] = new Image(
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/einzelblock_untergrund.gif"));
+		tiles[4] = new Image(
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/rechts_untergrund.gif"));
+		tiles[5] = new Image(
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/fliegende_platform.gif"));
+		tiles[6] = new Image(getClass()
+				.getResourceAsStream("/at/spengergasse/resources/map/textures/links_fliegende_platform.gif"));
+		tiles[7] = new Image(
+				getClass().getResourceAsStream("/at/spengergasse/resources/map/textures/links_untergrund.gif"));
+		tiles[8] = new Image(getClass()
+				.getResourceAsStream("/at/spengergasse/resources/map/textures/rechts_fliegende_platform.gif"));
+		tiles[9] = new Image(getClass()
+				.getResourceAsStream("/at/spengergasse/resources/map/textures/fliegende_platform_einzelblock.gif"));
 	}
 
 }

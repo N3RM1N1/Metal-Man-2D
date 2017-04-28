@@ -7,7 +7,6 @@ import at.spengergasse.gui.FrameFX;
 import at.spengergasse.gui.Sound;
 import at.spengergasse.model.Player;
 import at.spengergasse.model.TileMap;
-import javafx.animation.Animation;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -60,12 +59,7 @@ public class KeyBoard implements EventHandler<KeyEvent>{
 				player.setFighting(true);
 			}
 			if(event.getCode() == KeyCode.ESCAPE) {
-				if(g.getGameLoop().getStatus() == Animation.Status.PAUSED) {
-					g.getGameLoop().play();
-				} else {
-					g.getGameLoop().pause();
-				}
-				
+				g.getGameLoop().stop();
 			}
 		} else if(event.getEventType() == KeyEvent.KEY_RELEASED) {
 			if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {
@@ -79,6 +73,9 @@ public class KeyBoard implements EventHandler<KeyEvent>{
 				player.setStanding(true);
 				tileMap.setLeft(false);
 				tileMap.resetMovement();
+			}
+			if(event.getCode() == KeyCode.ESCAPE) {
+				g.getGameLoop().start();
 			}
 		}
 	}
