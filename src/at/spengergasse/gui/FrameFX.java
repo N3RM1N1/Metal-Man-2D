@@ -42,12 +42,11 @@ public class FrameFX extends Stage {
 
 		Scene scene = new Scene(root, 948, 709, back); // 960 720 48
 		
+		this.soundEffects = new Sound();
 
-		this.tileMap = new TileMap(48, "Level1.txt", this);
+		this.tileMap = new TileMap(48, "Level1.txt", this, soundEffects);
 
 		this.player = new Player(this, tileMap);
-
-		this.soundEffects = new Sound();
 		
 		this.enemies = new Enemies(this, tileMap);
 
@@ -88,6 +87,7 @@ public class FrameFX extends Stage {
 				if(player.getX() == 192) {
 					tileMap.update();
 				}
+				tileMap.extUpdate();
 				enemies.update();
 				player.update();
 			}

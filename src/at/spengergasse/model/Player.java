@@ -110,7 +110,6 @@ public class Player {
 	}
 
 	public void update() {
-		System.out.println(level.getSmooth());
 		if(jumping && !isFalling) {
 			if(!standingLeft) {
 				if(right) {
@@ -196,7 +195,6 @@ public class Player {
 				setStanding(true);
 				level.setLeft(left);
 			} 
-			System.out.println(true);
 			
 		} else if(right && !left) {
 			
@@ -217,6 +215,9 @@ public class Player {
 				}
 				setStanding(true);
 				level.setRight(true);
+			}
+			if(map[getYTiles()][(getXTiles()/tileSize)-1] == 11 || map[getYTiles()-1][(getXTiles()/tileSize)-1] == 11) {
+				level.collect((getXTiles()/tileSize)-1);
 			}
 			 
 		} else if(left && right) {
@@ -240,7 +241,6 @@ public class Player {
 		}
 		
 		if(y/10 > g.getScene().getHeight()) {
-			System.out.println(true);
 			g.getGameLoop().stop();
 			System.exit(0);
 		}

@@ -26,7 +26,14 @@ public class Sound {
 		effects = new MediaPlayer(sound);
 		effects.setVolume(0.3);
 		effects.play();
-		
+	}
+	
+	public void playCoinSound() {
+		String coinCollectSoundFile = "src/at/spengergasse/resources/game/soundEffects/Pickup_Coin.wav";
+		Media sound = new Media(new File(coinCollectSoundFile).toURI().toString());
+		effects = new MediaPlayer(sound);
+		effects.setVolume(0.4);
+		effects.play();
 	}
 
 }
