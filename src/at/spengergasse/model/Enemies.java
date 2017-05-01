@@ -7,9 +7,9 @@ import javafx.scene.image.ImageView;
 public class Enemies {
 	
 	private FrameFX g;
-	private TileMap map;
-	
-	private boolean defeated;
+//	private TileMap map;
+//	
+//	private boolean defeated;
 	
 	private boolean left;
 	private boolean right;
@@ -24,8 +24,8 @@ public class Enemies {
 
 	public Enemies(FrameFX g, TileMap map) {
 		this.g = g;
-		this.map = map;
-		this.defeated = false;
+//		this.map = map;
+//		this.defeated = false;
 		this.left = false;
 		this.right = true;
 		this.x = 400;

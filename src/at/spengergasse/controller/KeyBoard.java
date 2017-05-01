@@ -58,9 +58,6 @@ public class KeyBoard implements EventHandler<KeyEvent>{
 			} else if(event.getCode() == KeyCode.E) {
 				player.setFighting(true);
 			}
-			if(event.getCode() == KeyCode.ESCAPE) {
-				g.getGameLoop().stop();
-			}
 		} else if(event.getEventType() == KeyEvent.KEY_RELEASED) {
 			if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {
 				player.setRight(false);
@@ -73,9 +70,6 @@ public class KeyBoard implements EventHandler<KeyEvent>{
 				player.setStanding(true);
 				tileMap.setLeft(false);
 				tileMap.resetMovement();
-			}
-			if(event.getCode() == KeyCode.ESCAPE) {
-				g.getGameLoop().start();
 			}
 		}
 	}

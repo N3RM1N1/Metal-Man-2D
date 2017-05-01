@@ -8,7 +8,7 @@ public class Player {
 
 	// Walking speed, start and maximum walk speed. Player starts slower and
 	// gets faster
-	private final double WALKSPEED = 0.3;
+	private final double WALKSPEED = 1.0;
 
 	// Boolean Values for standing and falling
 	private boolean isStanding;
@@ -24,19 +24,9 @@ public class Player {
 	private final double GRAVITY = 5;
 
 	// The coordinates of the player
-	private static double x = 192;
+	private double x = 192;
 
-	
-
-	public static double getX() {
-		return x;
-	}
-
-	public static void setX(double x) {
-		Player.x = x;
-	}
-
-	private double y = 5750;
+	private double y = 3750;
 	private double calculateHit = y;
 
 	// The counter for the Frames
@@ -60,7 +50,7 @@ public class Player {
 	private boolean jumping;
 
 	private TileMap level;
-
+	final int tileSize;
 	private int[][] map;
 
 	public Player(FrameFX frame, TileMap level) {
@@ -71,6 +61,7 @@ public class Player {
 		left = false;
 		jumping = false;
 		this.level = level;
+		this.tileSize = level.getTileSize();
 		map = level.getMap();
 		loadImg();
 	}
@@ -119,27 +110,28 @@ public class Player {
 	}
 
 	public void update() {
+		System.out.println(level.getSmooth());
 		if(jumping && !isFalling) {
 			if(!standingLeft) {
 				if(right) {
-					if(map[getYTiles()-2][(getXTiles()/48)-1] == 2
-							|| map[getYTiles()-2][(getXTiles()/48)-1] == 3) {
+					if(map[getYTiles()-2][(getXTiles()/tileSize)-1] == 2
+							|| map[getYTiles()-2][(getXTiles()/tileSize)-1] == 3) {
 						if(VELOCITY > 0) {
 							VELOCITY = 0;
 						}
 						isFalling = true;
 					}
 				}
-	 			if(map[getYTiles()-2][(getXTiles()/48)-2] == 2 
-	 					|| map[getYTiles()-2][(getXTiles()/48)-2] == 3) {
+	 			if(map[getYTiles()-2][(getXTiles()/tileSize)-2] == 2 
+	 					|| map[getYTiles()-2][(getXTiles()/tileSize)-2] == 3) {
 					if(VELOCITY > 0) {
 						VELOCITY = 0;
 					}
 					isFalling = true;
 				}
 			} else if(standingLeft) {
-				if(map[getYTiles()-2][(getXTiles()/48)] == 2 
-						|| map[getYTiles()-2][(getXTiles()/48)] == 3) {
+				if(map[getYTiles()-2][(getXTiles()/tileSize)] == 2 
+						|| map[getYTiles()-2][(getXTiles()/tileSize)] == 3) {
 					if(VELOCITY > 0) {
 						VELOCITY = 0;
 					}
@@ -152,30 +144,30 @@ public class Player {
 
 		} else if(isFalling) {
 			if(standingLeft) {
-				if(map[getYTiles()+1][((getXTiles()+20)/48)-1] == 1 || map[getYTiles()+1][((getXTiles()+20)/48)] == 1
-						|| map[getYTiles()+1][((getXTiles()+20)/48)-1] == 5 || map[getYTiles()+1][((getXTiles()+20)/48)] == 5
-						|| map[getYTiles()+1][((getXTiles()+20)/48)-1] == 10 || map[getYTiles()+1][((getXTiles()+20)/48)] == 10
-						|| map[getYTiles()+1][((getXTiles()+20)/48)-1] == 3 || map[getYTiles()+1][((getXTiles()+20)/48)] == 3
-						|| map[getYTiles()+1][((getXTiles()+20)/48)-1] == 4 || map[getYTiles()+1][((getXTiles()+20)/48)] == 4
-						|| map[getYTiles()+1][((getXTiles()+20)/48)-1] == 6 || map[getYTiles()+1][((getXTiles()+20)/48)] == 6
-						|| map[getYTiles()+1][((getXTiles()+20)/48)-1] == 7 || map[getYTiles()+1][((getXTiles()+20)/48)] == 7
-						|| map[getYTiles()+1][((getXTiles()+20)/48)-1] == 8 || map[getYTiles()+1][((getXTiles()+20)/48)] == 8
-						|| map[getYTiles()+1][((getXTiles()+20)/48)-1] == 9 || map[getYTiles()+1][((getXTiles()+20)/48)] == 9) {
-					calculateHit = ((getYTiles())*480)-490;
+				if(map[getYTiles()+1][((getXTiles()+20)/tileSize)-1] == 1 || map[getYTiles()+1][((getXTiles()+20)/tileSize)] == 1
+						|| map[getYTiles()+1][((getXTiles()+20)/tileSize)-1] == 5 || map[getYTiles()+1][((getXTiles()+20)/tileSize)] == 5
+						|| map[getYTiles()+1][((getXTiles()+20)/tileSize)-1] == 10 || map[getYTiles()+1][((getXTiles()+20)/tileSize)] == 10
+						|| map[getYTiles()+1][((getXTiles()+20)/tileSize)-1] == 3 || map[getYTiles()+1][((getXTiles()+20)/tileSize)] == 3
+						|| map[getYTiles()+1][((getXTiles()+20)/tileSize)-1] == 4 || map[getYTiles()+1][((getXTiles()+20)/tileSize)] == 4
+						|| map[getYTiles()+1][((getXTiles()+20)/tileSize)-1] == 6 || map[getYTiles()+1][((getXTiles()+20)/tileSize)] == 6
+						|| map[getYTiles()+1][((getXTiles()+20)/tileSize)-1] == 7 || map[getYTiles()+1][((getXTiles()+20)/tileSize)] == 7
+						|| map[getYTiles()+1][((getXTiles()+20)/tileSize)-1] == 8 || map[getYTiles()+1][((getXTiles()+20)/tileSize)] == 8
+						|| map[getYTiles()+1][((getXTiles()+20)/tileSize)-1] == 9 || map[getYTiles()+1][((getXTiles()+20)/tileSize)] == 9) {
+					calculateHit = ((getYTiles())*(tileSize*10))-((tileSize*10)+10);
 				} else  {
 					calculateHit += FALLINGSPEEDMAX;
 				}
 			} else if(!standingLeft) {
-				if(map[getYTiles()+1][((getXTiles()+30)/48)-2] == 1 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 1
-						|| map[getYTiles()+1][((getXTiles()+30)/48)-2] == 5 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 5
-						|| map[getYTiles()+1][((getXTiles()+30)/48)-2] == 10 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 10
-						|| map[getYTiles()+1][((getXTiles()+30)/48)-2] == 3 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 3
-						|| map[getYTiles()+1][((getXTiles()+30)/48)-2] == 4 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 4
-						|| map[getYTiles()+1][((getXTiles()+30)/48)-2] == 6 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 6
-						|| map[getYTiles()+1][((getXTiles()+30)/48)-2] == 7 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 7
-						|| map[getYTiles()+1][((getXTiles()+30)/48)-2] == 8 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 8
-						|| map[getYTiles()+1][((getXTiles()+30)/48)-2] == 9 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 9) {
-					calculateHit = ((getYTiles())*480)-490;
+				if(map[getYTiles()+1][((getXTiles()+30)/tileSize)-2] == 1 || map[getYTiles()+1][((getXTiles()+30)/tileSize)-3] == 1
+						|| map[getYTiles()+1][((getXTiles()+30)/tileSize)-2] == 5 || map[getYTiles()+1][((getXTiles()+30)/tileSize)-3] == 5
+						|| map[getYTiles()+1][((getXTiles()+30)/tileSize)-2] == 10 || map[getYTiles()+1][((getXTiles()+30)/tileSize)-3] == 10
+						|| map[getYTiles()+1][((getXTiles()+30)/tileSize)-2] == 3 || map[getYTiles()+1][((getXTiles()+30)/tileSize)-3] == 3
+						|| map[getYTiles()+1][((getXTiles()+30)/tileSize)-2] == 4 || map[getYTiles()+1][((getXTiles()+30)/tileSize)-3] == 4
+						|| map[getYTiles()+1][((getXTiles()+30)/tileSize)-2] == 6 || map[getYTiles()+1][((getXTiles()+30)/tileSize)-3] == 6
+						|| map[getYTiles()+1][((getXTiles()+30)/tileSize)-2] == 7 || map[getYTiles()+1][((getXTiles()+30)/tileSize)-3] == 7
+						|| map[getYTiles()+1][((getXTiles()+30)/tileSize)-2] == 8 || map[getYTiles()+1][((getXTiles()+30)/tileSize)-3] == 8
+						|| map[getYTiles()+1][((getXTiles()+30)/tileSize)-2] == 9 || map[getYTiles()+1][((getXTiles()+30)/tileSize)-3] == 9) {
+					calculateHit = ((getYTiles())*(tileSize*10))-((tileSize*10)+10);
 				} else {
 					calculateHit += FALLINGSPEEDMAX;
 				}
@@ -185,60 +177,74 @@ public class Player {
 		
 		if(left && !right) {
 			
-			if(map[getYTiles()][(getXTiles()/48)-1] != 3 && map[getYTiles()-1][(getXTiles()/48)-1] != 3 
-					&& map[getYTiles()][getXTiles()/48-1] != 1 && map[getYTiles()-1][(getXTiles()/48)-1] != 1 
-					&& map[getYTiles()][getXTiles()/48-1] != 2 && map[getYTiles()-1][(getXTiles()/48)-1] != 2) {
+			if(map[getYTiles()][(getXTiles()/tileSize)-1] != 3 && map[getYTiles()-1][(getXTiles()/tileSize)-1] != 3 
+					&& map[getYTiles()][getXTiles()/tileSize-1] != 1 && map[getYTiles()-1][(getXTiles()/tileSize)-1] != 1 
+					&& map[getYTiles()][getXTiles()/tileSize-1] != 2 && map[getYTiles()-1][(getXTiles()/tileSize)-1] != 2) {
 				walkLeft(level.getSmooth());
 				moveLeft();
 				
 			} else {
 				if(x == 192) {
-					level.setX((int) (((getXTiles()/48)-3)*48)-1);
+					level.setX((int) (((getXTiles()/tileSize)-3)*tileSize)-1);
+				} else if(level.getSmooth() > 1.0) {
+					setX((((int)(x/tileSize))*tileSize)+(tileSize-1));
 				} else {
-					setX((((int)(x/48))*48)+47);
+					walkLeft(level.getSmooth());
+					moveLeft();
 				}
 				
 				setStanding(true);
 				level.setLeft(left);
 			} 
+			System.out.println(true);
 			
 		} else if(right && !left) {
 			
-			if(map[getYTiles()][(getXTiles()/48)-1] != 3 && map[getYTiles()-1][(getXTiles()/48)-1] != 3 
-					&& map[getYTiles()][getXTiles()/48-1] != 1 && map[getYTiles()-1][(getXTiles()/48)-1] != 1 
-					&& map[getYTiles()][getXTiles()/48-1] != 2 && map[getYTiles()-1][(getXTiles()/48)-1] != 2) {
+			if(map[getYTiles()][(getXTiles()/tileSize)-1] != 3 && map[getYTiles()-1][(getXTiles()/tileSize)-1] != 3 
+					&& map[getYTiles()][getXTiles()/tileSize-1] != 1 && map[getYTiles()-1][(getXTiles()/tileSize)-1] != 1 
+					&& map[getYTiles()][getXTiles()/tileSize-1] != 2 && map[getYTiles()-1][(getXTiles()/tileSize)-1] != 2) {
 				walkRight(level.getSmooth());
 				moveRight();
 				
 			} else {
 				if(x == 192) {
-					level.setX((int)(((getXTiles()/48)-5)*48)-28);
+					level.setX((int)(((getXTiles()/tileSize)-5)*tileSize)-28);
+				} else if(level.getSmooth() > 1.0) {
+					setX((((int)(x/tileSize))*tileSize)+20);
 				} else {
-					setX((((int)(x/48))*48)+20);
+					walkRight(level.getSmooth());
+					moveRight();
 				}
 				setStanding(true);
-				level.setRight(right);
-			}
-			if(map[getYTiles()+1][((getXTiles()+30)/48)-2] == 1 || map[getYTiles()+1][((getXTiles()+30)/48)-3] == 1) {
-				
+				level.setRight(true);
 			}
 			 
 		} else if(left && right) {
 			setStanding(true);
 		} else {
+			left = false;
+			right = false;
 			setStanding(true);
+			
 		}
 		
 		// falling
 		if(!standingLeft && !jumping) {
-			if(map[getYTiles()+1][((getXTiles()+30)/48)-2] == 0 && map[getYTiles()+1][((getXTiles()-15)/48)-2] == 0) {
+			if(map[getYTiles()+1][((getXTiles()+30)/tileSize)-2] == 0 && map[getYTiles()+1][((getXTiles()-15)/tileSize)-2] == 0) {
 				isFalling = true;
 			}
 		} else if(standingLeft && !jumping) {
-			if(map[getYTiles()+1][((getXTiles()-25)/48)] == 0 && map[getYTiles()+1][((getXTiles()+16)/48)] == 0) {
+			if(map[getYTiles()+1][((getXTiles()-25)/tileSize)] == 0 && map[getYTiles()+1][((getXTiles()+16)/tileSize)] == 0) {
 				isFalling = true;
 			}
 		}
+		
+		if(y/10 > g.getScene().getHeight()) {
+			System.out.println(true);
+			g.getGameLoop().stop();
+			System.exit(0);
+		}
+		
 	}
 
 	public void render() {
@@ -271,7 +277,8 @@ public class Player {
 		} else if (TargetStandingCounter == 5) {
 			im = standing[4];
 		}
-
+//		im.setFitHeight(139);
+//		im.setFitWidth(110);
 		im.setTranslateX(x); // 96 x 78
 		im.setTranslateY(y / 10);
 		if (standingLeft == true) {
@@ -302,6 +309,8 @@ public class Player {
 				im = running[7];
 			}
 		}
+//		im.setFitHeight(139);
+//		im.setFitWidth(100);
 		im.setTranslateX(x + 3);
 		im.setTranslateY(y / 10);
 		if (left == true) {
@@ -318,7 +327,9 @@ public class Player {
 		} else {
 			im = drawFalling(im);
 		}
-
+		
+//		im.setFitHeight(139);
+//		im.setFitWidth(110);
 		im.setTranslateX(x);
 		im.setTranslateY(y / 10);
 		if (standingLeft == true) {
@@ -331,7 +342,7 @@ public class Player {
 	}
 
 	public ImageView drawFalling(ImageView im) {
-		if(TargetJumpCounter > 7) {
+		if(TargetJumpCounter > 7 && TargetJumpCounter < 14) {
 			im = jump[TargetJumpCounter];
 		}
 		return im;
@@ -364,7 +375,8 @@ public class Player {
 		} else {
 			isFighting = false;
 		}
-
+//		im.setFitHeight(139);
+//		im.setFitWidth(110);
 		im.setTranslateX(x);
 		im.setTranslateY((y / 10) - 23);
 		if (standingLeft == true) {
@@ -387,7 +399,7 @@ public class Player {
 	}
 
 	public int getYTiles() {
-		int position = (int) this.y / 480;
+		int position = ((int) this.y / (tileSize*10));
 		position += 2;
 		if(position < 14) {
 			return position;
@@ -404,123 +416,102 @@ public class Player {
 	public void loadImg() {
 		standing = new ImageView[5];
 
-		ImageView image1 = new ImageView(new Image(getClass()
+		standing[0] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/standing/player-frame_1.gif")));
-		standing[0] = image1;
-		image1 = new ImageView(new Image(getClass()
+		standing[1] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/standing/player-frame_2.gif")));
-		standing[1] = image1;
-		image1 = new ImageView(new Image(getClass()
+		standing[2] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/standing/player-frame_3.gif")));
-		standing[2] = image1;
-		image1 = new ImageView(new Image(getClass()
+		standing[3] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/standing/player-frame_4.gif")));
-		standing[3] = image1;
-		image1 = new ImageView(new Image(getClass()
+		standing[4] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/standing/player-frame_5.gif")));
-		standing[4] = image1;
 
 		running = new ImageView[8];
 
-		image1 = new ImageView(new Image(getClass()
+		running[0] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/running/frame_0_delay-0.13s.gif")));
-		running[0] = image1;
-		image1 = new ImageView(new Image(getClass()
+		running[1] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/running/frame_1_delay-0.13s.gif")));
-		running[1] = image1;
-		image1 = new ImageView(new Image(getClass()
+		running[2] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/running/frame_2_delay-0.13s.gif")));
-		running[2] = image1;
-		image1 = new ImageView(new Image(getClass()
+		running[3] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/running/frame_3_delay-0.13s.gif")));
-		running[3] = image1;
-		image1 = new ImageView(new Image(getClass()
+		running[4] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/running/frame_4_delay-0.13s.gif")));
-		running[4] = image1;
-		image1 = new ImageView(new Image(getClass()
+		running[5] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/running/frame_5_delay-0.13s.gif")));
-		running[5] = image1;
-		image1 = new ImageView(new Image(getClass()
+		running[6] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/running/frame_6_delay-0.13s.gif")));
-		running[6] = image1;
-		image1 = new ImageView(new Image(getClass()
+		running[7] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/running/frame_7_delay-0.13s.gif")));
-		running[7] = image1;
 
 		jump = new ImageView[15];
 
-		image1 = new ImageView(new Image(getClass()
+		jump[0] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_0_delay-0.13s.gif")));
-		jump[0] = image1;
-		image1 = new ImageView(new Image(getClass()
+
+		jump[1] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_1_delay-0.13s.gif")));
-		jump[1] = image1;
-		image1 = new ImageView(new Image(getClass()
+
+		jump[2] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_2_delay-0.06s.gif")));
-		jump[2] = image1;
-		image1 = new ImageView(new Image(getClass()
+
+		jump[3] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_3_delay-0.06s.gif")));
-		jump[3] = image1;
-		image1 = new ImageView(new Image(getClass()
+
+		jump[4] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_4_delay-0.06s.gif")));
-		jump[4] = image1;
-		image1 = new ImageView(new Image(getClass()
+
+		jump[5] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_5_delay-0.06s.gif")));
-		jump[5] = image1;
-		image1 = new ImageView(new Image(getClass()
+
+		jump[6] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_6_delay-0.06s.gif")));
-		jump[6] = image1;
-		image1 = new ImageView(new Image(getClass()
+
+		jump[7] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_7_delay-0.06s.gif")));
-		jump[7] = image1;
-		image1 = new ImageView(new Image(getClass()
+		
+		jump[8] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_8_delay-0.06s.gif")));
-		jump[8] = image1;
-		image1 = new ImageView(new Image(getClass()
+
+		jump[9] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_9_delay-0.03s.gif")));
-		jump[9] = image1;
-		image1 = new ImageView(new Image(getClass()
+
+		jump[10] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_10_delay-0.03s.gif")));
-		jump[10] = image1;
-		image1 = new ImageView(new Image(getClass()
+
+		jump[11] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_11_delay-0.13s.gif")));
-		jump[11] = image1;
-		image1 = new ImageView(new Image(getClass()
+
+		jump[12] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_12_delay-0.13s.gif")));
-		jump[12] = image1;
-		image1 = new ImageView(new Image(getClass()
+
+		jump[13] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/jump/frame_13_delay-0.06s.gif")));
-		jump[13] = image1;
 
 		fight = new ImageView[7];
 
-		image1 = new ImageView(new Image(getClass()
+		fight[0] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/fight/frame_0_delay-0.33s.gif")));
-		fight[0] = image1;
 
-		image1 = new ImageView(new Image(getClass()
+		fight[1] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/fight/frame_1_delay-0.1s.gif")));
-		fight[1] = image1;
 
-		image1 = new ImageView(new Image(getClass()
+		fight[2] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/fight/frame_2_delay-0.1s.gif")));
-		fight[2] = image1;
 
-		image1 = new ImageView(new Image(getClass()
+		fight[3] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/fight/frame_3_delay-0.1s.gif")));
-		fight[3] = image1;
 
-		image1 = new ImageView(new Image(getClass()
+		fight[4] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/fight/frame_4_delay-0.1s.gif")));
-		fight[4] = image1;
 
-		image1 = new ImageView(new Image(getClass()
+		fight[5] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/fight/frame_5_delay-0.06s.gif")));
-		fight[5] = image1;
 
-		image1 = new ImageView(new Image(getClass()
+		fight[6] = new ImageView(new Image(getClass()
 				.getResourceAsStream("/at/spengergasse/resources/player/frames/fight/frame_6_delay-0.1s.gif")));
-		fight[6] = image1;
 
 	}
 
@@ -532,6 +523,14 @@ public class Player {
 
 	public void setFalling(boolean falling) {
 		this.isFalling = falling;
+	}
+	
+	public double getX() {
+		return x;
+	}
+
+	public void setX(double x) {
+		this.x = x;
 	}
 
 	public boolean isLeft() {

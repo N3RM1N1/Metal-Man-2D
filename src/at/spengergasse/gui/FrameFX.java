@@ -12,13 +12,13 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 
 public class FrameFX extends Stage {
 
 	final private TileMap tileMap;
 	final private Player player;
 	final private Sound soundEffects;
-	final private Background background;
 	final private Enemies enemies;
 	final AnimationTimer gameLoop;
 
@@ -37,10 +37,10 @@ public class FrameFX extends Stage {
 		
 		root = new Group();
 
-//		Color background = new Color(0.165, 0.165, 0.165, 1);
+		Color back = new Color(0.07,0.231,0.29, 1);
 		
 
-		Scene scene = new Scene(root, 960, 720); // 960 720 48
+		Scene scene = new Scene(root, 948, 709, back); // 960 720 48
 		
 
 		this.tileMap = new TileMap(48, "Level1.txt", this);
@@ -48,8 +48,6 @@ public class FrameFX extends Stage {
 		this.player = new Player(this, tileMap);
 
 		this.soundEffects = new Sound();
-		
-		this.background = new Background(this, tileMap, player);
 		
 		this.enemies = new Enemies(this, tileMap);
 
@@ -60,7 +58,6 @@ public class FrameFX extends Stage {
 		
 		Image im = new Image("/at/spengergasse/icon/Icon2.png");
 		getIcons().add(im);
-
 		
 		gameLoop = new AnimationTimer() {
 			
@@ -74,9 +71,6 @@ public class FrameFX extends Stage {
 				// Clear the scene
 				root.getChildren().clear();
 
-				// Render Background
-				background.render();
-
 				// Update the map
 				tileMap.render();
 				
@@ -89,10 +83,11 @@ public class FrameFX extends Stage {
 
 			private void update() {
 				targetFrameCounter++;
-				background.update();
 				player.checkCounter(targetFrameCounter);
 				enemies.checkCoutner(targetFrameCounter);
-				tileMap.update();
+				if(player.getX() == 192) {
+					tileMap.update();
+				}
 				enemies.update();
 				player.update();
 			}
@@ -101,7 +96,8 @@ public class FrameFX extends Stage {
 		
 		setScene(scene);
 		setTitle("Metal Man 2D");
-		setResizable(true);
+		setResizable(false);
+		setFullScreen(false);
 		show();
 	}
 

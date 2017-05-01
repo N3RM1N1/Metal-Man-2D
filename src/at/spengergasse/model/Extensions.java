@@ -10,12 +10,12 @@ public class Extensions {
 	private FrameFX g;
 
 
-	private boolean collected;
+//	private boolean collected;
 
 	private ImageView[] coin;
 
 	public Extensions(FrameFX frame) {
-		collected = false;
+//		collected = false;
 		this.g = frame;
 		loadImg();
 	}

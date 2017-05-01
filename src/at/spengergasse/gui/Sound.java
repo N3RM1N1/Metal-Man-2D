@@ -5,7 +5,6 @@ import java.io.File;
 import javafx.animation.Timeline;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
 
 public class Sound {
 	

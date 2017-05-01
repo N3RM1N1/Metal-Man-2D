@@ -3,7 +3,6 @@ package at.spengergasse.gui;
 import java.util.List;
 
 import javafx.application.Application;
-import javafx.scene.image.*;
 
 import javafx.stage.Stage;
 

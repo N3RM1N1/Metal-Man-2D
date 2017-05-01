@@ -1,66 +1,43 @@
 package at.spengergasse.gui;
 
-import at.spengergasse.model.Player;
-import at.spengergasse.model.TileMap;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import java.util.Random;
+
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public class Background {
 	
 	private FrameFX g;
 	
-	private TileMap map;
-	
-	private Player player;
-	
-	private ImageView background;
-	private ImageView background2;
-	
 	private double x;
+	private double y;
+	
+	private int size;
 
-	public Background(FrameFX game, TileMap map, Player p) {
-		
+	public Background(FrameFX game) {
 		this.g = game;
-		
-		this.map = map;
-		
-		this.player = p;
-		
-		this.x = 0;
-		
-		background = new ImageView(new Image(("/at/spengergasse/resources/map/textures/space_background.gif")));
-		background2 = new ImageView(new Image(("/at/spengergasse/resources/map/textures/space_background.gif")));
-		background.setTranslateX(x);
-		background2.setTranslateX(background.getFitWidth());
+		Random r = new Random();
+		x = r.nextInt(1600)+48;
+		y = r.nextInt(624)+48;
+		size = r.nextInt(2) + 3;
 	}
 	
-	public void draw() {
-		background.setTranslateX(x);
-		background.setTranslateY(0);
+	public void draw(Rectangle r) {
 		
-		g.getRoot().getChildren().add(background);
-		g.getRoot().getChildren().add(background2);
+		r = new Rectangle(size,size,Color.WHITE);
+		r.setTranslateX(x);
+		r.setTranslateY(y);
+		g.getRoot().getChildren().add(r);
 	}
 	
 	public void render() {
-		draw();
+		draw(new Rectangle());
 	}
 	
-	public void update() {
-		if(map.getLeft() && !map.isBeginning() && !map.isEnd() && !player.getStanding()) {
-			moveLeft();
-		} else if(map.getRight() && !map.isBeginning() && !map.isEnd() && !player.getStanding()) {
-			moveRight();
-		}
-		background2.setTranslateX(x+960);
+	public void left() {
+		x += 1;
 	}
-	
-	public void moveLeft() {
-		x += 1.0;
+	public void right() {
+		x -= 1;
 	}
-	
-	public void moveRight() {
-		x -= 1.0;
-	}
-
 }

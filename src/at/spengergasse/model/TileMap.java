@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import at.spengergasse.gui.Background;
 import at.spengergasse.gui.FrameFX;
 
 import java.io.BufferedReader;
@@ -42,6 +43,7 @@ public class TileMap {
 	private double smooth = 0.0;
 	
 	private ArrayList<Extensions> extensions;
+	private ArrayList<Background> stars;
 	
 	private String levelName;
 
@@ -51,7 +53,8 @@ public class TileMap {
 		this.x = tileSize;
 		this.y = tileSize;
 		this.levelName = levelName;
-		this.extensions = new ArrayList<Extensions>();
+		this.extensions = new ArrayList<>();
+		this.stars = new ArrayList<>();
 
 		left = false;
 		right = false;
@@ -73,6 +76,10 @@ public class TileMap {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+		
+		for(int i = 0; i < 30; i ++) {
+			stars.add(new Background(g));
 		}
 	}
 
@@ -105,7 +112,7 @@ public class TileMap {
 				}
 			}
 			col = 0;
-			mapWidth = 21;
+			mapWidth = 25;
 			fr.close();
 			br.close();
 		} catch (FileNotFoundException e) {
@@ -114,7 +121,6 @@ public class TileMap {
 	}
 
 	public void update() {
-		if(Player.getX() == 192) {
 			if (left == true && right == false) {
 				left(smooth);
 				smoothOutMovement(0.3);
@@ -122,7 +128,7 @@ public class TileMap {
 				right(smooth);
 				smoothOutMovement(0.3);
 			}
-		}
+		
 		if(!extensions.isEmpty()) {
 			for(Extensions e : extensions) {
 				e.checkCounter(g.getTargetFrameCounter());
@@ -148,6 +154,11 @@ public class TileMap {
 			}
 		}
 		
+		// stars for the background
+		for(Background b : stars) {
+			b.render();
+		}
+		
 		for (int row = 0; row < mapHeight; row++) { // mapHeight
 			for (int i = col; i < mapWidth; i++) { // mapWidth
 				int rc = map[row][i];
@@ -160,9 +171,6 @@ public class TileMap {
 					im.setTranslateX((i * tileSize) - x); // 352
 					im.setTranslateY((row * tileSize) - y); // 288
 					g.getRoot().getChildren().add(im);
-				} else if(rc == 11) {
-//					e.draw(new ImageView(), x, y);
-//					System.out.println(e);
 				}
 			}
 		}
@@ -177,7 +185,7 @@ public class TileMap {
 	}
 
 	public void resetMovement() {
-		smooth = 0.0;
+		smooth = 1.0;
 
 	}
 
@@ -187,12 +195,16 @@ public class TileMap {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public int getTileSize() {
+		return this.tileSize;
+	}
+	
 	public double getX() {
 		return x;
 	}
 
 	public void setX(double x) {
-		if(x >= 48) {
+		if(x >= tileSize) {
 			left = false;
 			right = false;
 			resetMovement();
@@ -225,24 +237,35 @@ public class TileMap {
 	}
 
 	public void right(double inc) {
-		if (x <= (mapLength - 19) * 48) {
-			if ((x + inc) <= (mapLength - 19) * 48) {
+		if (x <= (mapLength - 19) * tileSize) {
+			if ((x + inc) <= (mapLength - 19) * tileSize) {
 				x += inc;
 			} else {
-				x = (mapLength - 19) * 48;
+				x = (mapLength - 19) * tileSize;
 			}
 		}
-
+		if(inc > 1.0) {
+			for(Background b : stars) {
+				b.right();
+			}
+		}
+		
 	}
 
 	public void left(double inc) {
-		if (x > 48) {
-			if ((x - inc) >= 48) {
+		if (x > tileSize) {
+			if ((x - inc) >= tileSize) {
 				x -= inc;
 			} else {
-				x = 48;
+				x = tileSize;
 			}
 		}
+		if(inc > 1.0) {
+			for(Background b : stars) {
+				b.left();
+			}
+		}
+		
 	}
 
 	public boolean isBeginning() {
@@ -253,7 +276,7 @@ public class TileMap {
 	}
 
 	public boolean isEnd() {
-		if(x >= (mapLength-19) * 48) {
+		if(x >= (mapLength-19) * tileSize) {
 			return true;
 		}
 		return false;
