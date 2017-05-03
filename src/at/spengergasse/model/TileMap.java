@@ -28,7 +28,7 @@ public class TileMap {
 	private double x;
 	private double y;
 	// Height and width of the Map
-	private int mapWidth;
+	private int bufferedLength;
 	private int mapHeight;
 	private int mapLength;
 
@@ -43,6 +43,7 @@ public class TileMap {
 
 	private double smooth = 0.0;
 
+	private ArrayList<Enemies> enemies;
 	private ArrayList<Extensions> extensions;
 	private ArrayList<Background> stars;
 	
@@ -58,6 +59,7 @@ public class TileMap {
 		this.levelName = levelName;
 		this.extensions = new ArrayList<>();
 		this.stars = new ArrayList<>();
+		this.enemies = new ArrayList<>();
 		
 		this.soundEffects = effects;
 
@@ -113,12 +115,14 @@ public class TileMap {
 					if (map[row][col] == 11) {
 						Extensions ext = new Extensions(g, col * tileSize, row * tileSize, col, soundEffects);
 						extensions.add(ext);
-						System.out.println(col);
+					} else if(map[row][col] == 12) {
+						Enemies en = new Enemies(this.g, row*tileSize-43);
+						enemies.add(en);
 					}
 				}
 			}
 			col = 0;
-			mapWidth = 25;
+			bufferedLength = 25;
 			fr.close();
 			br.close();
 		} catch (FileNotFoundException e) {
@@ -130,7 +134,7 @@ public class TileMap {
 		if (left == true && right == false) {
 			left(smooth);
 			for (Extensions e : extensions) {
-				e.left(smooth);;
+				e.left(smooth);
 			}
 			smoothOutMovement(0.3);
 		} else if (right == true && left == false) {
@@ -142,9 +146,7 @@ public class TileMap {
 		}
 		for(int i = 0; i < extensions.size(); i ++) {
 			if(extensions.get(i).getOpacity() <= 0) {
-				System.out.println("removed: " + extensions.get(i));
 				extensions.remove(i);
-				
 			}
 		}
 		
@@ -155,6 +157,11 @@ public class TileMap {
 		for (Extensions e : extensions) {
 			e.checkCounter(g.getTargetFrameCounter());
 		}
+		
+		for (Enemies en : enemies) {
+			en.checkCounter(g.getTargetFrameCounter());
+			en.move();
+		}
 	}
 
 	public void render() {
@@ -164,14 +171,14 @@ public class TileMap {
 
 	public void draw(ImageView im) {
 		if (this.x > (col + 2) * tileSize) {
-			if (mapWidth < 120) {
+			if (bufferedLength < 120) {
 				col++;
-				mapWidth++;
+				bufferedLength++;
 			}
 		} else if (this.x < (col + 1) * tileSize) {
 			if (col > 0) {
 				col--;
-				mapWidth--;
+				bufferedLength--;
 			}
 		}
 
@@ -181,7 +188,7 @@ public class TileMap {
 		}
 
 		for (int row = 0; row < mapHeight; row++) { // mapHeight
-			for (int i = col; i < mapWidth; i++) { // mapWidth
+			for (int i = col; i < bufferedLength; i++) { // buffered map length
 				int rc = map[row][i];
 				if (rc != 0 && rc < 11) {
 					im = new ImageView(tiles[rc - 1]);
@@ -199,7 +206,14 @@ public class TileMap {
 								e.draw(new ImageView(), (i*48)-(x-48));
 						}
 					}
-					
+				} else if(rc == 12) {
+					for (Enemies en : enemies) {
+						if(en.isRight()) {
+							en.draw(new ImageView(), (i*48)-(x-48));
+						} else if(en.isLeft()) {
+							en.draw(new ImageView(), (i*48)-(x-48));
+						}	
+					}
 				}
 			}
 		}
@@ -226,7 +240,7 @@ public class TileMap {
 	public void collect(int col) {
 		if(!extensions.isEmpty()) {
 			for(Extensions e : extensions) {
-				if(e.getCol() == col) {
+				if(e.getCol() == col || e.getCol()-1 == col) {
 					e.setCollected(true);
 				}
 			}

@@ -52,11 +52,14 @@ public class Player {
 	private TileMap level;
 	final int tileSize;
 	private int[][] map;
+	
+	private Sound soundEffects;
 
-	public Player(FrameFX frame, TileMap level) {
+	public Player(FrameFX frame, TileMap level, Sound sound) {
 		this.g = frame;
-		isStanding = true;
-		isFalling = false;
+		this.soundEffects = sound;
+		isStanding = false;
+		isFalling = true;
 		right = false;
 		left = false;
 		jumping = false;
@@ -153,6 +156,7 @@ public class Player {
 						|| map[getYTiles()+1][((getXTiles()+20)/tileSize)-1] == 8 || map[getYTiles()+1][((getXTiles()+20)/tileSize)] == 8
 						|| map[getYTiles()+1][((getXTiles()+20)/tileSize)-1] == 9 || map[getYTiles()+1][((getXTiles()+20)/tileSize)] == 9) {
 					calculateHit = ((getYTiles())*(tileSize*10))-((tileSize*10)+10);
+					level.collect((getXTiles()/tileSize));
 				} else  {
 					calculateHit += FALLINGSPEEDMAX;
 				}
@@ -167,10 +171,13 @@ public class Player {
 						|| map[getYTiles()+1][((getXTiles()+30)/tileSize)-2] == 8 || map[getYTiles()+1][((getXTiles()+30)/tileSize)-3] == 8
 						|| map[getYTiles()+1][((getXTiles()+30)/tileSize)-2] == 9 || map[getYTiles()+1][((getXTiles()+30)/tileSize)-3] == 9) {
 					calculateHit = ((getYTiles())*(tileSize*10))-((tileSize*10)+10);
+					level.collect((getXTiles()/tileSize)-2);
+					System.out.println((getXTiles()/tileSize)-2);
 				} else {
 					calculateHit += FALLINGSPEEDMAX;
 				}
 			}
+			
 			calculateJump();
 		}
 		
@@ -196,6 +203,10 @@ public class Player {
 				level.setLeft(left);
 			} 
 			
+			if(map[getYTiles()][((getXTiles()+20)/tileSize)-1] == 11 || map[getYTiles()-1][((getXTiles()+20)/tileSize)-1] == 11) {
+				level.collect((getXTiles()/tileSize)-1);
+			}
+			
 		} else if(right && !left) {
 			
 			if(map[getYTiles()][(getXTiles()/tileSize)-1] != 3 && map[getYTiles()-1][(getXTiles()/tileSize)-1] != 3 
@@ -216,7 +227,7 @@ public class Player {
 				setStanding(true);
 				level.setRight(true);
 			}
-			if(map[getYTiles()][(getXTiles()/tileSize)-1] == 11 || map[getYTiles()-1][(getXTiles()/tileSize)-1] == 11) {
+			if(map[getYTiles()][((getXTiles()-20)/tileSize)-1] == 11 || map[getYTiles()-1][((getXTiles()-20)/tileSize)-1] == 11) {
 				level.collect((getXTiles()/tileSize)-1);
 			}
 			 
@@ -601,6 +612,7 @@ public class Player {
 			level.setLeft(false);
 			level.resetMovement();
 			TargetFightCounter = 1;
+			soundEffects.playFightSoung();
 		}
 	}
 

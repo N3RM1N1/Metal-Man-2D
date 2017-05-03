@@ -3,7 +3,6 @@ package at.spengergasse.gui;
 import java.util.List;
 
 import at.spengergasse.controller.KeyBoard;
-import at.spengergasse.model.Enemies;
 import at.spengergasse.model.Player;
 import at.spengergasse.model.TileMap;
 import javafx.animation.AnimationTimer;
@@ -19,7 +18,6 @@ public class FrameFX extends Stage {
 	final private TileMap tileMap;
 	final private Player player;
 	final private Sound soundEffects;
-	final private Enemies enemies;
 	final AnimationTimer gameLoop;
 
 	// The counter for the player animation
@@ -46,9 +44,7 @@ public class FrameFX extends Stage {
 
 		this.tileMap = new TileMap(48, "Level1.txt", this, soundEffects);
 
-		this.player = new Player(this, tileMap);
-		
-		this.enemies = new Enemies(this, tileMap);
+		this.player = new Player(this, tileMap, soundEffects); 
 
 		this.input = new KeyBoard(tileMap, player, soundEffects, this);
 		
@@ -72,9 +68,6 @@ public class FrameFX extends Stage {
 
 				// Update the map
 				tileMap.render();
-				
-				// Rendering enemies
-				enemies.render();
 
 				// Drawing the player
 				player.render();
@@ -83,12 +76,10 @@ public class FrameFX extends Stage {
 			private void update() {
 				targetFrameCounter++;
 				player.checkCounter(targetFrameCounter);
-				enemies.checkCoutner(targetFrameCounter);
 				if(player.getX() == 192) {
 					tileMap.update();
 				}
 				tileMap.extUpdate();
-				enemies.update();
 				player.update();
 			}
 		};
@@ -108,8 +99,8 @@ public class FrameFX extends Stage {
 		return targetFrameCounter;
 	}
 
-	public void setTargetFrameCounter(int targetFrameCounter1) {
-		this.targetFrameCounter = targetFrameCounter1;
+	public void setTargetFrameCounter(int targetFrameCounter) {
+		this.targetFrameCounter = targetFrameCounter;
 	}
 
 	public TileMap getTileMap() {

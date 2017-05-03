@@ -56,7 +56,6 @@ public class Extensions {
 		im.setTranslateX(x);
 		im.setTranslateY(this.y);
 		g.getRoot().getChildren().add(im);
-		System.out.println(x);
 	}
 
 	public void checkCounter(int targetCounter) {

@@ -7,9 +7,8 @@ import javafx.scene.image.ImageView;
 public class Enemies {
 	
 	private FrameFX g;
-//	private TileMap map;
-//	
-//	private boolean defeated;
+	
+	private boolean defeated;
 	
 	private boolean left;
 	private boolean right;
@@ -22,14 +21,13 @@ public class Enemies {
 	
 	private ImageView[] frames;
 
-	public Enemies(FrameFX g, TileMap map) {
+	public Enemies(FrameFX g, double y) {
 		this.g = g;
-//		this.map = map;
-//		this.defeated = false;
-		this.left = false;
-		this.right = true;
+		this.left = true;
+		this.right = false;
+		this.defeated = false;
 		this.x = 400;
-		this.y = 515;
+		this.y = y;
 		loadImg();
 	}
 	
@@ -38,25 +36,25 @@ public class Enemies {
 	}
 	
 	public void render() {
-		draw(new ImageView());
 	}
 	
-	public void draw(ImageView im) {
+	public void draw(ImageView im, double x) {
 		im = frames[TargetFrameCounter];
-		if(left)
+		if(right)
 			im.setScaleX(-1);
 		else {
 			im.setScaleX(1);
 		}
-		im.setTranslateX(x);
+		im.setTranslateX(x-this.x);
 		im.setTranslateY(y);
-		im.setFitHeight(70);
-		im.setFitWidth(70);
+		im.setFitHeight(90);
+		im.setFitWidth(80);
 		g.getRoot().getChildren().add(im);
+		System.out.println(left);
 	}
 	
 	public void moveLeft(double x) {
-		if(this.x > 400) {
+		if(this.x > 0) {
 			this.x -= x;
 		} else {
 			right = true;
@@ -66,7 +64,7 @@ public class Enemies {
 	}
 	
 	public void moveRight(double x) {
-		if(this.x <= 500) {
+		if(this.x <= 400) {
 			this.x +=x;
 		} else {
 			right = false;
@@ -83,7 +81,7 @@ public class Enemies {
 		}
 	}
 	
-	public void checkCoutner(int targetCounter) {
+	public void checkCounter(int targetCounter) {
 		if(TargetFrames+5 == targetCounter) {
 			TargetFrames = targetCounter;
 			TargetFrameCounter ++;
@@ -96,6 +94,27 @@ public class Enemies {
 		
 	}
 	
+	
+	public boolean isLeft() {
+		return left;
+	}
+
+	public void setLeft(boolean left) {
+		this.left = left;
+	}
+
+	public boolean isRight() {
+		return right;
+	}
+
+	public void setRight(boolean right) {
+		this.right = right;
+	}
+	
+	public double getX() {
+		return x;
+	}
+
 	public void loadImg() {
 		frames = new ImageView[6];
 		

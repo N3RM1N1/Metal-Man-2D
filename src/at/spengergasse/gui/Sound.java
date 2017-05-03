@@ -35,5 +35,13 @@ public class Sound {
 		effects.setVolume(0.4);
 		effects.play();
 	}
+	
+	public void playFightSoung() {
+		String coinCollectSoundFile = "src/at/spengergasse/resources/game/soundEffects/Fight.wav";
+		Media sound = new Media(new File(coinCollectSoundFile).toURI().toString());
+		effects = new MediaPlayer(sound);
+		effects.setVolume(0.4);
+		effects.play();
+	}
 
 }
