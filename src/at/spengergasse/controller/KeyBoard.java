@@ -5,6 +5,7 @@ package at.spengergasse.controller;
 
 import at.spengergasse.gui.FrameFX;
 import at.spengergasse.gui.Sound;
+import at.spengergasse.model.GameLauncher;
 import at.spengergasse.model.Player;
 import at.spengergasse.model.TileMap;
 import javafx.event.EventHandler;
@@ -12,7 +13,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 /**
- * @author Danilovic Daniel
+ * @author Daniel Danilovic
  *
  */
 public class KeyBoard implements EventHandler<KeyEvent>{
@@ -21,14 +22,16 @@ public class KeyBoard implements EventHandler<KeyEvent>{
 	private Player player;
 	private Sound soundEffects;
 	private FrameFX g;
+	private GameLauncher launcher;
 	/**
 	 * 
 	 */
-	public KeyBoard(TileMap tileMap, Player player, Sound soundEffects, FrameFX g) {
+	public KeyBoard(TileMap tileMap, Player player, Sound soundEffects, FrameFX g, GameLauncher launcher) {
 		this.tileMap = tileMap;
 		this.player = player;
 		this.soundEffects = soundEffects;
 		this.g = g;
+		this.launcher = launcher;
 	}
 
 	@Override
@@ -50,6 +53,7 @@ public class KeyBoard implements EventHandler<KeyEvent>{
 					player.setLeft(true);
 				}
 			} else if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.W || event.getCode() == KeyCode.UP) {
+				launcher.moveCusorUp();
 				if(player.isJumping() == false && player.isFighting() == false) {
 					soundEffects.playJumpSound();
 					g.setTargetFrameCounter(0);
@@ -57,6 +61,9 @@ public class KeyBoard implements EventHandler<KeyEvent>{
 				}
 			} else if(event.getCode() == KeyCode.E) {
 				player.setFighting(true);
+			}
+			else if(event.getCode() == KeyCode.DOWN){
+				launcher.moveCursorDown();
 			}
 		} else if(event.getEventType() == KeyEvent.KEY_RELEASED) {
 			if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {

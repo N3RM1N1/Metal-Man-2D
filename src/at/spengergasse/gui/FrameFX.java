@@ -47,11 +47,11 @@ public class FrameFX extends Stage {
 
 		this.player = new Player(this, tileMap, soundEffects);
 
-		this.input = new KeyBoard(tileMap, player, soundEffects, this);
-
 		this.launcher = new GameLauncher(this);
+		
+		this.input = new KeyBoard(tileMap, player, soundEffects, this, launcher);
 
-		this.launcherOpen = false;
+		this.launcherOpen = true;
 
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, input);
 		scene.addEventHandler(KeyEvent.KEY_RELEASED, input);
@@ -84,7 +84,7 @@ public class FrameFX extends Stage {
 
 			private void update() {
 				if (launcherOpen == true) {
-
+					launcher.update();
 				} else {
 					targetFrameCounter++;
 					player.checkCounter(targetFrameCounter);
