@@ -51,7 +51,7 @@ public class FrameFX extends Stage {
 
 		this.launcher = new GameLauncher(this);
 
-		this.launcherOpen = true;
+		this.launcherOpen = false;
 
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, input);
 		scene.addEventHandler(KeyEvent.KEY_RELEASED, input);

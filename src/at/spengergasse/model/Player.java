@@ -141,17 +141,18 @@ public class Player {
 		
 		if(left && !right) {
 			
-			if(map[(int) getYTiles()][(int) ((int) getXTiles()-width)] != 1					// upper Tile
-					&& map[(int) getYTiles()+5][(int) ((int) getXTiles()-width)] != 1) {	// lower Tile
+			if(map[(int) getYTiles()][(int) ((int) getXTiles()-width-level.getSmooth())] != 1					// upper Tile
+					&& map[(int) getYTiles()+5][(int) ((int) getXTiles()-width-level.getSmooth())] != 1) {	// lower Tile
 				walkLeft(level.getSmooth());
 				moveLeft();
 			} else {
 				int calcX = (int)(getXTiles()/tileSize)*tileSize;
+				calcX -= width + tileSize;
 				if(calcX == tileSize) {
-					setX(calcX-20);						// Bild hat Raender
+					setX(calcX);						// Bild hat Raender
 				}
 				
-				calcX -= width + tileSize;
+				
 				level.setX(calcX);
 				System.out.println(calcX);
 				
@@ -161,8 +162,8 @@ public class Player {
 			}
 			
 		} else if(right && !left) {
-			if(map[(int) getYTiles()][(int) ((int) getXTiles()+width)] != 1					// upper Tile
-					&& map[(int) getYTiles()+5][(int) ((int) getXTiles()+width)] != 1) {	// lower Tile
+			if(map[(int) getYTiles()][(int) ((int) getXTiles()+width+level.getSmooth())] != 1					// upper Tile
+					&& map[(int) getYTiles()+5][ (int) ((int) ( getXTiles()+width)+level.getSmooth())] != 1) {	// lower Tile
 				walkRight(level.getSmooth());
 				moveRight();
 			} else {
@@ -336,11 +337,17 @@ public class Player {
 	}
 
 	public double getXTiles() {
+		if(standingLeft) {
+			return x + level.getX() + tileSize;
+		}
 		return x + level.getX() - tileSize;
 	}
 
 	public double getYTiles() {
-		return y/10+centerY;
+		if(y/10+centerY < 720) {
+			return y/10+centerY;
+		}
+		return 0;
 	}
 
 	/**
