@@ -24,10 +24,14 @@ public class Player {
 	private final double GRAVITY = 5;
 
 	// The coordinates of the player
-	private double x = 192;
+	private double x = 440;
 
-	private double y = 3750;
+	private double y = 5750;
 	private double calculateHit = y;
+	private double width;
+	private double height;
+	private double centerX;
+	private double centerY;
 
 	// The counter for the Frames
 	private static int TargetStandingCounter;
@@ -58,14 +62,22 @@ public class Player {
 	public Player(FrameFX frame, TileMap level, Sound sound) {
 		this.g = frame;
 		this.soundEffects = sound;
-		isStanding = false;
-		isFalling = true;
+		
+		isStanding = true;
+		isFalling = false;
 		right = false;
 		left = false;
 		jumping = false;
+		
+		width = 76;
+		height = 90;
+		centerX = width / 2;
+		centerY = height / 2;
+		
 		this.level = level;
 		this.tileSize = level.getTileSize();
 		map = level.getMap();
+		
 		loadImg();
 	}
 
@@ -113,149 +125,73 @@ public class Player {
 	}
 
 	public void update() {
+		
 		if(jumping && !isFalling) {
-			if(!standingLeft) {
-				if(right) {
-					if(map[getYTiles()-2][(getXTiles()/tileSize)-1] == 2
-							|| map[getYTiles()-2][(getXTiles()/tileSize)-1] == 3) {
-						if(VELOCITY > 0) {
-							VELOCITY = 0;
-						}
-						isFalling = true;
-					}
-				}
-	 			if(map[getYTiles()-2][(getXTiles()/tileSize)-2] == 2 
-	 					|| map[getYTiles()-2][(getXTiles()/tileSize)-2] == 3) {
-					if(VELOCITY > 0) {
-						VELOCITY = 0;
-					}
-					isFalling = true;
-				}
-			} else if(standingLeft) {
-				if(map[getYTiles()-2][(getXTiles()/tileSize)] == 2 
-						|| map[getYTiles()-2][(getXTiles()/tileSize)] == 3) {
-					if(VELOCITY > 0) {
-						VELOCITY = 0;
-					}
-					isFalling = true;
-				}
-			}
+			
 			if (TargetJumpCounter >= 1) {
 				calculateJump();
 			}
-
-		} else if(isFalling) {
-			if(standingLeft) {
-				if(map[getYTiles()+1][((getXTiles()+20)/tileSize)-1] == 1 || map[getYTiles()+1][((getXTiles()+20)/tileSize)] == 1
-						|| map[getYTiles()+1][((getXTiles()+20)/tileSize)-1] == 5 || map[getYTiles()+1][((getXTiles()+20)/tileSize)] == 5
-						|| map[getYTiles()+1][((getXTiles()+20)/tileSize)-1] == 10 || map[getYTiles()+1][((getXTiles()+20)/tileSize)] == 10
-						|| map[getYTiles()+1][((getXTiles()+20)/tileSize)-1] == 3 || map[getYTiles()+1][((getXTiles()+20)/tileSize)] == 3
-						|| map[getYTiles()+1][((getXTiles()+20)/tileSize)-1] == 4 || map[getYTiles()+1][((getXTiles()+20)/tileSize)] == 4
-						|| map[getYTiles()+1][((getXTiles()+20)/tileSize)-1] == 6 || map[getYTiles()+1][((getXTiles()+20)/tileSize)] == 6
-						|| map[getYTiles()+1][((getXTiles()+20)/tileSize)-1] == 7 || map[getYTiles()+1][((getXTiles()+20)/tileSize)] == 7
-						|| map[getYTiles()+1][((getXTiles()+20)/tileSize)-1] == 8 || map[getYTiles()+1][((getXTiles()+20)/tileSize)] == 8
-						|| map[getYTiles()+1][((getXTiles()+20)/tileSize)-1] == 9 || map[getYTiles()+1][((getXTiles()+20)/tileSize)] == 9) {
-					calculateHit = ((getYTiles())*(tileSize*10))-((tileSize*10)+10);
-					level.collect((getXTiles()/tileSize));
-				} else  {
-					calculateHit += FALLINGSPEEDMAX;
-				}
-			} else if(!standingLeft) {
-				if(map[getYTiles()+1][((getXTiles()+30)/tileSize)-2] == 1 || map[getYTiles()+1][((getXTiles()+30)/tileSize)-3] == 1
-						|| map[getYTiles()+1][((getXTiles()+30)/tileSize)-2] == 5 || map[getYTiles()+1][((getXTiles()+30)/tileSize)-3] == 5
-						|| map[getYTiles()+1][((getXTiles()+30)/tileSize)-2] == 10 || map[getYTiles()+1][((getXTiles()+30)/tileSize)-3] == 10
-						|| map[getYTiles()+1][((getXTiles()+30)/tileSize)-2] == 3 || map[getYTiles()+1][((getXTiles()+30)/tileSize)-3] == 3
-						|| map[getYTiles()+1][((getXTiles()+30)/tileSize)-2] == 4 || map[getYTiles()+1][((getXTiles()+30)/tileSize)-3] == 4
-						|| map[getYTiles()+1][((getXTiles()+30)/tileSize)-2] == 6 || map[getYTiles()+1][((getXTiles()+30)/tileSize)-3] == 6
-						|| map[getYTiles()+1][((getXTiles()+30)/tileSize)-2] == 7 || map[getYTiles()+1][((getXTiles()+30)/tileSize)-3] == 7
-						|| map[getYTiles()+1][((getXTiles()+30)/tileSize)-2] == 8 || map[getYTiles()+1][((getXTiles()+30)/tileSize)-3] == 8
-						|| map[getYTiles()+1][((getXTiles()+30)/tileSize)-2] == 9 || map[getYTiles()+1][((getXTiles()+30)/tileSize)-3] == 9) {
-					calculateHit = ((getYTiles())*(tileSize*10))-((tileSize*10)+10);
-					level.collect((getXTiles()/tileSize)-2);
-					System.out.println((getXTiles()/tileSize)-2);
-				} else {
-					calculateHit += FALLINGSPEEDMAX;
-				}
-			}
 			
+		}
+		
+		if(isFalling) {
+			calculateHit+=FALLINGSPEEDMAX;
 			calculateJump();
 		}
 		
 		if(left && !right) {
 			
-			if(map[getYTiles()][(getXTiles()/tileSize)-1] != 3 && map[getYTiles()-1][(getXTiles()/tileSize)-1] != 3 
-					&& map[getYTiles()][getXTiles()/tileSize-1] != 1 && map[getYTiles()-1][(getXTiles()/tileSize)-1] != 1 
-					&& map[getYTiles()][getXTiles()/tileSize-1] != 2 && map[getYTiles()-1][(getXTiles()/tileSize)-1] != 2) {
+			if(map[(int) getYTiles()][(int) ((int) getXTiles()-width)] != 1					// upper Tile
+					&& map[(int) getYTiles()+5][(int) ((int) getXTiles()-width)] != 1) {	// lower Tile
 				walkLeft(level.getSmooth());
 				moveLeft();
-				
 			} else {
-				if(x == 192) {
-					level.setX((int) (((getXTiles()/tileSize)-3)*tileSize)-1);
-				} else if(level.getSmooth() > 1.0) {
-					setX((((int)(x/tileSize))*tileSize)+(tileSize-1));
-				} else {
-					walkLeft(level.getSmooth());
-					moveLeft();
+				int calcX = (int)(getXTiles()/tileSize)*tileSize;
+				if(calcX == tileSize) {
+					setX(calcX-20);						// Bild hat Raender
 				}
 				
+				calcX -= width + tileSize;
+				level.setX(calcX);
+				System.out.println(calcX);
+				
+				// stehen bleiben
 				setStanding(true);
 				level.setLeft(left);
-			} 
-			
-			if(map[getYTiles()][((getXTiles()+20)/tileSize)-1] == 11 || map[getYTiles()-1][((getXTiles()+20)/tileSize)-1] == 11) {
-				level.collect((getXTiles()/tileSize)-1);
 			}
 			
 		} else if(right && !left) {
-			
-			if(map[getYTiles()][(getXTiles()/tileSize)-1] != 3 && map[getYTiles()-1][(getXTiles()/tileSize)-1] != 3 
-					&& map[getYTiles()][getXTiles()/tileSize-1] != 1 && map[getYTiles()-1][(getXTiles()/tileSize)-1] != 1 
-					&& map[getYTiles()][getXTiles()/tileSize-1] != 2 && map[getYTiles()-1][(getXTiles()/tileSize)-1] != 2) {
+			if(map[(int) getYTiles()][(int) ((int) getXTiles()+width)] != 1					// upper Tile
+					&& map[(int) getYTiles()+5][(int) ((int) getXTiles()+width)] != 1) {	// lower Tile
 				walkRight(level.getSmooth());
 				moveRight();
-				
 			} else {
-				if(x == 192) {
-					level.setX((int)(((getXTiles()/tileSize)-5)*tileSize)-28);
-				} else if(level.getSmooth() > 1.0) {
-					setX((((int)(x/tileSize))*tileSize)+20);
-				} else {
-					walkRight(level.getSmooth());
-					moveRight();
+				int calcX = (int)(getXTiles()/tileSize)*tileSize;
+				
+				if(calcX == tileSize) {
+					setX(calcX+20);						// Bild hat Raender
 				}
+				
+				calcX -= width + tileSize;
+				level.setX(calcX);
+				
+				// stehen bleiben
 				setStanding(true);
-				level.setRight(true);
+				level.setRight(right);
 			}
-			if(map[getYTiles()][((getXTiles()-20)/tileSize)-1] == 11 || map[getYTiles()-1][((getXTiles()-20)/tileSize)-1] == 11) {
-				level.collect((getXTiles()/tileSize)-1);
-			}
-			 
 		} else if(left && right) {
 			setStanding(true);
 		} else {
 			left = false;
 			right = false;
 			setStanding(true);
-			
 		}
 		
-		// falling
-		if(!standingLeft && !jumping) {
-			if(map[getYTiles()+1][((getXTiles()+30)/tileSize)-2] == 0 && map[getYTiles()+1][((getXTiles()-15)/tileSize)-2] == 0) {
-				isFalling = true;
-			}
-		} else if(standingLeft && !jumping) {
-			if(map[getYTiles()+1][((getXTiles()-25)/tileSize)] == 0 && map[getYTiles()+1][((getXTiles()+16)/tileSize)] == 0) {
-				isFalling = true;
-			}
-		}
 		
 		if(y/10 > g.getScene().getHeight()) {
 			g.getGameLoop().stop();
 			System.exit(0);
 		}
-		
 	}
 
 	public void render() {
@@ -399,24 +335,12 @@ public class Player {
 		g.getRoot().getChildren().add(im);
 	}
 
-	public int getXTiles() {
-		int position = 1;
-		if (standingLeft) {
-			position = (int) (x + level.getX());
-		} else {
-			position = (int) (x + level.getX()) + 76;
-		}
-		return position;
+	public double getXTiles() {
+		return x + level.getX() - tileSize;
 	}
 
-	public int getYTiles() {
-		int position = ((int) this.y / (tileSize*10));
-		position += 2;
-		if(position < 14) {
-			return position;
-		}
-		return 1;
-		
+	public double getYTiles() {
+		return y/10+centerY;
 	}
 
 	/**

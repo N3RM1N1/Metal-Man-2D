@@ -76,11 +76,12 @@ public class FrameFX extends Stage {
 			private void update() {
 				targetFrameCounter++;
 				player.checkCounter(targetFrameCounter);
+				player.update();
 				if(player.getX() == 192) {
 					tileMap.update();
 				}
 				tileMap.extUpdate();
-				player.update();
+				
 			}
 		};
 		gameLoop.start();

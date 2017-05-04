@@ -341,7 +341,24 @@ public class TileMap {
 	}
 
 	public int[][] getMap() {
-		return map;
+		int[][] mapInPx = new int[mapHeight*tileSize][mapLength*tileSize];
+		int collision = 0;
+		
+		for(int row = 0; row < mapHeight; row ++) {
+			for(int col = 0; col < mapLength; col ++) {
+				if(this.map[row][col] != 0) {
+					collision = 1;
+				}
+				for(int i = row*tileSize; i < row*tileSize+tileSize; i ++) {
+					for(int j = col*tileSize; j < col*tileSize+tileSize; j ++) {
+						mapInPx[i][j] = collision;
+					}
+				}
+				collision = 0;
+			}
+		}
+		
+		return mapInPx;
 	}
 
 	public int getCol() {
