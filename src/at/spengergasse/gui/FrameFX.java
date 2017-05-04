@@ -3,6 +3,7 @@ package at.spengergasse.gui;
 import java.util.List;
 
 import at.spengergasse.controller.KeyBoard;
+import at.spengergasse.model.GameLauncher;
 import at.spengergasse.model.Player;
 import at.spengergasse.model.TileMap;
 import javafx.animation.AnimationTimer;
@@ -22,70 +23,82 @@ public class FrameFX extends Stage {
 
 	// The counter for the player animation
 	private int targetFrameCounter = 0;
-	
+	private boolean launcherOpen;
+
 	final private List<String> args;
 	final private KeyBoard input;
-	
+	final private GameLauncher launcher;
+
 	private Group root;
-	
-	
+
 	public FrameFX(List<String> args) {
 		super();
 		this.args = args;
-		
+
 		root = new Group();
 
-		Color back = new Color(0.07,0.231,0.29, 1);
-		
+		Color back = new Color(0.07, 0.231, 0.29, 1);
 
 		Scene scene = new Scene(root, 948, 709, back); // 960 720 48
-		
+
 		this.soundEffects = new Sound();
 
 		this.tileMap = new TileMap(48, "Level1.txt", this, soundEffects);
 
-		this.player = new Player(this, tileMap, soundEffects); 
+		this.player = new Player(this, tileMap, soundEffects);
 
 		this.input = new KeyBoard(tileMap, player, soundEffects, this);
-		
+
+		this.launcher = new GameLauncher(this);
+
+		this.launcherOpen = true;
+
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, input);
 		scene.addEventHandler(KeyEvent.KEY_RELEASED, input);
-		
+
 		Image im = new Image("/at/spengergasse/icon/Icon2.png");
 		getIcons().add(im);
-		
+
 		gameLoop = new AnimationTimer() {
-			
+
 			@Override
 			public void handle(long now) {
 				update();
 				render();
 			}
-			
+
 			private void render() {
 				// Clear the scene
 				root.getChildren().clear();
+				if (launcherOpen == true) {
+					launcher.draw();
+				} else {
+					// Update the map
+					tileMap.render();
 
-				// Update the map
-				tileMap.render();
+					// Drawing the player
+					player.render();
+				}
 
-				// Drawing the player
-				player.render();
 			}
 
 			private void update() {
-				targetFrameCounter++;
-				player.checkCounter(targetFrameCounter);
-				player.update();
-				if(player.getX() == 192) {
-					tileMap.update();
+				if (launcherOpen == true) {
+
+				} else {
+					targetFrameCounter++;
+					player.checkCounter(targetFrameCounter);
+					player.update();
+					if (player.getX() == 192) {
+						tileMap.update();
+					}
+					tileMap.extUpdate();
 				}
-				tileMap.extUpdate();
-				
+
 			}
 		};
 		gameLoop.start();
-		
+
 		setScene(scene);
 		setTitle("Metal Man 2D");
 		setResizable(false);
@@ -93,7 +106,6 @@ public class FrameFX extends Stage {
 		show();
 	}
 
-	
 	// GET-/ SET - Methods
 
 	public int getTargetFrameCounter() {
@@ -127,7 +139,7 @@ public class FrameFX extends Stage {
 	public Group getRoot() {
 		return root;
 	}
-	
+
 	public AnimationTimer getGameLoop() {
 		return gameLoop;
 	}
