@@ -24,7 +24,7 @@ public class Player {
 	private final double GRAVITY = 5;
 
 	// The coordinates of the player
-	private double x = 440;
+	private double x = 192;
 
 	private double y = 5750;
 	private double calculateHit = y;
@@ -77,7 +77,6 @@ public class Player {
 		this.level = level;
 		this.tileSize = level.getTileSize();
 		map = level.getMap();
-		
 		loadImg();
 	}
 
@@ -91,7 +90,6 @@ public class Player {
 	public void moveRight() {
 		left = false;
 		right = true;
-		standingLeft = false;
 		isStanding = false;
 	}
 
@@ -113,8 +111,9 @@ public class Player {
 		if (level.isEnd()) {
 			x += speed;
 		}
-
+		
 		if (level.isBeginning()) {
+			
 			if (x + speed <= 192) {
 				x += speed;
 			} else if (x + speed > 192) {
@@ -128,6 +127,22 @@ public class Player {
 		
 		if(jumping && !isFalling) {
 			
+			int i = 20;
+			int calc = (int) width;
+			if(standingLeft) {
+				calc -= 10;
+			} else {
+				i = 10;
+				calc -= 17;
+			}
+			for(; i < calc; i ++) {
+				if(map[(int) ((int)getYTiles()-centerY)][(int) ((int)getXTiles()+i)] == 1) {
+					System.out.println(true);
+					VELOCITY = 0;
+					break;
+				} 
+			}
+			
 			if (TargetJumpCounter >= 1) {
 				calculateJump();
 			}
@@ -135,26 +150,41 @@ public class Player {
 		}
 		
 		if(isFalling) {
-			calculateHit+=FALLINGSPEEDMAX;
+			int i = 20;
+			int calc = (int) width;
+			if(standingLeft) {
+				calc -= 10;
+			} else {
+				i = 10;
+				calc -= 17;
+			}
+			for(; i < calc; i ++) {
+				if(map[(int) ((int)getYTiles()+width)][(int) ((int)getXTiles()+i)] == 1) {
+					System.out.println(true);
+					calculateHit = ((int)getYTiles()/tileSize)*tileSize*10;
+					break;
+				} else {
+					calculateHit += FALLINGSPEEDMAX;
+				}
+			}
+			
 			calculateJump();
 		}
 		
 		if(left && !right) {
 			
-			if(map[(int) getYTiles()][(int) ((int) getXTiles()-width-level.getSmooth())] != 1					// upper Tile
-					&& map[(int) getYTiles()+5][(int) ((int) getXTiles()-width-level.getSmooth())] != 1) {	// lower Tile
+			if(map[(int) getYTiles()][(int) ((int) getXTiles()-level.getSmooth())] != 1					// upper Tile
+					&& map[(int) getYTiles()+5][(int) ((int) getXTiles()-level.getSmooth())] != 1) {	// lower Tile
 				walkLeft(level.getSmooth());
 				moveLeft();
 			} else {
 				int calcX = (int)(getXTiles()/tileSize)*tileSize;
-				calcX -= width + tileSize;
-				if(calcX == tileSize) {
+				if(calcX < 192) {
 					setX(calcX);						// Bild hat Raender
 				}
 				
-				
-				level.setX(calcX);
-				System.out.println(calcX);
+				calcX -= width + tileSize;
+				level.setX(calcX-19);
 				
 				// stehen bleiben
 				setStanding(true);
@@ -337,9 +367,6 @@ public class Player {
 	}
 
 	public double getXTiles() {
-		if(standingLeft) {
-			return x + level.getX() + tileSize;
-		}
 		return x + level.getX() - tileSize;
 	}
 

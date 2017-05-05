@@ -229,7 +229,7 @@ public class TileMap {
 	}
 
 	public void resetMovement() {
-		smooth = 1.0;
+		smooth = 0.3;
 
 	}
 
