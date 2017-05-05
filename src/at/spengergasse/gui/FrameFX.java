@@ -23,7 +23,7 @@ public class FrameFX extends Stage {
 
 	// The counter for the player animation
 	private int targetFrameCounter = 0;
-	private boolean launcherOpen;
+	public boolean launcherOpen;
 
 	final private List<String> args;
 	final private KeyBoard input;
@@ -47,7 +47,7 @@ public class FrameFX extends Stage {
 
 		this.player = new Player(this, tileMap, soundEffects);
 
-		this.launcher = new GameLauncher(this);
+		this.launcher = new GameLauncher(this, soundEffects);
 		
 		this.input = new KeyBoard(tileMap, player, soundEffects, this, launcher);
 

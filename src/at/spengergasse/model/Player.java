@@ -125,12 +125,12 @@ public class Player {
 	}
 
 	public void update() {
-		if(getYTiles() > map.length-width) {
+		if(getYTiles() > map.length-width || getXTiles() > map[0].length-width) {
 			g.getGameLoop().stop();
 			System.exit(0);
 		}
 		
-		System.out.println(isFalling);
+		System.out.println(getXTiles()+width+level.getSmooth());
 		if(jumping && !isFalling) {
 			
 			int i = 20;

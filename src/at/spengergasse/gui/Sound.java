@@ -12,19 +12,28 @@ public class Sound {
 	private MediaPlayer effects;
 
 	public Sound() {
-		String gameTrackFile = "src/at/spengergasse/resources/game/soundEffects/Game_Sound_Track.wav";
+		String gameTrackFile = "src/at/spengergasse/resources/game/soundEffects/Start_Menu_Track.wav";
 		Media sound1 = new Media(new File(gameTrackFile).toURI().toString());
 		gameTrack = new MediaPlayer(sound1);
 		gameTrack.setCycleCount(Timeline.INDEFINITE);
 		gameTrack.play();
-		
+	}
+	
+	public void playGameSound() {
+		gameTrack.stop();
+		String gameTrackFile = "src/at/spengergasse/resources/game/soundEffects/Game_Sound_Track.wav";
+		Media sound1 = new Media(new File(gameTrackFile).toURI().toString());
+		gameTrack = new MediaPlayer(sound1);
+		gameTrack.setCycleCount(Timeline.INDEFINITE);
+		gameTrack.setVolume(0.7);
+		gameTrack.play();
 	}
 	
 	public void playJumpSound() {
 		String jumpSoundFile = "src/at/spengergasse/resources/game/soundEffects/Jump.wav";
 		Media sound = new Media(new File(jumpSoundFile).toURI().toString());
 		effects = new MediaPlayer(sound);
-		effects.setVolume(0.3);
+		effects.setVolume(0.2);
 		effects.play();
 	}
 	

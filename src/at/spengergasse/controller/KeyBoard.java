@@ -39,31 +39,44 @@ public class KeyBoard implements EventHandler<KeyEvent>{
 		// TODO Auto-generated method stub
 		if(event.getEventType() == KeyEvent.KEY_PRESSED) {
 			if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {
-				if(player.isRight() == false) {
+				if(player.isRight() == false && !g.launcherOpen) {
 					g.setTargetFrameCounter(0);
 					tileMap.resetMovement();
 					tileMap.setRight(true);
 					player.setRight(true);
 				}
 			} else if (event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT) {
-				if(player.isLeft() == false) {
+				if(player.isLeft() == false && !g.launcherOpen) {
 					g.setTargetFrameCounter(0);
 					tileMap.setLeft(true);
 					tileMap.resetMovement();
 					player.setLeft(true);
 				}
 			} else if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.W || event.getCode() == KeyCode.UP) {
-				launcher.moveCusorUp();
-				if(player.isJumping() == false && player.isFighting() == false) {
+				if(event.getCode() == KeyCode.UP) {
+					launcher.moveCusorUp();
+				}
+				
+				if(player.isJumping() == false && player.isFighting() == false && !g.launcherOpen) {
 					soundEffects.playJumpSound();
 					g.setTargetFrameCounter(0);
 					player.setJumping(true);
 				}
 			} else if(event.getCode() == KeyCode.E) {
-				player.setFighting(true);
+				if(!g.launcherOpen) {
+					player.setFighting(true);
+				}
+				
 			}
 			else if(event.getCode() == KeyCode.DOWN){
-				launcher.moveCursorDown();
+				if(g.launcherOpen) {
+					launcher.moveCursorDown();
+				}
+			}
+			if(g.launcherOpen) {
+				if(event.getCode() == KeyCode.ENTER) {
+					launcher.pick();
+				}
 			}
 		} else if(event.getEventType() == KeyEvent.KEY_RELEASED) {
 			if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {

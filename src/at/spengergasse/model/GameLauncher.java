@@ -4,6 +4,7 @@
 package at.spengergasse.model;
 
 import at.spengergasse.gui.FrameFX;
+import at.spengergasse.gui.Sound;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -27,12 +28,15 @@ public class GameLauncher {
 	private Text start;
 	private Text options;
 	private Text exit;
+	
+	private Sound s;
 
 	/**
 	 * Konstruktor
 	 */
-	public GameLauncher(FrameFX g) {
+	public GameLauncher(FrameFX g, Sound s) {
 		this.g = g;
+		this.s = s;
 		
 		this.imageLauncher = new ImageView(new Image(
 				getClass().getResourceAsStream("/at/spengergasse/resources/game/launcher/Launcher 2.0.png")));
@@ -74,6 +78,9 @@ public class GameLauncher {
 
 	public void update() {
 		point.setTranslateY(y);
+		if(true) {
+			
+		}
 	}
 
 	public void moveCursorDown() {
@@ -89,6 +96,17 @@ public class GameLauncher {
 			y-= 80;
 		}else{
 			y= 548;
+		}
+	}
+	
+	public void pick() {
+		if(y == 388) {
+			g.launcherOpen = false;
+			s.playGameSound();
+		} else if(y == 468) {
+			// noch nichts
+		} else if(y == 548) {
+			g.close();
 		}
 	}
 
