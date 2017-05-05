@@ -4,6 +4,8 @@
 package at.spengergasse.model;
 
 import at.spengergasse.gui.FrameFX;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -31,28 +33,43 @@ public class GameLauncher {
 	 */
 	public GameLauncher(FrameFX g) {
 		this.g = g;
+		
 		this.imageLauncher = new ImageView(new Image(
 				getClass().getResourceAsStream("/at/spengergasse/resources/game/launcher/Launcher 2.0.png")));
 		imageLauncher.setFitHeight(720);
 		imageLauncher.setFitWidth(960);
-		this.point = new Circle(10, Color.RED);
-		this.x = 365;
-		this.y = 427;
+		
+		this.point = new Circle(10, Color.DEEPSKYBLUE);
+		this.x = 300;
+		this.y = 388;
 		point.setTranslateX(x);
 		point.setTranslateY(y);
+		
 		this.start = new Text("Start Game");
-		this.start.setStyle("-fx-font-family: \""+ Font.loadFont("/at/spengergasse/resources/font/8-Bit Madness.ttf", 35).getFamily() + "\";-fx-font-size: 35;");
-		start.setTranslateX(390);
-		start.setTranslateY(438);
+		this.start.setStyle("-fx-font-family: \""+ Font.loadFont("file:src/at/spengergasse/resources/font/8-Bit Madness.ttf", 60).getFamily() + "\";-fx-font-size: 60;");
+		start.setTranslateX(350);
+		start.setTranslateY(400);
 		this.start.setFill(Color.WHITE);
+		
 		this.options = new Text("Options");
+		this.options.setStyle("-fx-font-family: \""+ Font.loadFont("file:src/at/spengergasse/resources/font/8-Bit Madness.ttf", 60).getFamily() + "\";-fx-font-size: 60;");
+		options.setTranslateX(350);
+		options.setTranslateY(480);
+		this.options.setFill(Color.WHITE);
+		
 		this.exit = new Text("Exit");
+		this.exit.setStyle("-fx-font-family: \""+ Font.loadFont("file:src/at/spengergasse/resources/font/8-Bit Madness.ttf", 60).getFamily() + "\";-fx-font-size: 60;");
+		exit.setTranslateX(350);
+		exit.setTranslateY(560);
+		this.exit.setFill(Color.WHITE);
 	} // Konstruktor Ende
 
 	public void draw() {
 		g.getRoot().getChildren().add(imageLauncher);
 		g.getRoot().getChildren().add(point);
 		g.getRoot().getChildren().add(start);
+		g.getRoot().getChildren().add(options);
+		g.getRoot().getChildren().add(exit);
 	}
 
 	public void update() {
@@ -60,18 +77,18 @@ public class GameLauncher {
 	}
 
 	public void moveCursorDown() {
-		if (y == 427 || y == 472) {
-			y += 45;
+		if (y == 388 || y == 468) {
+			y += 80;
 		} else {
-			y = 427;
+			y = 388;
 		}
 	}
 
 	public void moveCusorUp() {
-		if(y == 517 || y == 472){
-			y-= 45;
+		if(y == 548 || y == 468){
+			y-= 80;
 		}else{
-			y= 517;
+			y= 548;
 		}
 	}
 
