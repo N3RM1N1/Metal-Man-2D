@@ -51,7 +51,7 @@ public class FrameFX extends Stage {
 		
 		this.input = new KeyBoard(tileMap, player, soundEffects, this, launcher);
 
-		this.launcherOpen = false;
+		this.launcherOpen = true;
 
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, input);
 		scene.addEventHandler(KeyEvent.KEY_RELEASED, input);

@@ -41,7 +41,7 @@ public class GameLauncher {
 		point.setTranslateX(x);
 		point.setTranslateY(y);
 		this.start = new Text("Start Game");
-		start.setFont(new Font(35));
+		this.start.setStyle("-fx-font-family: \""+ Font.loadFont("/at/spengergasse/resources/font/8-Bit Madness.ttf", 35).getFamily() + "\";-fx-font-size: 35;");
 		start.setTranslateX(390);
 		start.setTranslateY(438);
 		this.start.setFill(Color.WHITE);
