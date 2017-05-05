@@ -130,6 +130,7 @@ public class Player {
 			System.exit(0);
 		}
 		
+		System.out.println(isFalling);
 		if(jumping && !isFalling) {
 			
 			int i = 20;
@@ -153,9 +154,7 @@ public class Player {
 				calculateJump();
 			}
 			
-		}
-		
-		if(isFalling) {
+		} else if(isFalling || standingLeft || !standingLeft) {
 			int i = 20;
 			int calc = (int) width;
 			if(standingLeft) {
@@ -165,17 +164,18 @@ public class Player {
 				calc -= 17;
 			}
 			for(; i < calc; i ++) {
+				System.out.println("drinnen");
 				if(map[(int) ((int)getYTiles()+width)][(int) ((int)getXTiles()+i)] == 1 
 						|| map[(int) ((int)getYTiles()+width)][(int) ((int)getXTiles()+i)] == 2) {
 					if(map[(int) ((int)getYTiles()+centerY)][(int) ((int)getXTiles()+i+centerX)] == 3) {
 						level.collect((int) (getXTiles()/48));
 						System.out.println(true);
 					}
-					
 					calculateHit = ((int)getYTiles()/tileSize)*tileSize*10;
 					break;
 				} else {
 					calculateHit += FALLINGSPEEDMAX;
+					isFalling = true;
 				}
 			}
 			calculateJump();	
