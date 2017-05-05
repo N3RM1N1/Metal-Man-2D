@@ -346,8 +346,15 @@ public class TileMap {
 		
 		for(int row = 0; row < mapHeight; row ++) {
 			for(int col = 0; col < mapLength; col ++) {
-				if(this.map[row][col] != 0) {
+				if(this.map[row][col] == 1 || this.map[row][col] == 2 || this.map[row][col] == 3 
+						|| this.map[row][col] == 5 || this.map[row][col] == 8
+						|| this.map[row][col] == 4) {
 					collision = 1;
+				} else if(this.map[row][col] == 7 || this.map[row][col] == 9 || this.map[row][col] == 6 || this.map[row][col] == 10) {
+					collision = 2;
+				} else if(this.map[row][col] == 11) {
+					collision = 3;
+					System.out.println("Collect");
 				}
 				for(int i = row*tileSize; i < row*tileSize+tileSize; i ++) {
 					for(int j = col*tileSize; j < col*tileSize+tileSize; j ++) {

@@ -91,6 +91,7 @@ public class Player {
 		left = false;
 		right = true;
 		isStanding = false;
+		standingLeft = false;
 	}
 
 	public void walkLeft(double speed) {
@@ -124,6 +125,10 @@ public class Player {
 	}
 
 	public void update() {
+		if(getYTiles() > map.length-width) {
+			g.getGameLoop().stop();
+			System.exit(0);
+		}
 		
 		if(jumping && !isFalling) {
 			
@@ -136,9 +141,10 @@ public class Player {
 				calc -= 17;
 			}
 			for(; i < calc; i ++) {
-				if(map[(int) ((int)getYTiles()-centerY)][(int) ((int)getXTiles()+i)] == 1) {
+				if(map[(int) ((int)getYTiles()-centerY+10)][(int) ((int)getXTiles()+i)] == 1) {
 					System.out.println(true);
 					VELOCITY = 0;
+					isFalling = true;
 					break;
 				} 
 			}
@@ -159,18 +165,21 @@ public class Player {
 				calc -= 17;
 			}
 			for(; i < calc; i ++) {
-				if(map[(int) ((int)getYTiles()+width)][(int) ((int)getXTiles()+i)] == 1) {
-					System.out.println(true);
+				if(map[(int) ((int)getYTiles()+width)][(int) ((int)getXTiles()+i)] == 1 
+						|| map[(int) ((int)getYTiles()+width)][(int) ((int)getXTiles()+i)] == 2) {
+					if(map[(int) ((int)getYTiles()+centerY)][(int) ((int)getXTiles()+i+centerX)] == 3) {
+						level.collect((int) (getXTiles()/48));
+						System.out.println(true);
+					}
+					
 					calculateHit = ((int)getYTiles()/tileSize)*tileSize*10;
 					break;
 				} else {
 					calculateHit += FALLINGSPEEDMAX;
 				}
 			}
-			
-			calculateJump();
+			calculateJump();	
 		}
-		
 		if(left && !right) {
 			
 			if(map[(int) getYTiles()][(int) ((int) getXTiles()-level.getSmooth())] != 1					// upper Tile
@@ -189,6 +198,10 @@ public class Player {
 				// stehen bleiben
 				setStanding(true);
 				level.setLeft(left);
+			}
+			if(map[(int) getYTiles()][(int) ((int) getXTiles())] == 3					// upper Tile
+					|| map[(int) getYTiles()+5][(int) ((int) getXTiles())] == 3) {
+				level.collect((int) (getXTiles()/48));
 			}
 			
 		} else if(right && !left) {
@@ -210,18 +223,17 @@ public class Player {
 				setStanding(true);
 				level.setRight(right);
 			}
+			
+			if (map[(int) getYTiles()][(int) ((int) getXTiles()+width+level.getSmooth())] == 3					// upper Tile
+					|| map[(int) getYTiles()+5][ (int) ((int) ( getXTiles()+width)+level.getSmooth())] == 3) {
+				level.collect((int) (getXTiles()/48));
+			}
 		} else if(left && right) {
 			setStanding(true);
 		} else {
 			left = false;
 			right = false;
 			setStanding(true);
-		}
-		
-		
-		if(y/10 > g.getScene().getHeight()) {
-			g.getGameLoop().stop();
-			System.exit(0);
 		}
 	}
 
@@ -507,13 +519,10 @@ public class Player {
 	}
 
 	public void setLeft(boolean left) {
-		this.left = left;
-		
-		if(left != right) {
-			standingLeft=true;
+		if(this.left != left) {
+			this.left = left;
+			TargetRunningCounter = 1;	
 		}
-		
-		TargetRunningCounter = 1;	
 	}
 
 	public boolean isRight() {
@@ -521,10 +530,11 @@ public class Player {
 	}
 
 	public void setRight(boolean right) {
-		this.right = right;
-		standingLeft=false;
-		
+		if(this.right != right) {
+			this.right = right;
 		TargetRunningCounter = 1;
+		}
+		
 	}
 
 	/**
@@ -584,7 +594,7 @@ public class Player {
 			}
 
 		}
-		if (jumping == true) {
+		if (jumping == true || isFalling) {
 			if (targetCounter % 8 == 0) {
 				TargetJumpCounter++;
 			}
