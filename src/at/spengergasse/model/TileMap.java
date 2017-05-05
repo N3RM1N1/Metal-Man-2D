@@ -208,16 +208,11 @@ public class TileMap {
 					}
 				} else if(rc == 12) {
 					for (Enemies en : enemies) {
-						if(en.isRight()) {
-							en.draw(new ImageView(), (i*48)-(x-48));
-						} else if(en.isLeft()) {
-							en.draw(new ImageView(), (i*48)-(x-48));
-						}	
+						en.draw(new ImageView(), (i*48)-(x-48));
 					}
 				}
 			}
 		}
-
 	}
 
 	public void smoothOutMovement(double inc) {

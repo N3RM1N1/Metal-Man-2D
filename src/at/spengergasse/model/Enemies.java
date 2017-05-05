@@ -41,15 +41,16 @@ public class Enemies {
 	public void draw(ImageView im, double x) {
 		im = frames[TargetFrameCounter];
 		if(right)
-			im.setScaleX(1);
-		else {
 			im.setScaleX(-1);
+		else {
+			im.setScaleX(1);
 		}
-		im.setTranslateX(x+this.x);
+		im.setTranslateX(x-this.x);
 		im.setTranslateY(y);
 		im.setFitHeight(90);
 		im.setFitWidth(80);
 		g.getRoot().getChildren().add(im);
+		System.out.println(left);
 	}
 	
 	public void moveLeft(double x) {
