@@ -27,7 +27,7 @@ public class FrameFX extends Stage {
 
 	final private List<String> args;
 	final private KeyBoard input;
-	final private GameLauncher launcher;
+	private GameLauncher launcher;
 
 	private Group root;
 
@@ -94,7 +94,6 @@ public class FrameFX extends Stage {
 					}
 					tileMap.extUpdate();
 				}
-
 			}
 		};
 		gameLoop.start();
@@ -104,6 +103,11 @@ public class FrameFX extends Stage {
 		setResizable(false);
 		setFullScreen(false);
 		show();
+	}
+	
+	public void closeLauncher() {
+		launcherOpen = false;
+		this.launcher = null;
 	}
 
 	// GET-/ SET - Methods

@@ -258,6 +258,7 @@ public class TileMap {
 			right = false;
 			resetMovement();
 			this.x = x;
+			System.out.println("Gesetzt: " + x);
 		}
 	}
 

@@ -70,7 +70,6 @@ public class Enemies {
 			right = false;
 			left = true;
 		}
-		
 	}
 	
 	public void move() {

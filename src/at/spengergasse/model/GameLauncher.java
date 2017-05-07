@@ -5,8 +5,6 @@ package at.spengergasse.model;
 
 import at.spengergasse.gui.FrameFX;
 import at.spengergasse.gui.Sound;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -101,13 +99,23 @@ public class GameLauncher {
 	
 	public void pick() {
 		if(y == 388) {
-			g.launcherOpen = false;
+			g.closeLauncher();
+			g.closeLauncher();
 			s.playGameSound();
 		} else if(y == 468) {
 			// noch nichts
 		} else if(y == 548) {
 			g.close();
 		}
+	}
+	
+	public void close() {
+		this.imageLauncher = null;
+		this.point = null;
+		this.start = null;
+		this.options = null;
+		this.exit = null;
+		this.s = null;
 	}
 
 }// Klassen Ende
