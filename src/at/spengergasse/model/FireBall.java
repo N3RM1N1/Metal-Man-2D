@@ -7,23 +7,22 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class FireBall {
-	
+
 	private int TargetCounter = 0;
 	private int TargetFrames;
 	private FrameFX g;
-	
+
 	private ImageView[] fireball;
-	
+
 	private double x;
 	private double y;
 	private double startingCoord;
-	
+
 	private boolean end;
 	private boolean left;
-	
-	private int col;
+	private boolean defeated;
 
-	public FireBall(FrameFX g, int targetFrames, double x, double y, boolean left, int col) {
+	public FireBall(FrameFX g, int targetFrames, double x, double y, boolean left) {
 		this.g = g;
 		this.TargetFrames = targetFrames;
 		this.x = x;
@@ -31,43 +30,52 @@ public class FireBall {
 		this.y = y;
 		end = false;
 		this.left = left;
-		this.col = col;
+		this.defeated = false;
 		loadImg();
 	}
-	
+
 	public void loadImg() {
 		fireball = new ImageView[5];
-		
-		fireball[0] = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/fight/fireball_0.png")));
-		fireball[1] = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/fight/fireball_1.png")));
-		fireball[2] = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/fight/fireball_2.png")));
-		fireball[3] = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/fight/fireball_3.png")));
-		fireball[4] = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/fight/fireball_4.png")));
+
+		fireball[0] = new ImageView(new Image(
+				getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/fight/fireball_0.png")));
+		fireball[1] = new ImageView(new Image(
+				getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/fight/fireball_1.png")));
+		fireball[2] = new ImageView(new Image(
+				getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/fight/fireball_2.png")));
+		fireball[3] = new ImageView(new Image(
+				getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/fight/fireball_3.png")));
+		fireball[4] = new ImageView(new Image(
+				getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/fight/fireball_4.png")));
 	}
-	
+
 	public void checkCollision(ArrayList<Enemies> enemies, boolean left) {
-		for(Enemies e : enemies) {
-			for(double j = 0; j < 70; j ++) {
-				if(y + j >= e.getY()) {
-					if(x >= e.getX() && left == false && this.col + 7 <= e.getCol()) {
+		for (Enemies e : enemies) {
+			for (double j = 0; j < 70; j++) {
+				if (y + j >= e.getY()) {
+					if (x + 6 >= e.getX() && x - 6 <= e.getX() && left == false) {
+						System.out.println("Getötet");
 						e.setDefeated(true);
+						defeated = true;
 						break;
-					} else if(x <= e.getX() && left == true && this.col - 7 <= e.getCol()) {
+					} else if (x >= e.getX() && x - 6 <= e.getX() && left == true) {
+						System.out.println("Getötet Links");
 						e.setDefeated(true);
+						defeated = true;
 						break;
 					}
 				}
 			}
 		}
 	}
-	
+
 	public void update() {
 		fire(6.0);
 	}
-	
+
 	public void draw(ImageView im) {
 		im = fireball[TargetCounter];
-		if(left)
+		if (left)
 			im.setScaleX(-1);
 		im.setFitHeight(70);
 		im.setFitWidth(70);
@@ -75,45 +83,48 @@ public class FireBall {
 		im.setTranslateY(y);
 		g.getRoot().getChildren().add(im);
 	}
-	
+
 	public void fire(double x) {
-		if(startingCoord < 400 && !left) {
-			this.x +=x;
+		if (startingCoord < 400 && !left) {
+			this.x += x;
 			this.startingCoord += x;
-		} else if(startingCoord > -700 && left) {
-			this.x -=x;
+		} else if (startingCoord > -700 && left) {
+			this.x -= x;
 			this.startingCoord -= x;
 		} else {
 			end = true;
 		}
 	}
-	
+
 	public void walk(boolean right, double speed) {
-		if(right == false) {
+		if (right == false) {
 			x += speed;
-		} else if(right == true) {
+		} else if (right == true) {
 			x -= speed;
 		}
 	}
-	
+
 	public double getX() {
 		return x;
 	}
-	
+
 	public boolean getEnd() {
 		return this.end;
 	}
 	
-	public void checkCounter(int targetCounter) {
-		if(TargetFrames+5 == targetCounter) {
-			TargetFrames = targetCounter;
-			TargetCounter ++;
-			if(TargetCounter == 5) {
-				TargetCounter = 0;
-			}
-		} else if(targetCounter < TargetFrames) {
-			TargetFrames = targetCounter-1;
-		}
+	public boolean isDefeated() {
+		return defeated;
 	}
 
+	public void checkCounter(int targetCounter) {
+		if (TargetFrames + 5 == targetCounter) {
+			TargetFrames = targetCounter;
+			TargetCounter++;
+			if (TargetCounter == 5) {
+				TargetCounter = 0;
+			}
+		} else if (targetCounter < TargetFrames) {
+			TargetFrames = targetCounter - 1;
+		}
+	}
 }

@@ -134,36 +134,38 @@ public class TileMap {
 		if (left == true && right == false) {
 			left(smooth);
 			for (Extensions e : extensions) {
-				e.left(smooth);
+				if(e.getOpacity() != 0.0)
+					e.left(smooth);
 			}
 			smoothOutMovement(0.3);
 		} else if (right == true && left == false) {
 			right(smooth);
 			for (Extensions e : extensions) {
-				e.right(smooth);
+				if(e.getOpacity() != 0.0)
+					e.right(smooth);
 			}
 			smoothOutMovement(0.3);
 		}
-		for (int i = 0; i < extensions.size(); i++) {
-			if (extensions.get(i).getOpacity() <= 0) {
-				extensions.remove(i);
-			}
-		}
-
 	}
 
 	public void extUpdate() {
 		for (Extensions e : extensions) {
-			e.checkCounter(g.getTargetFrameCounter());
+			if(e.getOpacity() != 0.0)
+				e.checkCounter(g.getTargetFrameCounter());
 		}
 
+		for(int i = 0; i < enemies.size(); i ++) {
+			if(enemies.get(i).isDefeated()) {
+				enemies.remove(i);
+			}
+		}
+		
 		if (!enemies.isEmpty()) {
 			for (Enemies en : enemies) {
 				if(!en.isDefeated()) {
 					en.checkCounter(g.getTargetFrameCounter());
-					en.update();
+						en.update();
 				}
-				
 			}
 		}
 	}
@@ -174,7 +176,7 @@ public class TileMap {
 
 	public void draw(ImageView im) {
 		if (this.x > (col + 2) * tileSize) {
-			if (bufferedLength < 120) {
+			if (bufferedLength < mapLength) {
 				col++;
 				bufferedLength++;
 			}
@@ -203,12 +205,10 @@ public class TileMap {
 					im.setTranslateY((row * tileSize) - y); // 288
 					g.getRoot().getChildren().add(im);
 				} else if (rc == 11) {
-					if (!extensions.isEmpty()) {
 						for (Extensions e : extensions) {
-							if (i == e.getCol())
+							if (i == e.getCol() && e.getOpacity() != 0.0)
 								e.draw(new ImageView(), (i * 48) - (x - 48));
 						}
-					}
 				} else if (rc == 12) {
 					if (!enemies.isEmpty()) {
 						for (Enemies en : enemies) {
@@ -360,7 +360,6 @@ public class TileMap {
 					collision = 2;
 				} else if (this.map[row][col] == 11) {
 					collision = 3;
-					System.out.println("Collect");
 				}
 				for (int i = row * tileSize; i < row * tileSize + tileSize; i++) {
 					for (int j = col * tileSize; j < col * tileSize + tileSize; j++) {

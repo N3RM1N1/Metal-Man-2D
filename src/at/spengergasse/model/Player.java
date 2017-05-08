@@ -50,13 +50,15 @@ public class Player {
 
 	private boolean left;
 	private boolean right;
+	private boolean walkingLeft;
+	private boolean walkingRight;
 	private boolean standingLeft;
 	private boolean jumping;
 
 	private TileMap level;
 	final int tileSize;
 	private int[][] map;
-	
+
 	private FireBall fire;
 
 	private Sound soundEffects;
@@ -70,6 +72,8 @@ public class Player {
 		right = false;
 		left = false;
 		jumping = false;
+		this.walkingLeft = false;
+		this.walkingRight = false;
 
 		width = 76;
 		height = 90;
@@ -127,11 +131,11 @@ public class Player {
 	}
 
 	public void update() {
-		
-		if(fire != null && fire.getEnd()) {
+
+		if (fire != null && fire.getEnd() || fire != null && fire.isDefeated()) {
 			fire = null;
 		}
-		
+
 		if (getYTiles() > map.length - width || getXTiles() > map[0].length - width) {
 			g.getGameLoop().stop();
 			System.exit(0);
@@ -184,59 +188,64 @@ public class Player {
 			calculateJump();
 		}
 		if (left && !right) {
-
-			if (map[(int) getYTiles()][(int) ((int) getXTiles() - level.getSmooth())] != 1 // upper
-																							// Tile
-					&& map[(int) getYTiles() + 5][(int) ((int) getXTiles() - level.getSmooth())] != 1) { // lower
-																											// Tile
-				walkLeft(level.getSmooth());
-				moveLeft();
-			} else {
-				int calcX = (int) (getXTiles() / tileSize) * tileSize;
-				if (calcX < 192) {
-					setX(calcX); // Bild hat Raender
+			for (int i = (int) centerY; i > 0; i--) {
+				if (map[(int) getYTiles() + i][(int) ((int) getXTiles())] == 3
+						|| map[(int) getYTiles() - i][(int) ((int) getXTiles())] == 3) {
+					level.collect((int) (getXTiles() / 48));
 				}
-
-				calcX -= width + tileSize;
-				level.setX(calcX - 19);
-
-				// stehen bleiben
-				setStanding(true);
-				level.setLeft(left);
-			}
-			if (map[(int) getYTiles()][(int) ((int) getXTiles())] == 3 // upper
-																		// Tile
-					|| map[(int) getYTiles() + 5][(int) ((int) getXTiles())] == 3) {
-				level.collect((int) (getXTiles() / 48));
+				if (map[(int) getYTiles() + i][(int) ((int) getXTiles() - level.getSmooth())] != 1
+						&& map[(int) getYTiles() - i][(int) ((int) getXTiles() - level.getSmooth())] != 1) {
+					walkingLeft = true;
+					moveLeft();
+				} else {
+					int calcX = (int) (getXTiles() / tileSize) * tileSize;
+					if (level.isBeginning() || level.isEnd()) {
+						if (calcX > 1000) {
+							calcX /= tileSize;
+							calcX = (calcX - level.getCol() - 5) * tileSize;
+						}
+						setX(calcX);
+					} else {
+						calcX -= width + tileSize;
+						level.setX(calcX - 19);
+					}
+					// stehen bleiben
+					setStanding(true);
+					level.setLeft(left);
+					walkingLeft = false;
+					break;
+				}
 			}
 
 		} else if (right && !left) {
-
-			if (map[(int) getYTiles()][(int) ((int) getXTiles() + width + level.getSmooth())] != 1 // upper
-																									// Tile
-					&& map[(int) getYTiles() + 5][(int) ((int) (getXTiles() + width) + level.getSmooth())] != 1) { // lower
-																													// Tile
-				walkRight(level.getSmooth());
-				moveRight();
-			} else {
-				int calcX = (int) (getXTiles() / tileSize) * tileSize;
-
-				if (calcX == tileSize) {
-					setX(calcX + 20); // Bild hat Raender
+			for (int i = (int) centerY; i > 0; i--) {
+				if (map[(int) getYTiles()+i][(int) ((int) getXTiles() + width + level.getSmooth())] == 3 
+						|| map[(int) getYTiles()-i][(int) ((int) (getXTiles() + width) + level.getSmooth())] == 3) {
+					level.collect((int) (getXTiles() / 48));
 				}
-
-				calcX -= width + tileSize;
-				level.setX(calcX);
-
-				// stehen bleiben
-				setStanding(true);
-				level.setRight(right);
-			}
-
-			if (map[(int) getYTiles()][(int) ((int) getXTiles() + width + level.getSmooth())] == 3 // upper
-																									// Tile
-					|| map[(int) getYTiles() + 5][(int) ((int) (getXTiles() + width) + level.getSmooth())] == 3) {
-				level.collect((int) (getXTiles() / 48));
+				if (map[(int) getYTiles() + i][(int) ((int) getXTiles() + width + level.getSmooth())] != 1
+						&& map[(int) getYTiles() - i][(int) ((int) getXTiles() + width + level.getSmooth())] != 1) {
+					walkingRight = true;
+					moveRight();
+				} else {
+					int calcX = (int) (getXTiles() / tileSize) * tileSize;
+					System.out.println(calcX);
+					if (level.isBeginning() || level.isEnd()) {
+						if(calcX > 1000) {
+							calcX/=tileSize;
+							calcX = (calcX - level.getCol() - 5) * tileSize;
+						}
+						setX(calcX + 20);
+					} else {
+						calcX -= width + tileSize;
+						level.setX(calcX);
+					}
+					// stehen bleiben
+					setStanding(true);
+					level.setRight(right);
+					walkingRight = false;
+					break;
+				}
 			}
 
 		} else if (left && right) {
@@ -244,24 +253,31 @@ public class Player {
 		} else {
 			left = false;
 			right = false;
+			walkingRight = false;
 			setStanding(true);
 		}
-		
-		if(fire != null) {
-			if(right && level.isBeginning() == false && level.isEnd() == false && right) {
+
+		if (fire != null) {
+			if (right && level.isBeginning() == false && level.isEnd() == false && right) {
 				fire.walk(true, level.getSmooth());
-			} else if(left && level.isBeginning() == false && level.isEnd() == false && left) {
+			} else if (left && level.isBeginning() == false && level.isEnd() == false && left) {
 				fire.walk(false, level.getSmooth());
 			}
 			fire.checkCollision(level.getEnemies(), standingLeft);
 			fire.update();
 		}
-		
+
+		if (walkingLeft && !walkingRight) {
+			walkLeft(level.getSmooth());
+		} else if (walkingRight && !walkingLeft) {
+			walkRight(level.getSmooth());
+		}
+
 	}
 
 	public void render() {
 		draw(new ImageView());
-		if(fire != null && TargetFightCounter > 3)
+		if (fire != null && TargetFightCounter > 3)
 			fire.draw(new ImageView());
 	}
 
@@ -545,6 +561,7 @@ public class Player {
 		if (this.left != left) {
 			this.left = left;
 			TargetRunningCounter = 1;
+			walkingLeft = left;
 		}
 	}
 
@@ -556,6 +573,7 @@ public class Player {
 		if (this.right != right) {
 			this.right = right;
 			TargetRunningCounter = 1;
+			walkingRight = right;
 		}
 
 	}
@@ -602,10 +620,10 @@ public class Player {
 			level.setRight(false);
 			level.setLeft(false);
 			level.resetMovement();
-			if(standingLeft)
-				fire = new FireBall(g, g.getTargetFrameCounter(), this.x-centerX, this.y/10, true, level.getCol());
+			if (standingLeft)
+				fire = new FireBall(g, g.getTargetFrameCounter(), this.x - centerX, this.y / 10, true);
 			else
-				fire = new FireBall(g, g.getTargetFrameCounter(), this.x+centerX, this.y/10, false, level.getCol());
+				fire = new FireBall(g, g.getTargetFrameCounter(), this.x + centerX, this.y / 10, false);
 			TargetFightCounter = 1;
 			soundEffects.playFightSoung();
 		}
@@ -639,8 +657,8 @@ public class Player {
 				TargetFightCounter++;
 			}
 		}
-		
-		if(fire != null) {
+
+		if (fire != null) {
 			fire.checkCounter(targetCounter);
 		}
 	}
