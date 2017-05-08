@@ -249,12 +249,11 @@ public class Player {
 		
 		if(fire != null) {
 			if(right && level.isBeginning() == false && level.isEnd() == false && right) {
-				System.out.println(true + " fjsfjsffjk");
 				fire.walk(true, level.getSmooth());
-			} else if(left && level.isBeginning() == false && level.isEnd() == false && left){
-				System.out.println(true);
+			} else if(left && level.isBeginning() == false && level.isEnd() == false && left) {
 				fire.walk(false, level.getSmooth());
 			}
+			fire.checkCollision(level.getEnemies(), standingLeft);
 			fire.update();
 		}
 		
@@ -384,7 +383,7 @@ public class Player {
 	}
 
 	public void drawFight(ImageView im) {
-		if (TargetFightCounter <= 7) {
+		if (TargetFightCounter <= 6) {
 			im = fight[TargetFightCounter - 1];
 		} else {
 			isFighting = false;
@@ -604,9 +603,9 @@ public class Player {
 			level.setLeft(false);
 			level.resetMovement();
 			if(standingLeft)
-				fire = new FireBall(g, g.getTargetFrameCounter(), this.x-centerX, this.y/10, true);
+				fire = new FireBall(g, g.getTargetFrameCounter(), this.x-centerX, this.y/10, true, level.getCol());
 			else
-				fire = new FireBall(g, g.getTargetFrameCounter(), this.x+centerX, this.y/10, false);
+				fire = new FireBall(g, g.getTargetFrameCounter(), this.x+centerX, this.y/10, false, level.getCol());
 			TargetFightCounter = 1;
 			soundEffects.playFightSoung();
 		}

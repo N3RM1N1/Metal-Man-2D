@@ -1,5 +1,7 @@
 package at.spengergasse.model;
 
+import java.util.ArrayList;
+
 import at.spengergasse.gui.FrameFX;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,8 +20,10 @@ public class FireBall {
 	
 	private boolean end;
 	private boolean left;
+	
+	private int col;
 
-	public FireBall(FrameFX g, int targetFrames, double x, double y, boolean left) {
+	public FireBall(FrameFX g, int targetFrames, double x, double y, boolean left, int col) {
 		this.g = g;
 		this.TargetFrames = targetFrames;
 		this.x = x;
@@ -27,22 +31,38 @@ public class FireBall {
 		this.y = y;
 		end = false;
 		this.left = left;
+		this.col = col;
 		loadImg();
 	}
 	
 	public void loadImg() {
 		fireball = new ImageView[5];
 		
-		fireball[0] = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/fight/fireball_0.gif")));
-		fireball[1] = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/fight/fireball_1.gif")));
-		fireball[2] = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/fight/fireball_2.gif")));
-		fireball[3] = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/fight/fireball_3.gif")));
-		fireball[4] = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/fight/fireball_4.gif")));
+		fireball[0] = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/fight/fireball_0.png")));
+		fireball[1] = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/fight/fireball_1.png")));
+		fireball[2] = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/fight/fireball_2.png")));
+		fireball[3] = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/fight/fireball_3.png")));
+		fireball[4] = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/fight/fireball_4.png")));
+	}
+	
+	public void checkCollision(ArrayList<Enemies> enemies, boolean left) {
+		for(Enemies e : enemies) {
+			for(double j = 0; j < 70; j ++) {
+				if(y + j >= e.getY()) {
+					if(x >= e.getX() && left == false && this.col + 7 <= e.getCol()) {
+						e.setDefeated(true);
+						break;
+					} else if(x <= e.getX() && left == true && this.col - 7 <= e.getCol()) {
+						e.setDefeated(true);
+						break;
+					}
+				}
+			}
+		}
 	}
 	
 	public void update() {
-		fire(5.0);
-		System.out.println(left);
+		fire(6.0);
 	}
 	
 	public void draw(ImageView im) {
@@ -57,7 +77,7 @@ public class FireBall {
 	}
 	
 	public void fire(double x) {
-		if(startingCoord < 700 && !left) {
+		if(startingCoord < 400 && !left) {
 			this.x +=x;
 			this.startingCoord += x;
 		} else if(startingCoord > -700 && left) {

@@ -46,7 +46,7 @@ public class TileMap {
 	private ArrayList<Enemies> enemies;
 	private ArrayList<Extensions> extensions;
 	private ArrayList<Background> stars;
-	
+
 	private Sound soundEffects;
 
 	private String levelName;
@@ -60,7 +60,7 @@ public class TileMap {
 		this.extensions = new ArrayList<>();
 		this.stars = new ArrayList<>();
 		this.enemies = new ArrayList<>();
-		
+
 		this.soundEffects = effects;
 
 		left = false;
@@ -115,8 +115,8 @@ public class TileMap {
 					if (map[row][col] == 11) {
 						Extensions ext = new Extensions(g, col * tileSize, row * tileSize, col, soundEffects);
 						extensions.add(ext);
-					} else if(map[row][col] == 12) {
-						Enemies en = new Enemies(this.g, row*tileSize-43);
+					} else if (map[row][col] == 12) {
+						Enemies en = new Enemies(this.g, row * tileSize - 40, col);
 						enemies.add(en);
 					}
 				}
@@ -144,12 +144,11 @@ public class TileMap {
 			}
 			smoothOutMovement(0.3);
 		}
-		for(int i = 0; i < extensions.size(); i ++) {
-			if(extensions.get(i).getOpacity() <= 0) {
+		for (int i = 0; i < extensions.size(); i++) {
+			if (extensions.get(i).getOpacity() <= 0) {
 				extensions.remove(i);
 			}
 		}
-		
 
 	}
 
@@ -157,16 +156,20 @@ public class TileMap {
 		for (Extensions e : extensions) {
 			e.checkCounter(g.getTargetFrameCounter());
 		}
-		
-		for (Enemies en : enemies) {
-			en.checkCounter(g.getTargetFrameCounter());
-			en.move();
+
+		if (!enemies.isEmpty()) {
+			for (Enemies en : enemies) {
+				if(!en.isDefeated()) {
+					en.checkCounter(g.getTargetFrameCounter());
+					en.update();
+				}
+				
+			}
 		}
 	}
 
 	public void render() {
 		draw(new ImageView());
-
 	}
 
 	public void draw(ImageView im) {
@@ -199,16 +202,19 @@ public class TileMap {
 					im.setTranslateX((i * tileSize) - x); // 352
 					im.setTranslateY((row * tileSize) - y); // 288
 					g.getRoot().getChildren().add(im);
-				} else if(rc == 11) {
-					if(!extensions.isEmpty()) {
+				} else if (rc == 11) {
+					if (!extensions.isEmpty()) {
 						for (Extensions e : extensions) {
-							if(i == e.getCol())
-								e.draw(new ImageView(), (i*48)-(x-48));
+							if (i == e.getCol())
+								e.draw(new ImageView(), (i * 48) - (x - 48));
 						}
 					}
-				} else if(rc == 12) {
-					for (Enemies en : enemies) {
-						en.draw(new ImageView(), (i*48)-(x-48));
+				} else if (rc == 12) {
+					if (!enemies.isEmpty()) {
+						for (Enemies en : enemies) {
+							if (!en.isDefeated())
+								en.draw(new ImageView(), (i * 48) - (x - 48));
+						}
 					}
 				}
 			}
@@ -231,11 +237,11 @@ public class TileMap {
 	public double getSmooth() {
 		return smooth;
 	}
-	
+
 	public void collect(int col) {
-		if(!extensions.isEmpty()) {
-			for(Extensions e : extensions) {
-				if(e.getCol() == col || e.getCol()-1 == col) {
+		if (!extensions.isEmpty()) {
+			for (Extensions e : extensions) {
+				if (e.getCol() == col || e.getCol() - 1 == col) {
 					e.setCollected(true);
 				}
 			}
@@ -243,6 +249,10 @@ public class TileMap {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public ArrayList<Enemies> getEnemies() {
+		return enemies;
+	}
 
 	public int getTileSize() {
 		return this.tileSize;
@@ -337,30 +347,30 @@ public class TileMap {
 	}
 
 	public int[][] getMap() {
-		int[][] mapInPx = new int[mapHeight*tileSize][mapLength*tileSize];
+		int[][] mapInPx = new int[mapHeight * tileSize][mapLength * tileSize];
 		int collision = 0;
-		
-		for(int row = 0; row < mapHeight; row ++) {
-			for(int col = 0; col < mapLength; col ++) {
-				if(this.map[row][col] == 1 || this.map[row][col] == 2 || this.map[row][col] == 3 
-						|| this.map[row][col] == 5 || this.map[row][col] == 8
-						|| this.map[row][col] == 4) {
+
+		for (int row = 0; row < mapHeight; row++) {
+			for (int col = 0; col < mapLength; col++) {
+				if (this.map[row][col] == 1 || this.map[row][col] == 2 || this.map[row][col] == 3
+						|| this.map[row][col] == 5 || this.map[row][col] == 8 || this.map[row][col] == 4) {
 					collision = 1;
-				} else if(this.map[row][col] == 7 || this.map[row][col] == 9 || this.map[row][col] == 6 || this.map[row][col] == 10) {
+				} else if (this.map[row][col] == 7 || this.map[row][col] == 9 || this.map[row][col] == 6
+						|| this.map[row][col] == 10) {
 					collision = 2;
-				} else if(this.map[row][col] == 11) {
+				} else if (this.map[row][col] == 11) {
 					collision = 3;
 					System.out.println("Collect");
 				}
-				for(int i = row*tileSize; i < row*tileSize+tileSize; i ++) {
-					for(int j = col*tileSize; j < col*tileSize+tileSize; j ++) {
+				for (int i = row * tileSize; i < row * tileSize + tileSize; i++) {
+					for (int j = col * tileSize; j < col * tileSize + tileSize; j++) {
 						mapInPx[i][j] = collision;
 					}
 				}
 				collision = 0;
 			}
 		}
-		
+
 		return mapInPx;
 	}
 

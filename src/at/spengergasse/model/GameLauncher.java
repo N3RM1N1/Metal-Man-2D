@@ -3,12 +3,16 @@
  */
 package at.spengergasse.model;
 
+import java.util.ArrayList;
+
+import at.spengergasse.gui.Background;
 import at.spengergasse.gui.FrameFX;
 import at.spengergasse.gui.Sound;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -19,13 +23,14 @@ import javafx.scene.text.Text;
 public class GameLauncher {
 
 	private FrameFX g;
-	private ImageView imageLauncher;
 	private Circle point;
 	private double x;
 	private double y;
 	private Text start;
 	private Text options;
 	private Text exit;
+	
+	private ArrayList<Background> background;
 	
 	private Sound s;
 
@@ -36,10 +41,11 @@ public class GameLauncher {
 		this.g = g;
 		this.s = s;
 		
-		this.imageLauncher = new ImageView(new Image(
-				getClass().getResourceAsStream("/at/spengergasse/resources/game/launcher/Launcher 2.0.png")));
-		imageLauncher.setFitHeight(720);
-		imageLauncher.setFitWidth(960);
+		background = new ArrayList<>();
+		
+		for(int i = 0; i < 30; i ++) {
+			background.add(new Background(this.g));
+		}
 		
 		this.point = new Circle(10, Color.DEEPSKYBLUE);
 		this.x = 300;
@@ -67,7 +73,9 @@ public class GameLauncher {
 	} // Konstruktor Ende
 
 	public void draw() {
-		g.getRoot().getChildren().add(imageLauncher);
+		for(Background b : background) {
+			b.render();
+		}
 		g.getRoot().getChildren().add(point);
 		g.getRoot().getChildren().add(start);
 		g.getRoot().getChildren().add(options);
@@ -110,7 +118,8 @@ public class GameLauncher {
 	}
 	
 	public void close() {
-		this.imageLauncher = null;
+		background.clear();
+		background = null;
 		this.point = null;
 		this.start = null;
 		this.options = null;

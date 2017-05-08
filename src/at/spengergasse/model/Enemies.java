@@ -15,30 +15,33 @@ public class Enemies {
 	
 	private double x;
 	private double y;
+	private double currX;
+	
+	private int col;
 	
 	private int TargetFrameCounter = 0;
 	private int TargetFrames;
 	
 	private ImageView[] frames;
 
-	public Enemies(FrameFX g, double y) {
+	public Enemies(FrameFX g, double y, int col) {
 		this.g = g;
 		this.left = true;
 		this.right = false;
 		this.defeated = false;
 		this.x = 400;
 		this.y = y;
+		this.col = col;
 		loadImg();
 	}
 	
 	public void update() {
 		move();
+		System.out.println(getX());
 	}
-	
-	public void render() {
-	}
-	
+
 	public void draw(ImageView im, double x) {
+		currX = x;
 		im = frames[TargetFrameCounter];
 		if(right)
 			im.setScaleX(-1);
@@ -50,7 +53,6 @@ public class Enemies {
 		im.setFitHeight(90);
 		im.setFitWidth(80);
 		g.getRoot().getChildren().add(im);
-		System.out.println(left);
 	}
 	
 	public void moveLeft(double x) {
@@ -111,7 +113,23 @@ public class Enemies {
 	}
 	
 	public double getX() {
-		return x;
+		return currX - this.x;
+	}
+	
+	public double getY() {
+		return y;
+	}
+	
+	public int getCol() {
+		return this.col;
+	}
+	
+	public void setDefeated(boolean defeated) {
+		this.defeated = defeated;
+	}
+	
+	public boolean isDefeated() {
+		return this.defeated;
 	}
 
 	public void loadImg() {
