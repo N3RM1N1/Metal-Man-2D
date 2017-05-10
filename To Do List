@@ -7,21 +7,15 @@ TO DO List
 	
 	
 	Wenn 'Versuchen:' steht nur versuchen. Bei nicht gelingen den vorherigen Standard zuruecksetzen
+	
+	- MVC Pattern
+	
+		+ Model darf nichts mit dem GUI zu tun haben
 		
-
-	
-	- Die Map dynamisch machen
-	
-		+ Fixe x und y Werte durch Berechnungen ersetzten, sodass beim aendern der Map nicht
-		  der Code geaendert werden muss
-	
-	
-	
 	- Hit Detection
 	
-		+ Der Spieler muss erkennen, ob vor ihm eine Wand oder ein Loch steht oder nicht
-		+ Dies soll wieder dynamisch umgesetzt werden dh., beim aendern der Map muss nicht
-		  der Code umgeschrieben werden
+		+ Jump Verbesserungsbedarf
+		+ Jump + links oder rechts bewegungen
 		  
 		  
 	- Map Erweitern
@@ -32,13 +26,9 @@ TO DO List
 		
 	- Die Gegner
 	
-		+ Gegner implementieren
 		+ Bei Beruehrung mit dem Spieler --> hit detection
-		+ Der Spieler wird nur ein Leben haben
-		+ Bei einem Angriff vom Player wird der Gegner verschwinden --> tot 
-		
-		Fuer die Gegner wird ein eigenes Package mit dem Namen at.spengergasse.enemies erstellt
-		Klasse --> Enemies
+		+ (Der Spieler wird nur ein Leben haben)
+		+ Unterklassen für die einzelnen Gegner machen!
 		
 		
 	- Die Level k
@@ -48,25 +38,17 @@ TO DO List
 		+ Level Laden (TileMap) dynamisch machen 
 	
 	
-	- Das KeyEvent (Tastendruck) aufraeumen
-	
-		+ Unnoetige Aktionen finden und entfernen, sofern moeglich
-	
-	
 	- Den Projektordner aufrauemen
 	
 		+ Die Resourcen in die jeweiligen Packages verschieben und fuer Ordnung sorgen
 		+ Die Mapdateien ins Package .level verschieben
 	
 	
+	
 ------------------------------------------------------------------------------------------------------------------------------------------------	
 	
 	
 	Eventuell:
-	
-	- Sound
-	
-		+ Wenn passende Musik gefunden wird, kann diese benutzt werden
 		
 	
 	- HUD
@@ -78,6 +60,8 @@ TO DO List
 		
 	- Game Launcher
 	
+		+ (Eigenes Fenster öffnen)
+	
 		+ Start
 			--> Uebersicht ueber die Level
 			
@@ -87,9 +71,7 @@ TO DO List
 		+ Options
 			--> Musik: An oder Aus
 				(Aufloesung aendern)
-				Vollbildmodus: An oder Aus
-		+ Quit
-			--> Beendet das Programm (Fenster wird geschlossen)
+				(Vollbildmodus: An oder Aus)
 			
 			
 	- Speichern des Spielstandes
