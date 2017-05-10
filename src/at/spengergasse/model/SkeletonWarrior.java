@@ -4,7 +4,7 @@ import at.spengergasse.gui.FrameFX;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Enemies {
+public class SkeletonWarrior {
 
 	private FrameFX g;
 
@@ -24,7 +24,7 @@ public class Enemies {
 
 	private ImageView[] frames;
 
-	public Enemies(FrameFX g, double y, int col) {
+	public SkeletonWarrior(FrameFX g, double y, int col) {
 		this.g = g;
 		this.left = true;
 		this.right = false;

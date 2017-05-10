@@ -43,7 +43,7 @@ public class TileMap {
 
 	private double smooth = 0.0;
 
-	private ArrayList<Enemies> enemies;
+	private ArrayList<SkeletonWarrior> enemies;
 	private ArrayList<Extensions> extensions;
 	private ArrayList<Background> stars;
 
@@ -116,7 +116,7 @@ public class TileMap {
 						Extensions ext = new Extensions(g, col * tileSize, row * tileSize, col, soundEffects);
 						extensions.add(ext);
 					} else if (map[row][col] == 12) {
-						Enemies en = new Enemies(this.g, row * tileSize - 40, col);
+						SkeletonWarrior en = new SkeletonWarrior(this.g, row * tileSize - 40, col);
 						enemies.add(en);
 					}
 				}
@@ -161,7 +161,7 @@ public class TileMap {
 		}
 		
 		if (!enemies.isEmpty()) {
-			for (Enemies en : enemies) {
+			for (SkeletonWarrior en : enemies) {
 				if(!en.isDefeated()) {
 					en.checkCounter(g.getTargetFrameCounter());
 						en.update();
@@ -211,7 +211,7 @@ public class TileMap {
 						}
 				} else if (rc == 12) {
 					if (!enemies.isEmpty()) {
-						for (Enemies en : enemies) {
+						for (SkeletonWarrior en : enemies) {
 							if (!en.isDefeated())
 								en.draw(new ImageView(), (i * 48) - (x - 48));
 						}
@@ -250,7 +250,7 @@ public class TileMap {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public ArrayList<Enemies> getEnemies() {
+	public ArrayList<SkeletonWarrior> getEnemies() {
 		return enemies;
 	}
 

@@ -49,17 +49,17 @@ public class FireBall {
 				getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/fight/fireball_4.png")));
 	}
 
-	public void checkCollision(ArrayList<Enemies> enemies, boolean left) {
-		for (Enemies e : enemies) {
+	public void checkCollision(ArrayList<SkeletonWarrior> enemies, boolean left) {
+		for (SkeletonWarrior e : enemies) {
 			for (double j = 0; j < 70; j++) {
 				if (y + j >= e.getY()) {
 					if (x + 6 >= e.getX() && x - 6 <= e.getX() && left == false) {
-						System.out.println("Getötet");
+						System.out.println("Getï¿½tet");
 						e.setDefeated(true);
 						defeated = true;
 						break;
 					} else if (x >= e.getX() && x - 6 <= e.getX() && left == true) {
-						System.out.println("Getötet Links");
+						System.out.println("Getï¿½tet Links");
 						e.setDefeated(true);
 						defeated = true;
 						break;
