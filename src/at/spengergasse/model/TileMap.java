@@ -43,7 +43,7 @@ public class TileMap {
 
 	private double smooth = 0.0;
 
-	private ArrayList<SkeletonWarrior> enemies;
+	private ArrayList<Enemies> enemies;
 	private ArrayList<Extensions> extensions;
 	private ArrayList<Background> stars;
 
@@ -115,8 +115,14 @@ public class TileMap {
 					if (map[row][col] == 11) {
 						Extensions ext = new Extensions(g, col * tileSize, row * tileSize, col, soundEffects);
 						extensions.add(ext);
-					} else if (map[row][col] == 12) {
-						SkeletonWarrior en = new SkeletonWarrior(this.g, row * tileSize - 40, col);
+					} else if (map[row][col] == 14) {
+						Enemies en = new SlimeMonster(this.g, row * tileSize - 52);
+						enemies.add(en);
+					}else if (map[row][col] == 12){
+						Enemies en = new SkeletonWarrior(this.g, row * tileSize - 40);
+						enemies.add(en);
+					}else if (map[row][col] == 13){
+						Enemies en = new WildBoar(this.g, row * tileSize - 33);
 						enemies.add(en);
 					}
 				}
@@ -134,14 +140,14 @@ public class TileMap {
 		if (left == true && right == false) {
 			left(smooth);
 			for (Extensions e : extensions) {
-				if(e.getOpacity() != 0.0)
+				if (e.getOpacity() != 0.0)
 					e.left(smooth);
 			}
 			smoothOutMovement(0.3);
 		} else if (right == true && left == false) {
 			right(smooth);
 			for (Extensions e : extensions) {
-				if(e.getOpacity() != 0.0)
+				if (e.getOpacity() != 0.0)
 					e.right(smooth);
 			}
 			smoothOutMovement(0.3);
@@ -150,21 +156,29 @@ public class TileMap {
 
 	public void extUpdate() {
 		for (Extensions e : extensions) {
-			if(e.getOpacity() != 0.0)
+			if (e.getOpacity() != 0.0)
 				e.checkCounter(g.getTargetFrameCounter());
 		}
 
-		for(int i = 0; i < enemies.size(); i ++) {
-			if(enemies.get(i).isDefeated()) {
+		for (int i = 0; i < enemies.size(); i++) {
+			if (enemies.get(i).isDefeated()) {
 				enemies.remove(i);
 			}
 		}
-		
+
 		if (!enemies.isEmpty()) {
-			for (SkeletonWarrior en : enemies) {
-				if(!en.isDefeated()) {
-					en.checkCounter(g.getTargetFrameCounter());
-						en.update();
+			for (Enemies en : enemies) {
+				if (!en.isDefeated()) {
+					if (en instanceof SlimeMonster) {
+						((SlimeMonster) en).checkCounter(g.getTargetFrameCounter());
+						((SlimeMonster) en).update();
+					} else if(en instanceof SkeletonWarrior) {
+						((SkeletonWarrior) en).checkCounter(g.getTargetFrameCounter());
+						((SkeletonWarrior) en).update();
+					} else if(en instanceof WildBoar) {
+						((WildBoar) en).checkCounter(g.getTargetFrameCounter());
+						((WildBoar) en).update();
+					}
 				}
 			}
 		}
@@ -205,15 +219,22 @@ public class TileMap {
 					im.setTranslateY((row * tileSize) - y); // 288
 					g.getRoot().getChildren().add(im);
 				} else if (rc == 11) {
-						for (Extensions e : extensions) {
-							if (i == e.getCol() && e.getOpacity() != 0.0)
-								e.draw(new ImageView(), (i * 48) - (x - 48));
-						}
-				} else if (rc == 12) {
+					for (Extensions e : extensions) {
+						if (i == e.getCol() && e.getOpacity() != 0.0)
+							e.draw(new ImageView(), (i * 48) - (x - 48));
+					}
+				} else if (rc == 12 || rc == 13 || rc == 14) {
 					if (!enemies.isEmpty()) {
-						for (SkeletonWarrior en : enemies) {
-							if (!en.isDefeated())
-								en.draw(new ImageView(), (i * 48) - (x - 48));
+						for (Enemies en : enemies) {
+							if (!en.isDefeated()) {
+								if (en instanceof SlimeMonster) {
+									((SlimeMonster) en).draw(new ImageView(), (i * 48) - (x - 48));
+								} else if (en instanceof SkeletonWarrior) {
+									((SkeletonWarrior) en).draw(new ImageView(), (i * 48) - (x - 48));
+								} else if (en instanceof WildBoar) {
+									((WildBoar) en).draw(new ImageView(), (i * 48) - (x - 48));
+								}
+							}
 						}
 					}
 				}
@@ -250,7 +271,7 @@ public class TileMap {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public ArrayList<SkeletonWarrior> getEnemies() {
+	public ArrayList<Enemies> getEnemies() {
 		return enemies;
 	}
 

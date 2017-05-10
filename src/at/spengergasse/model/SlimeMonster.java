@@ -4,7 +4,7 @@ import at.spengergasse.gui.FrameFX;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class SkeletonWarrior extends Enemies {
+public class SlimeMonster extends Enemies {
 
 	private ImageView[] frames;
 	
@@ -18,7 +18,7 @@ public class SkeletonWarrior extends Enemies {
 	private int TargetFrameCounter = 0;
 	private int TargetFrames;
 	
-	public SkeletonWarrior(FrameFX g, double y) {
+	public SlimeMonster(FrameFX g, double y) {
 		super(g);
 		this.left = true;
 		this.right = false;
@@ -42,8 +42,8 @@ public class SkeletonWarrior extends Enemies {
 		}
 		im.setTranslateX(x - this.x);
 		im.setTranslateY(y);
-		im.setFitHeight(90);
-		im.setFitWidth(80);
+		im.setFitHeight(100);
+		im.setFitWidth(100);
 		super.getFrame().getRoot().getChildren().add(im);
 	}
 	
@@ -68,9 +68,9 @@ public class SkeletonWarrior extends Enemies {
 
 	public void move() {
 		if (right) {
-			moveRight(2.0);
+			moveRight(1.5);
 		} else if (left) {
-			moveLeft(2.0);
+			moveLeft(1.5);
 		}
 	}
 	
@@ -99,7 +99,7 @@ public class SkeletonWarrior extends Enemies {
 	}
 	
 	public void checkCounter(int targetCounter) {
-		if (TargetFrames + 5 == targetCounter) {
+		if (TargetFrames + 4 == targetCounter) {
 			TargetFrames = targetCounter;
 			TargetFrameCounter++;
 			if (TargetFrameCounter == 6) {
@@ -114,17 +114,18 @@ public class SkeletonWarrior extends Enemies {
 		frames = new ImageView[6];
 
 		frames[0] = new ImageView(new Image(getClass()
-				.getResourceAsStream("/at/spengergasse/resources/enemies/skeletonWarrior/frame_0_delay-0.1s.gif")));
+				.getResourceAsStream("/at/spengergasse/resources/enemies/slimeMonster/slimeMonster_0.png")));
 		frames[1] = new ImageView(new Image(getClass()
-				.getResourceAsStream("/at/spengergasse/resources/enemies/skeletonWarrior/frame_1_delay-0.1s.gif")));
+				.getResourceAsStream("/at/spengergasse/resources/enemies/slimeMonster/slimeMonster_1.png")));
 		frames[2] = new ImageView(new Image(getClass()
-				.getResourceAsStream("/at/spengergasse/resources/enemies/skeletonWarrior/frame_2_delay-0.1s.gif")));
+				.getResourceAsStream("/at/spengergasse/resources/enemies/slimeMonster/slimeMonster_2.png")));
 		frames[3] = new ImageView(new Image(getClass()
-				.getResourceAsStream("/at/spengergasse/resources/enemies/skeletonWarrior/frame_3_delay-0.1s.gif")));
+				.getResourceAsStream("/at/spengergasse/resources/enemies/slimeMonster/slimeMonster_3.png")));
 		frames[4] = new ImageView(new Image(getClass()
-				.getResourceAsStream("/at/spengergasse/resources/enemies/skeletonWarrior/frame_4_delay-0.1s.gif")));
+				.getResourceAsStream("/at/spengergasse/resources/enemies/slimeMonster/slimeMonster_4.png")));
 		frames[5] = new ImageView(new Image(getClass()
-				.getResourceAsStream("/at/spengergasse/resources/enemies/skeletonWarrior/frame_5_delay-0.1s.gif")));
+				.getResourceAsStream("/at/spengergasse/resources/enemies/slimeMonster/slimeMonster_5.png")));
 	}
 	
 } // Klassen Ende
+

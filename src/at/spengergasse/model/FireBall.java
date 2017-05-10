@@ -49,20 +49,57 @@ public class FireBall {
 				getClass().getResourceAsStream("/at/spengergasse/resources/player/frames/fight/fireball_4.png")));
 	}
 
-	public void checkCollision(ArrayList<SkeletonWarrior> enemies, boolean left) {
-		for (SkeletonWarrior e : enemies) {
-			for (double j = 0; j < 70; j++) {
-				if (y + j >= e.getY()) {
-					if (x + 6 >= e.getX() && x - 6 <= e.getX() && left == false) {
-						System.out.println("Get�tet");
-						e.setDefeated(true);
-						defeated = true;
-						break;
-					} else if (x >= e.getX() && x - 6 <= e.getX() && left == true) {
-						System.out.println("Get�tet Links");
-						e.setDefeated(true);
-						defeated = true;
-						break;
+	public void checkCollision(ArrayList<Enemies> enemies, boolean left) {
+		for (Enemies e : enemies) {
+			if (e instanceof SkeletonWarrior) {
+				for (double j = 0; j < 80; j++) {
+					if (y + j >= ((SkeletonWarrior) e).getY()) {
+						if (x + 6 >= ((SkeletonWarrior) e).getX() && x - 6 <= ((SkeletonWarrior) e).getX() && left == false) {
+							System.out.println("Getötet");
+							e.setDefeated(true);
+							defeated = true;
+							break;
+						} else if (x >= ((SkeletonWarrior) e).getX() && x - 6 <= ((SkeletonWarrior) e).getX()
+								&& left == true) {
+							System.out.println("Getötet Links");
+							e.setDefeated(true);
+							defeated = true;
+							break;
+						}
+					}
+				}
+			} else if (e instanceof WildBoar) {
+				for (double j = 0; j < 80; j++) {
+					if (y + j >= ((WildBoar) e).getY()) {
+						if (x + 6 >= ((WildBoar) e).getX() && x - 6 <= ((WildBoar) e).getX() && left == false) {
+							System.out.println("Getötet");
+							e.setDefeated(true);
+							defeated = true;
+							break;
+						} else if (x >= ((WildBoar) e).getX() && x - 6 <= ((WildBoar) e).getX()
+								&& left == true) {
+							System.out.println("Getötet Links");
+							e.setDefeated(true);
+							defeated = true;
+							break;
+						}
+					}
+				}
+			} else if (e instanceof SlimeMonster) {
+				for (double j = 0; j < 110; j++) {
+					if (y + j >= ((SlimeMonster) e).getY()) {
+						if (x + 6 >= ((SlimeMonster) e).getX()-40 && x - 6 <= ((SlimeMonster) e).getX()-40 && left == false) {
+							System.out.println("Getötet");
+							e.setDefeated(true);
+							defeated = true;
+							break;
+						} else if (x >= ((SlimeMonster) e).getX()+70 && x - 6 <= ((SlimeMonster) e).getX()+70
+								&& left == true) {
+							System.out.println("Getötet Links");
+							e.setDefeated(true);
+							defeated = true;
+							break;
+						}
 					}
 				}
 			}
@@ -111,7 +148,7 @@ public class FireBall {
 	public boolean getEnd() {
 		return this.end;
 	}
-	
+
 	public boolean isDefeated() {
 		return defeated;
 	}

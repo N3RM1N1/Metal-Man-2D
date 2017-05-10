@@ -250,10 +250,11 @@ public class Player {
 
 		} else if (left && right) {
 			setStanding(true);
+			walkingRight = false;
+			walkingLeft = false;
 		} else {
 			left = false;
 			right = false;
-			walkingRight = false;
 			setStanding(true);
 		}
 
