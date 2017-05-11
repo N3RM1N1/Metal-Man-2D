@@ -86,7 +86,7 @@ public class FireBall {
 					}
 				}
 			} else if (e instanceof SlimeMonster) {
-				for (double j = 0; j < 110; j++) {
+				for (double j = 0; j < 90; j++) {
 					if (y + j >= ((SlimeMonster) e).getY()) {
 						if (x + 6 >= ((SlimeMonster) e).getX()-40 && x - 6 <= ((SlimeMonster) e).getX()-40 && left == false) {
 							System.out.println("Getötet");

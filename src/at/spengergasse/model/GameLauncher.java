@@ -28,6 +28,7 @@ public class GameLauncher {
 	private Text start;
 	private Text options;
 	private Text exit;
+	private ImageView im;
 
 	private ArrayList<Background> background;
 
@@ -45,6 +46,9 @@ public class GameLauncher {
 		for (int i = 0; i < 30; i++) {
 			background.add(new Background(this.g));
 		}
+		im = new ImageView(new Image(getClass().getResourceAsStream("/at/spengergasse/resources/game/launcher/launcherStart.png")));
+		im.setTranslateX(100);
+		im.setTranslateY(100);
 
 		this.point = new Circle(10, Color.DEEPSKYBLUE);
 		this.x = 300;
@@ -81,6 +85,7 @@ public class GameLauncher {
 		for (Background b : background) {
 			b.render();
 		}
+		g.getRoot().getChildren().add(im);
 		g.getRoot().getChildren().add(point);
 		g.getRoot().getChildren().add(start);
 		g.getRoot().getChildren().add(options);
@@ -89,9 +94,6 @@ public class GameLauncher {
 
 	public void update() {
 		point.setTranslateY(y);
-		if (true) {
-
-		}
 	}
 
 	public void moveCursorDown() {
