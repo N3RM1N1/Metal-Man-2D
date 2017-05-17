@@ -107,7 +107,7 @@ public class FireBall {
 	}
 
 	public void update() {
-		fire(6.0);
+		fire(10.0);
 	}
 
 	public void draw(ImageView im) {

@@ -3,6 +3,7 @@ package at.spengergasse.gui;
 import java.util.List;
 
 import at.spengergasse.controller.KeyBoard;
+import at.spengergasse.model.Clock;
 import at.spengergasse.model.GameLauncher;
 import at.spengergasse.model.Player;
 import at.spengergasse.model.TileMap;
@@ -13,6 +14,8 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 public class FrameFX extends Stage {
 
@@ -28,8 +31,11 @@ public class FrameFX extends Stage {
 	final private List<String> args;
 	final private KeyBoard input;
 	private GameLauncher launcher;
+	private Clock clock;
 
 	private Group root;
+	
+	private Text gameClock;
 
 	public FrameFX(List<String> args) {
 		super();
@@ -58,13 +64,31 @@ public class FrameFX extends Stage {
 
 		Image im = new Image("/at/spengergasse/icon/Icon2.png");
 		getIcons().add(im);
+		
+		this.clock = new Clock();
 
+		this.gameClock = new Text("00:00");
+		this.gameClock.setStyle("-fx-font-family: \""
+				+ Font.loadFont("file:src/at/spengergasse/resources/font/8-Bit Madness.ttf", 60).getFamily()
+				+ "\";-fx-font-size: 60;");
+		this.gameClock.setTranslateX(820);
+		this.gameClock.setTranslateY(35);
+		this.gameClock.setFill(Color.WHITE);
 		gameLoop = new AnimationTimer() {
 
 			@Override
 			public void handle(long now) {
 				update();
 				render();
+				renderHUD();
+				
+			}
+			
+			private void renderHUD() {
+				if(launcherOpen == false) {
+					gameClock.setText(clock.toString());
+					root.getChildren().add(gameClock);
+				}
 			}
 
 			private void render() {
@@ -93,6 +117,7 @@ public class FrameFX extends Stage {
 						tileMap.update();
 					}
 					tileMap.extUpdate();
+					clock.incrementMilliSeconds();
 				}
 			}
 		};

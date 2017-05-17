@@ -43,7 +43,6 @@ public class KeyBoard implements EventHandler<KeyEvent>{
 				if(player.isRight() == false && !g.launcherOpen) {
 					g.setTargetFrameCounter(0);
 					tileMap.resetMovement();
-					tileMap.setRight(true);
 					player.setStanding(false);
 					player.setRight(true);
 					
@@ -51,7 +50,6 @@ public class KeyBoard implements EventHandler<KeyEvent>{
 			} else if (event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT) {
 				if(player.isLeft() == false && !g.launcherOpen) {
 					g.setTargetFrameCounter(0);
-					tileMap.setLeft(true);
 					tileMap.resetMovement();
 					player.setStanding(false);
 					player.setLeft(true);
@@ -86,12 +84,10 @@ public class KeyBoard implements EventHandler<KeyEvent>{
 		} else if(event.getEventType() == KeyEvent.KEY_RELEASED) {
 			if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {
 				player.setRight(false);
-				tileMap.setRight(false);
 				tileMap.resetMovement();
 			}
 			if (event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT) {
 				player.setLeft(false);
-				tileMap.setLeft(false);
 				tileMap.resetMovement();
 			}
 		}

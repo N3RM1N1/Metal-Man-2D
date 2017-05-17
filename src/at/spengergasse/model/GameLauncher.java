@@ -11,7 +11,6 @@ import at.spengergasse.gui.Sound;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -51,8 +50,8 @@ public class GameLauncher {
 		im.setTranslateX(100);
 		im.setTranslateY(100);
 
-		this.point = new Rectangle(25,25, Color.DEEPSKYBLUE);
-		this.point.setStroke(Color.BLUE);
+		this.point = new Rectangle(25,25, Color.BLUE);
+		this.point.setStroke(Color.DEEPSKYBLUE);
 		this.point.setStrokeWidth(5);
 		this.x = 280;
 		this.y = 375;

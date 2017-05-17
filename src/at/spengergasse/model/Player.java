@@ -77,10 +77,6 @@ public class Player {
 			{ 96, 58 }, // Right Lower Side
 			{ 96, 80 }
 	};
-	
-	private int[][] collisionPointsLeft = {
-			
-	};
 
 	public Player(FrameFX frame, TileMap level, Sound sound) {
 		this.g = frame;
@@ -114,15 +110,25 @@ public class Player {
 				x = 192;
 			}
 		}
-		if (level.isBeginning()) {
-			x -= speed;
-		}
+		if (level.isBeginning() && x > 48) {
+			if(x > 48) {
+				x -= speed;
+			} else {
+				x = 48;
+			}
+			
+		} 
 		level.smoothOutMovement(WALKSPEED);
 	}
 
 	public void walkRight(double speed) {
 		if (level.isEnd()) {
-			x += speed;
+			if(x < 836) {
+				x += speed;
+			} else {
+				x = 836;
+			}
+			
 		}
 
 		if (level.isBeginning()) {
@@ -135,14 +141,26 @@ public class Player {
 		}
 		level.smoothOutMovement(WALKSPEED);
 	}
-
+	
+	public void reflectCollisionArray() {
+		if(collisionPoints[0][1] == 10 && standingLeft) {
+			for(int i = 0; i < collisionPoints.length; i ++) {
+				collisionPoints[i][1] = 77 - collisionPoints[i][1];
+			}
+		} else if(collisionPoints[0][1] == 67 && !standingLeft) {
+			for(int i = 0; i < collisionPoints.length; i ++) {
+				collisionPoints[i][1] = 77 - collisionPoints[i][1];
+			}
+		}
+	}
+	
 	public void update() {
 
 		if (fire != null && fire.getEnd() || fire != null && fire.isDefeated()) {
 			fire = null;
 		}
 
-		
+		reflectCollisionArray();
 
 //		System.out.println("left: " +left);
 //		System.out.println("right: " + right);
@@ -151,6 +169,7 @@ public class Player {
 		if(jumping || isFalling) {
 			calculateJump();
 		}
+		
 		
 		for(int i = 0; i < collisionPoints.length; i ++) {
 			
@@ -166,8 +185,8 @@ public class Player {
 				}
 			}
 			
-			if((right || walkingRight)) {
-				if( i > 2 && map[(int) ((y/10)+collisionPoints[i][0])][(int) (getXTiles()+collisionPoints[i][1])] == 1) {
+			if(right || walkingRight) {
+				if(i > 2 && map[(int) ((y/10)+collisionPoints[i][0])][(int) (getXTiles()+collisionPoints[i][1])] == 1) {
 					int calcX = (int) (getXTiles() / tileSize) * tileSize;
 					
 					if (level.isBeginning() || level.isEnd()) {
@@ -185,7 +204,30 @@ public class Player {
 				}
 			}
 			
-			if ((y/10)+ 96 + 48 > map.length || getXTiles() > map[0].length - width) {
+			if(left || walkingLeft) {
+				if(i > 2 && map[(int) ((y/10)+collisionPoints[i][0])][(int) (getXTiles()+collisionPoints[i][1])] == 1) {
+					System.out.println("true");
+					int calcX = (int) ((int)(getXTiles()+40) / tileSize) * tileSize;
+					if (level.isBeginning() || level.isEnd()) {
+						if (calcX > 1000) {
+							calcX /= tileSize;
+							calcX = (calcX - level.getCol() - 5) * tileSize;
+						}
+						setX(calcX);
+					} else {
+						calcX -= width + tileSize;
+						level.setX(calcX - 20);
+					}
+					if(!jumping)
+						isStanding = true;
+				}
+			}
+			
+			if(i > 2 && map[(int) ((y/10)+collisionPoints[i][0])][(int) (getXTiles()+collisionPoints[i][1])] == 3) { // Collecting coins
+				level.collect((int) (getXTiles() / 48));
+			}
+			
+			if ((y/10)+ 96 + 48 > map.length || getXTiles() > map[0].length - width) { // Falling out of map
 				g.getGameLoop().stop();
 				System.exit(0);
 			}
@@ -214,7 +256,7 @@ public class Player {
 			}
 		}
 		
-		System.out.println(isStanding);
+//		System.out.println(isStanding);
 		
 		if(right && !left && isStanding == false) {
 			if(walkingRight)
@@ -230,7 +272,6 @@ public class Player {
 		}
 		
 		
-			
 
 		if (fire != null) {
 			if (right && level.isBeginning() == false && level.isEnd() == false && right) {
@@ -380,7 +421,6 @@ public class Player {
 			y -= VELOCITY;
 		} else {
 			y = calculateHit;
-			System.out.println("Y gesetzt");
 			VELOCITY = 0;
 			jumping = false;
 			isFalling = false;

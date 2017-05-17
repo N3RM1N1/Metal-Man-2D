@@ -227,7 +227,7 @@ public class TileMap {
 					if (!enemies.isEmpty()) {
 						for (Enemies en : enemies) {
 							if (!en.isDefeated()) {
-								if (en instanceof SlimeMonster) {
+								if (en instanceof SlimeMonster) {  								// auf col überprüfen
 									((SlimeMonster) en).draw(new ImageView(), (i * 48) - (x - 48));
 								} else if (en instanceof SkeletonWarrior) {
 									((SkeletonWarrior) en).draw(new ImageView(), (i * 48) - (x - 48));
