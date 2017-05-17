@@ -23,6 +23,7 @@ public class KeyBoard implements EventHandler<KeyEvent>{
 	private Sound soundEffects;
 	private FrameFX g;
 	private GameLauncher launcher;
+	
 	/**
 	 * 
 	 */
@@ -43,13 +44,16 @@ public class KeyBoard implements EventHandler<KeyEvent>{
 					g.setTargetFrameCounter(0);
 					tileMap.resetMovement();
 					tileMap.setRight(true);
+					player.setStanding(false);
 					player.setRight(true);
+					
 				}
 			} else if (event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT) {
 				if(player.isLeft() == false && !g.launcherOpen) {
 					g.setTargetFrameCounter(0);
 					tileMap.setLeft(true);
 					tileMap.resetMovement();
+					player.setStanding(false);
 					player.setLeft(true);
 				}
 			} else if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.W || event.getCode() == KeyCode.UP) {
@@ -61,6 +65,7 @@ public class KeyBoard implements EventHandler<KeyEvent>{
 					soundEffects.playJumpSound();
 					g.setTargetFrameCounter(0);
 					player.setJumping(true);
+					player.setStanding(false);
 				}
 			} else if(event.getCode() == KeyCode.E) {
 				if(!g.launcherOpen) {
@@ -81,13 +86,11 @@ public class KeyBoard implements EventHandler<KeyEvent>{
 		} else if(event.getEventType() == KeyEvent.KEY_RELEASED) {
 			if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {
 				player.setRight(false);
-				player.setStanding(true);
 				tileMap.setRight(false);
 				tileMap.resetMovement();
 			}
 			if (event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT) {
 				player.setLeft(false);
-				player.setStanding(true);
 				tileMap.setLeft(false);
 				tileMap.resetMovement();
 			}

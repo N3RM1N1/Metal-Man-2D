@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -22,7 +23,7 @@ import javafx.scene.text.Text;
 public class GameLauncher {
 
 	private FrameFX g;
-	private Circle point;
+	private Rectangle point;
 	private double x;
 	private double y;
 	private Text start;
@@ -50,9 +51,11 @@ public class GameLauncher {
 		im.setTranslateX(100);
 		im.setTranslateY(100);
 
-		this.point = new Circle(10, Color.DEEPSKYBLUE);
-		this.x = 300;
-		this.y = 388;
+		this.point = new Rectangle(25,25, Color.DEEPSKYBLUE);
+		this.point.setStroke(Color.BLUE);
+		this.point.setStrokeWidth(5);
+		this.x = 280;
+		this.y = 375;
 		point.setTranslateX(x);
 		point.setTranslateY(y);
 
@@ -97,29 +100,29 @@ public class GameLauncher {
 	}
 
 	public void moveCursorDown() {
-		if (y == 388 || y == 468) {
+		if (y == 375 || y == 455) {
 			y += 80;
 		} else {
-			y = 388;
+			y = 375;
 		}
 	}
 
 	public void moveCusorUp() {
-		if (y == 548 || y == 468) {
+		if (y == 535 || y == 455) {
 			y -= 80;
 		} else {
-			y = 548;
+			y = 535;
 		}
 	}
 
 	public void pick() {
-		if (y == 388) {
+		if (y == 375) {
 			g.closeLauncher();
 			g.closeLauncher();
 			s.playGameSound();
-		} else if (y == 468) {
+		} else if (y == 455) {
 			// noch nichts
-		} else if (y == 548) {
+		} else if (y == 535) {
 			g.close();
 		}
 	}

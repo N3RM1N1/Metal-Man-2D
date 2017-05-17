@@ -143,14 +143,14 @@ public class TileMap {
 				if (e.getOpacity() != 0.0)
 					e.left(smooth);
 			}
-			smoothOutMovement(0.3);
+			smoothOutMovement(0.5);
 		} else if (right == true && left == false) {
 			right(smooth);
 			for (Extensions e : extensions) {
 				if (e.getOpacity() != 0.0)
 					e.right(smooth);
 			}
-			smoothOutMovement(0.3);
+			smoothOutMovement(0.5);
 		}
 	}
 
@@ -251,7 +251,7 @@ public class TileMap {
 	}
 
 	public void resetMovement() {
-		smooth = 0.3;
+		smooth = 0.0;
 
 	}
 

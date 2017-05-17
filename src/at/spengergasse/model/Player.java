@@ -3,12 +3,14 @@ package at.spengergasse.model;
 import at.spengergasse.gui.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public class Player {
 
 	// Walking speed, start and maximum walk speed. Player starts slower and
 	// gets faster
-	private final double WALKSPEED = 1.0;
+	private final double WALKSPEED = 0.5;
 
 	// Boolean Values for standing and falling
 	private boolean isStanding;
@@ -62,6 +64,23 @@ public class Player {
 	private FireBall fire;
 
 	private Sound soundEffects;
+	
+	private int[][] collisionPoints = {
+			{ -6, 10 }, // Left Upper Side
+			{ -6, 35 }, // Middle Side Head
+			{ -6, 75 }, // Right Upper Side
+			{ 30, 15 }, // left Shoulder
+			{ 30, 80 }, // Right Shoulder
+			{ 55, 9  }, // Left Middle Side
+			{ 60, 80 }, // Right Middle Side
+			{ 96, 12 }, // Left Lower Side 
+			{ 96, 58 }, // Right Lower Side
+			{ 96, 80 }
+	};
+	
+	private int[][] collisionPointsLeft = {
+			
+	};
 
 	public Player(FrameFX frame, TileMap level, Sound sound) {
 		this.g = frame;
@@ -74,30 +93,17 @@ public class Player {
 		jumping = false;
 		this.walkingLeft = false;
 		this.walkingRight = false;
-
+		
 		width = 76;
 		height = 90;
 		centerX = width / 2;
 		centerY = height / 2;
+		
 
 		this.level = level;
 		this.tileSize = level.getTileSize();
 		map = level.getMap();
 		loadImg();
-	}
-
-	public void moveLeft() {
-		left = true;
-		right = false;
-		standingLeft = true;
-		isStanding = false;
-	}
-
-	public void moveRight() {
-		left = false;
-		right = true;
-		isStanding = false;
-		standingLeft = false;
 	}
 
 	public void walkLeft(double speed) {
@@ -136,100 +142,34 @@ public class Player {
 			fire = null;
 		}
 
-		if (getYTiles() > map.length - width || getXTiles() > map[0].length - width) {
-			g.getGameLoop().stop();
-			System.exit(0);
-		}
+		
 
-		if (jumping && !isFalling) {
-
-			int i = 20;
-			int calc = (int) width;
-			if (standingLeft) {
-				calc -= 10;
-			} else {
-				i = 10;
-				calc -= 17;
-			}
-			for (; i < calc; i++) {
-				if (map[(int) ((int) getYTiles() - centerY + 10)][(int) ((int) getXTiles() + i)] == 1) {
-					VELOCITY = 0;
-					isFalling = true;
-					break;
-				}
-			}
-
-			if (TargetJumpCounter >= 1) {
-				calculateJump();
-			}
-
-		} else if (isFalling || standingLeft || !standingLeft) {
-			int i = 20;
-			int calc = (int) width;
-			if (standingLeft) {
-				calc -= 10;
-			} else {
-				i = 10;
-				calc -= 17;
-			}
-			for (; i < calc; i++) {
-				if (map[(int) ((int) getYTiles() + width)][(int) ((int) getXTiles() + i)] == 1
-						|| map[(int) ((int) getYTiles() + width)][(int) ((int) getXTiles() + i)] == 2) {
-					if (map[(int) ((int) getYTiles() + centerY)][(int) ((int) getXTiles() + i + centerX)] == 3) {
-						level.collect((int) (getXTiles() / 48));
-					}
-					calculateHit = ((int) getYTiles() / tileSize) * tileSize * 10;
-					break;
-				} else {
-					calculateHit += FALLINGSPEEDMAX;
-					isFalling = true;
-				}
-			}
+//		System.out.println("left: " +left);
+//		System.out.println("right: " + right);
+//		System.out.println("isStanding: " + isStanding + "\n");
+		
+		if(jumping || isFalling) {
 			calculateJump();
 		}
-		if (left && !right) {
-			for (int i = (int) centerY; i > 0; i--) {
-				if (map[(int) getYTiles() + i][(int) ((int) getXTiles())] == 3
-						|| map[(int) getYTiles() - i][(int) ((int) getXTiles())] == 3) {
-					level.collect((int) (getXTiles() / 48));
-				}
-				if (map[(int) getYTiles() + i][(int) ((int) getXTiles() - level.getSmooth())] != 1
-						&& map[(int) getYTiles() - i][(int) ((int) getXTiles() - level.getSmooth())] != 1) {
-					walkingLeft = true;
-					moveLeft();
-				} else {
-					int calcX = (int) (getXTiles() / tileSize) * tileSize;
-					if (level.isBeginning() || level.isEnd()) {
-						if (calcX > 1000) {
-							calcX /= tileSize;
-							calcX = (calcX - level.getCol() - 5) * tileSize;
-						}
-						setX(calcX);
-					} else {
-						calcX -= width + tileSize;
-						level.setX(calcX - 19);
-					}
-					// stehen bleiben
-					setStanding(true);
-					level.setLeft(left);
-					walkingLeft = false;
-					break;
+		
+		for(int i = 0; i < collisionPoints.length; i ++) {
+			
+			if(jumping && !isFalling) {
+				if(map[(int) ((y/10)+collisionPoints[0][0])][(int) (getXTiles()+collisionPoints[0][1])] == 1
+						|| map[(int) ((y/10)+collisionPoints[1][0])][(int) (getXTiles()+collisionPoints[1][1])] == 1
+						|| map[(int) ((y/10)+collisionPoints[2][0])][(int) (getXTiles()+collisionPoints[2][1])] == 1
+						|| map[(int) ((y/10)+collisionPoints[3][0])][(int) (getXTiles()+collisionPoints[3][1])] == 1) {
+					System.out.println("Hit");
+					VELOCITY = 0;
+					isFalling = true;
+					isStanding = false;
 				}
 			}
-
-		} else if (right && !left) {
-			for (int i = (int) centerY; i > 0; i--) {
-				if (map[(int) getYTiles()+i][(int) ((int) getXTiles() + width + level.getSmooth())] == 3 
-						|| map[(int) getYTiles()-i][(int) ((int) (getXTiles() + width) + level.getSmooth())] == 3) {
-					level.collect((int) (getXTiles() / 48));
-				}
-				if (map[(int) getYTiles() + i][(int) ((int) getXTiles() + width + level.getSmooth())] != 1
-						&& map[(int) getYTiles() - i][(int) ((int) getXTiles() + width + level.getSmooth())] != 1) {
-					walkingRight = true;
-					moveRight();
-				} else {
+			
+			if((right || walkingRight)) {
+				if( i > 2 && map[(int) ((y/10)+collisionPoints[i][0])][(int) (getXTiles()+collisionPoints[i][1])] == 1) {
 					int calcX = (int) (getXTiles() / tileSize) * tileSize;
-					System.out.println(calcX);
+					
 					if (level.isBeginning() || level.isEnd()) {
 						if(calcX > 1000) {
 							calcX/=tileSize;
@@ -240,23 +180,57 @@ public class Player {
 						calcX -= width + tileSize;
 						level.setX(calcX);
 					}
-					// stehen bleiben
-					setStanding(true);
-					level.setRight(right);
-					walkingRight = false;
-					break;
+					if(!jumping)
+						isStanding = true;
 				}
 			}
-
-		} else if (left && right) {
-			setStanding(true);
-			walkingRight = false;
-			walkingLeft = false;
-		} else {
-			left = false;
-			right = false;
-			setStanding(true);
+			
+			if ((y/10)+ 96 + 48 > map.length || getXTiles() > map[0].length - width) {
+				g.getGameLoop().stop();
+				System.exit(0);
+			}
+			
+			if(map[(int) ((y/10)+collisionPoints[7][0] + 47)][(int) (getXTiles()+collisionPoints[7][1])] == 0 
+					&& map[(int) ((y/10)+collisionPoints[8][0] + 47)][(int) (getXTiles()+collisionPoints[8][1])] == 0) {
+//				System.out.println("Runterfallen");
+				calculateHit += FALLINGSPEEDMAX;
+				if(!jumping) {
+					isFalling = true;
+					jumping = true;
+				}
+					
+			} 
+			if(map[(int) ((y/10)+collisionPoints[7][0] + 20)][(int) (getXTiles()+collisionPoints[7][1])] == 1 
+					|| map[(int) ((y/10)+collisionPoints[8][0] + 20)][(int) (getXTiles()+collisionPoints[8][1])] == 1
+					|| map[(int) ((y/10)+collisionPoints[7][0] + 20)][(int) (getXTiles()+collisionPoints[7][1])] == 2 
+					|| map[(int) ((y/10)+collisionPoints[8][0] + 20)][(int) (getXTiles()+collisionPoints[8][1])] == 2) {
+				if(isFalling) {
+//					System.out.println("Hit");
+					calculateHit = ((int) y/10 / tileSize) * tileSize * 10;
+					calculateHit += 470;
+					System.out.println(calculateHit);
+					
+				}
+			}
 		}
+		
+		System.out.println(isStanding);
+		
+		if(right && !left && isStanding == false) {
+			if(walkingRight)
+				walkRight(level.getSmooth());
+			level.setRight(true);
+		} else if(left && !right && isStanding == false) {
+			if(walkingLeft)
+				walkLeft(level.getSmooth());
+			level.setLeft(true);
+		} else {
+			level.setRight(false);
+			level.setLeft(false);
+		}
+		
+		
+			
 
 		if (fire != null) {
 			if (right && level.isBeginning() == false && level.isEnd() == false && right) {
@@ -266,12 +240,6 @@ public class Player {
 			}
 			fire.checkCollision(level.getEnemies(), standingLeft);
 			fire.update();
-		}
-
-		if (walkingLeft && !walkingRight) {
-			walkLeft(level.getSmooth());
-		} else if (walkingRight && !walkingLeft) {
-			walkRight(level.getSmooth());
 		}
 
 	}
@@ -289,7 +257,7 @@ public class Player {
 			drawJump(im);
 		} else if (isFighting == true) {
 			drawFight(im);
-		} else {
+		} else if(left || right || walkingLeft || walkingRight) {
 			drawRunning(im);
 		}
 
@@ -317,6 +285,13 @@ public class Player {
 			im.setScaleX(1);
 		}
 		g.getRoot().getChildren().add(im);
+		
+		for(int i = 0; i < collisionPoints.length; i ++) {
+			Rectangle r = new Rectangle(5,5,Color.RED);
+			r.setTranslateX(this.x + collisionPoints[i][1]);
+			r.setTranslateY(this.y/10+collisionPoints[i][0]);
+			g.getRoot().getChildren().add(r);
+		}
 	}
 
 	public void drawRunning(ImageView im) {
@@ -343,12 +318,18 @@ public class Player {
 		// im.setFitWidth(100);
 		im.setTranslateX(x + 3);
 		im.setTranslateY(y / 10);
-		if (left == true) {
+		if (standingLeft == true) {
 			im.setScaleX(-1);
 		} else if (left == false) {
 			im.setScaleX(1);
 		}
 		g.getRoot().getChildren().add(im);
+		for(int i = 0; i < collisionPoints.length; i ++) {
+			Rectangle r = new Rectangle(5,5,Color.RED);
+			r.setTranslateX(this.x + collisionPoints[i][1]);
+			r.setTranslateY(this.y/10+collisionPoints[i][0]);
+			g.getRoot().getChildren().add(r);
+		}
 	}
 
 	public void drawJump(ImageView im) {
@@ -357,6 +338,7 @@ public class Player {
 		} else {
 			im = drawFalling(im);
 		}
+		
 
 		// im.setFitHeight(139);
 		// im.setFitWidth(110);
@@ -364,11 +346,16 @@ public class Player {
 		im.setTranslateY(y / 10);
 		if (standingLeft == true) {
 			im.setScaleX(-1);
-			im.setTranslateX(x);
 		} else if (standingLeft == false) {
 			im.setScaleX(1);
 		}
 		g.getRoot().getChildren().add(im);
+		for(int i = 0; i < collisionPoints.length; i ++) {
+			Rectangle r = new Rectangle(5,5,Color.RED);
+			r.setTranslateX(this.x + collisionPoints[i][1]);
+			r.setTranslateY(this.y/10+collisionPoints[i][0]);
+			g.getRoot().getChildren().add(r);
+		}
 	}
 
 	public ImageView drawFalling(ImageView im) {
@@ -393,9 +380,12 @@ public class Player {
 			y -= VELOCITY;
 		} else {
 			y = calculateHit;
+			System.out.println("Y gesetzt");
 			VELOCITY = 0;
 			jumping = false;
 			isFalling = false;
+			if(!right && !left)
+				isStanding = true;
 		}
 	}
 
@@ -553,37 +543,59 @@ public class Player {
 	public void setX(double x) {
 		this.x = x;
 	}
-
-	public boolean isLeft() {
-		return left;
-	}
-
-	public void setLeft(boolean left) {
-		if (this.left != left) {
-			this.left = left;
-			TargetRunningCounter = 1;
-			walkingLeft = left;
-		}
-	}
-
-	public boolean isRight() {
-		return right;
-	}
-
-	public void setRight(boolean right) {
-		if (this.right != right) {
-			this.right = right;
-			TargetRunningCounter = 1;
-			walkingRight = right;
-		}
-
-	}
-
-	/**
-	 * @return the jumping
-	 */
+	
 	public boolean isJumping() {
 		return jumping;
+	}
+	
+	public boolean isLeft() {
+		return this.left;
+	}
+	
+	public boolean isRight() {
+		return this.right;
+	}
+	
+	public void setLeft(boolean left) {
+		if(this.left != left) {
+			if(right) {	// if right is also pressed
+				isStanding = true;		// standing
+				if(left == false) {		// when releasing
+					isStanding = false;	// running
+					standingLeft = false;	// Turning to the right
+				}
+			} else {
+				standingLeft = true;	// turning to the left, because it is not right
+			}
+			
+			if(left == false && this.right == false) {	// releasing left and standing
+				isStanding = true;
+			}
+			
+			this.left = left;
+			this.walkingLeft = left;
+		}
+	}
+	
+	public void setRight(boolean right) {
+		if(this.right != right) {
+			if(this.left) {
+				isStanding = true;
+				if(right == false) {
+					isStanding = false;
+					standingLeft = true;
+				}
+			} else {
+				standingLeft = false;
+			}
+			
+			if(right == false && this.left == false) {
+				isStanding = true;
+			}
+			
+			this.right = right;
+			this.walkingRight = right;
+		}
 	}
 
 	/**
@@ -594,18 +606,13 @@ public class Player {
 		if (!this.jumping && jumping) {
 			VELOCITY = JUMPSPEED;
 			TargetJumpCounter = 1;
-		}
-		if (!isFighting)
+			isStanding = false;
 			this.jumping = jumping;
+		}
 	}
 
 	public void setStanding(boolean standing) {
-		if (!isFalling)
-			this.isStanding = standing;
-	}
-
-	public boolean getStanding() {
-		return isStanding;
+		this.isStanding = standing;
 	}
 
 	public boolean isFighting() {
@@ -613,7 +620,7 @@ public class Player {
 	}
 
 	public void setFighting(boolean fighting) {
-		if (this.isFighting != fighting && isJumping() == false) {
+		if (this.isFighting != fighting && jumping == false && fire == null) {
 			this.isFighting = fighting;
 			isStanding = true;
 			left = false;
