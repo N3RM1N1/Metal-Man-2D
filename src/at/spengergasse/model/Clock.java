@@ -4,11 +4,11 @@ public class Clock {
 	private long hr; // store hours
 	private long min; // store minutes
 	private long sec; // store seconds
-	private long milliSec; // store frames
+	private long milliSec;
 
 	public Clock() {
 		this.hr = 0;
-		this.min = 0;
+		this.min = 5;
 		this.sec = 0;
 		this.milliSec = 0;
 	}
@@ -38,19 +38,19 @@ public class Clock {
 	}
 
 	public void incrementSeconds() {
-		sec++;
+		sec--;
 
-		if (sec > 59) {
-			sec = 0;
+		if (sec < 0) {
+			sec = 59;
 			incrementMinutes(); // increment minutes
 		}
 	}
 
 	public void incrementMinutes() {
-		min++;
+		min--;
 
-		if (min > 59) {
-			min = 0;
+		if (min < 0) {
+			min = 59;
 			incrementHours(); // increment hours
 		}
 	}
@@ -77,7 +77,7 @@ public class Clock {
 
 	@Override
 	public String toString() {
-		String text = "00:00";
+		String text = "";
 		if(min < 10) {
 			text = "0";
 		}

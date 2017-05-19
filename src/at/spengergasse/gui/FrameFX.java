@@ -69,14 +69,15 @@ public class FrameFX extends Stage {
 		
 		this.coinCounter = new Text("0");
 		this.coinCounter.setStyle("-fx-font-family: \""
-				+ Font.loadFont("file:src/at/spengergasse/resources/font/8-Bit Madness.ttf", 60).getFamily()
-				+ "\";-fx-font-size: 60;");
-		this.coinCounter.setTranslateX(10);
-		this.coinCounter.setTranslateY(60);
+				+ Font.loadFont("file:src/at/spengergasse/resources/font/8-Bit Madness.ttf", 75).getFamily()
+				+ "\";-fx-font-size: 75;");
+		this.coinCounter.setTranslateX(5);
+		this.coinCounter.setTranslateY(80);
+		this.coinCounter.setFill(Color.GOLDENROD);
 		
 		this.clock = new Clock();
 
-		this.gameClock = new Text("00:00");
+		this.gameClock = new Text("10:00");
 		this.gameClock.setStyle("-fx-font-family: \""
 				+ Font.loadFont("file:src/at/spengergasse/resources/font/8-Bit Madness.ttf", 60).getFamily()
 				+ "\";-fx-font-size: 60;");
@@ -96,6 +97,7 @@ public class FrameFX extends Stage {
 			private void renderHUD() {
 				if(launcherOpen == false) {
 					gameClock.setText(clock.toString());
+					root.getChildren().add(coinCounter);
 					root.getChildren().add(gameClock);
 				}
 			}

@@ -125,7 +125,7 @@ public class FireBall {
 		if (startingCoord < 400 && !left) {
 			this.x += x;
 			this.startingCoord += x;
-		} else if (startingCoord > -700 && left) {
+		} else if (startingCoord > -400 && left) {
 			this.x -= x;
 			this.startingCoord -= x;
 		} else {
