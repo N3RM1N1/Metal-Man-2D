@@ -231,7 +231,7 @@ public class TileMap {
 								if (en instanceof SlimeMonster && col <= ((SlimeMonster) en).getCol()+2 && rc == 14) {  	// auf col überprüfen
 									((SlimeMonster) en).draw(new ImageView(), (i * 48) - (x - 48));
 									System.out.println(((SlimeMonster) en).getCol());
-								} else if (en instanceof SkeletonWarrior && ((SkeletonWarrior) en).getCol()+2 >= col) {
+								} else if (en instanceof SkeletonWarrior && ((SkeletonWarrior) en).getCol()+2 >= col && rc == 12) {
 									((SkeletonWarrior) en).draw(new ImageView(), (i * 48) - (x - 48));
 								} else if (en instanceof WildBoar && ((WildBoar) en).getCol()+2 >= col && rc == 13) {
 									((WildBoar) en).draw(new ImageView(), (i * 48) - (x - 48));
