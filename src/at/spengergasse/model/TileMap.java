@@ -113,16 +113,16 @@ public class TileMap {
 				for (int col = 0; col < mapLength; col++) {
 					map[row][col] = Integer.parseInt(zeichen[col]);
 					if (map[row][col] == 11) {
-						Extensions ext = new Extensions(g, col * tileSize, row * tileSize, col, soundEffects);
+						Extensions ext = new Extensions(g, col * tileSize, row * tileSize, col, row, soundEffects);
 						extensions.add(ext);
 					} else if (map[row][col] == 14) {
-						Enemies en = new SlimeMonster(this.g, row * tileSize - 52);
+						Enemies en = new SlimeMonster(this.g, row * tileSize - 52,  col);
 						enemies.add(en);
 					}else if (map[row][col] == 12){
-						Enemies en = new SkeletonWarrior(this.g, row * tileSize - 40);
+						Enemies en = new SkeletonWarrior(this.g, row * tileSize - 40, col);
 						enemies.add(en);
 					}else if (map[row][col] == 13){
-						Enemies en = new WildBoar(this.g, row * tileSize - 33);
+						Enemies en = new WildBoar(this.g, row * tileSize - 33, col);
 						enemies.add(en);
 					}
 				}
@@ -220,19 +220,22 @@ public class TileMap {
 					g.getRoot().getChildren().add(im);
 				} else if (rc == 11) {
 					for (Extensions e : extensions) {
-						if (i == e.getCol() && e.getOpacity() != 0.0)
+						if (i == e.getCol() && row == e.getRow() && e.getOpacity() != 0.0)
 							e.draw(new ImageView(), (i * 48) - (x - 48));
 					}
 				} else if (rc == 12 || rc == 13 || rc == 14) {
 					if (!enemies.isEmpty()) {
 						for (Enemies en : enemies) {
 							if (!en.isDefeated()) {
-								if (en instanceof SlimeMonster) {  								// auf col überprüfen
+								System.out.println("col: " + col);
+								if (en instanceof SlimeMonster && col <= ((SlimeMonster) en).getCol()+2 && rc == 14) {  	// auf col überprüfen
 									((SlimeMonster) en).draw(new ImageView(), (i * 48) - (x - 48));
-								} else if (en instanceof SkeletonWarrior) {
+									System.out.println(((SlimeMonster) en).getCol());
+								} else if (en instanceof SkeletonWarrior && ((SkeletonWarrior) en).getCol()+2 >= col) {
 									((SkeletonWarrior) en).draw(new ImageView(), (i * 48) - (x - 48));
-								} else if (en instanceof WildBoar) {
+								} else if (en instanceof WildBoar && ((WildBoar) en).getCol()+2 >= col && rc == 13) {
 									((WildBoar) en).draw(new ImageView(), (i * 48) - (x - 48));
+									System.out.println("WildBoar: " + ((WildBoar) en).getCol());
 								}
 							}
 						}
@@ -259,10 +262,10 @@ public class TileMap {
 		return smooth;
 	}
 
-	public void collect(int col) {
+	public void collect(int col, int row) {
 		if (!extensions.isEmpty()) {
 			for (Extensions e : extensions) {
-				if (e.getCol() == col || e.getCol() - 1 == col) {
+				if ((e.getCol() == col || e.getCol() - 1 == col) && e.getRow() == row) {
 					e.setCollected(true);
 				}
 			}

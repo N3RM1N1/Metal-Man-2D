@@ -185,7 +185,7 @@ public class Player {
 				}
 			}
 			
-			if(right || walkingRight) {
+			if((right || walkingRight) && !left) {
 				if(i > 2 && map[(int) ((y/10)+collisionPoints[i][0])][(int) (getXTiles()+collisionPoints[i][1])] == 1) {
 					int calcX = (int) (getXTiles() / tileSize) * tileSize;
 					
@@ -204,7 +204,7 @@ public class Player {
 				}
 			}
 			
-			if(left || walkingLeft) {
+			if((left || walkingLeft) && !right) {
 				if(i > 2 && map[(int) ((y/10)+collisionPoints[i][0])][(int) (getXTiles()+collisionPoints[i][1])] == 1) {
 					System.out.println("true");
 					int calcX = (int) ((int)(getXTiles()+40) / tileSize) * tileSize;
@@ -224,7 +224,7 @@ public class Player {
 			}
 			
 			if(i > 2 && map[(int) ((y/10)+collisionPoints[i][0])][(int) (getXTiles()+collisionPoints[i][1])] == 3) { // Collecting coins
-				level.collect((int) (getXTiles() / 48));
+				level.collect((int) (getXTiles() / 48), (int) ((y/10)+collisionPoints[i][0]) / 48);
 			}
 			
 			if ((y/10)+ 96 + 48 > map.length || getXTiles() > map[0].length - width) { // Falling out of map
@@ -240,7 +240,6 @@ public class Player {
 					isFalling = true;
 					jumping = true;
 				}
-					
 			} 
 			if(map[(int) ((y/10)+collisionPoints[7][0] + 20)][(int) (getXTiles()+collisionPoints[7][1])] == 1 
 					|| map[(int) ((y/10)+collisionPoints[8][0] + 20)][(int) (getXTiles()+collisionPoints[8][1])] == 1

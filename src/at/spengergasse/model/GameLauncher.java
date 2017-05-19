@@ -117,23 +117,12 @@ public class GameLauncher {
 	public void pick() {
 		if (y == 375) {
 			g.closeLauncher();
-			g.closeLauncher();
 			s.playGameSound();
 		} else if (y == 455) {
 			// noch nichts
 		} else if (y == 535) {
 			g.close();
 		}
-	}
-
-	public void close() {
-		background.clear();
-		background = null;
-		this.point = null;
-		this.start = null;
-		this.options = null;
-		this.exit = null;
-		this.s = null;
 	}
 
 }// Klassen Ende

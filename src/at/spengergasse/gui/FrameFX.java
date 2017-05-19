@@ -36,6 +36,8 @@ public class FrameFX extends Stage {
 	private Group root;
 	
 	private Text gameClock;
+	
+	private Text coinCounter;
 
 	public FrameFX(List<String> args) {
 		super();
@@ -64,6 +66,13 @@ public class FrameFX extends Stage {
 
 		Image im = new Image("/at/spengergasse/icon/Icon2.png");
 		getIcons().add(im);
+		
+		this.coinCounter = new Text("0");
+		this.coinCounter.setStyle("-fx-font-family: \""
+				+ Font.loadFont("file:src/at/spengergasse/resources/font/8-Bit Madness.ttf", 60).getFamily()
+				+ "\";-fx-font-size: 60;");
+		this.coinCounter.setTranslateX(10);
+		this.coinCounter.setTranslateY(60);
 		
 		this.clock = new Clock();
 

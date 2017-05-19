@@ -4,7 +4,7 @@ public class Clock {
 	private long hr; // store hours
 	private long min; // store minutes
 	private long sec; // store seconds
-	private long milliSec;
+	private long milliSec; // store frames
 
 	public Clock() {
 		this.hr = 0;

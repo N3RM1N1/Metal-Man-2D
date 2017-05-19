@@ -18,13 +18,16 @@ public class WildBoar extends Enemies {
 	private int TargetFrameCounter = 0;
 	private int TargetFrames;
 	
-	public WildBoar(FrameFX g, double y) {
+	private int col;
+	
+	public WildBoar(FrameFX g, double y, int col) {
 		super(g);
 		this.left = true;
 		this.right = false;
 		this.currX = 5000;
 		this.x = 400;
 		this.y = y;
+		this.col = col;
 		loadImg();
 	}
 	
@@ -43,6 +46,10 @@ public class WildBoar extends Enemies {
 		im.setTranslateX(x - this.x);
 		im.setTranslateY(y);
 		super.getFrame().getRoot().getChildren().add(im);
+	}
+	
+	public int getCol() {
+		return this.col;
 	}
 	
 	public void moveLeft(double x) {

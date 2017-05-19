@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 
 public class Extensions {
 
-	private int TargetSpinCounter = 0;
+	private int CurrentSpinCounter = 0;
 	private FrameFX g;
 
 	private boolean collected;
@@ -16,6 +16,7 @@ public class Extensions {
 	private double y;
 
 	private int col;
+	private int row;
 
 	private double opacity;
 	
@@ -23,11 +24,12 @@ public class Extensions {
 
 	private ImageView[] coin;
 
-	public Extensions(FrameFX frame, double x, double y, int col, Sound sound) {
+	public Extensions(FrameFX frame, double x, double y, int col, int row, Sound sound) {
 		collected = false;
 		this.g = frame;
 		this.x = x;
 		this.y = y;
+		this.row = row;
 		this.col = col;
 		this.opacity = 10;
 		this.soundEffects = sound;
@@ -35,17 +37,17 @@ public class Extensions {
 	}
 
 	public void draw(ImageView im, double x) {
-		if (TargetSpinCounter == 0 || TargetSpinCounter == 6) {
+		if (CurrentSpinCounter == 0 || CurrentSpinCounter == 6) {
 			im = coin[0];
-		} else if (TargetSpinCounter == 1) {
+		} else if (CurrentSpinCounter == 1) {
 			im = coin[1];
-		} else if (TargetSpinCounter == 2) {
+		} else if (CurrentSpinCounter == 2) {
 			im = coin[2];
-		} else if (TargetSpinCounter == 3) {
+		} else if (CurrentSpinCounter == 3) {
 			im = coin[3];
-		} else if (TargetSpinCounter == 4) {
+		} else if (CurrentSpinCounter == 4) {
 			im = coin[4];
-		} else if (TargetSpinCounter == 5) {
+		} else if (CurrentSpinCounter == 5) {
 			im = coin[5];
 		}
 		if(collected) {
@@ -58,13 +60,13 @@ public class Extensions {
 		g.getRoot().getChildren().add(im);
 	}
 
-	public void checkCounter(int targetCounter) {
-		if (TargetSpinCounter == 6) {
-			TargetSpinCounter = 0;
+	public void checkCounter(int CurrentCounter) {
+		if (CurrentSpinCounter == 6) {
+			CurrentSpinCounter = 0;
 		}
 
-		if (targetCounter % 9 == 0) {
-			TargetSpinCounter++;
+		if (CurrentCounter % 9 == 0) {
+			CurrentSpinCounter++;
 		}
 	}
 
@@ -83,6 +85,10 @@ public class Extensions {
 	
 	public int getCol() {
 		return this.col;
+	}
+	
+	public int getRow() {
+		return this.row;
 	}
 	
 	public void setCollected(boolean collected) {

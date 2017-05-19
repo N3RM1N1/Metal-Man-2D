@@ -18,13 +18,16 @@ public class SlimeMonster extends Enemies {
 	private int TargetFrameCounter = 0;
 	private int TargetFrames;
 	
-	public SlimeMonster(FrameFX g, double y) {
+	private int col;
+	
+	public SlimeMonster(FrameFX g, double y, int col) {
 		super(g);
 		this.left = true;
 		this.right = false;
 		this.currX = 5000;
 		this.x = 400;
 		this.y = y;
+		this.col = col;
 		loadImg();
 	}
 	
@@ -45,6 +48,10 @@ public class SlimeMonster extends Enemies {
 		im.setFitHeight(100);
 		im.setFitWidth(100);
 		super.getFrame().getRoot().getChildren().add(im);
+	}
+	
+	public int getCol() {
+		return this.col;
 	}
 	
 	public void moveLeft(double x) {
