@@ -31,7 +31,7 @@ public class FrameFX extends Stage {
 	final private List<String> args;
 	final private KeyBoard input;
 	private GameLauncher launcher;
-	private Clock clock;
+	final private Clock clock;
 
 	private Group root;
 	
@@ -84,14 +84,14 @@ public class FrameFX extends Stage {
 		this.gameClock.setTranslateX(820);
 		this.gameClock.setTranslateY(35);
 		this.gameClock.setFill(Color.WHITE);
+		
 		gameLoop = new AnimationTimer() {
 
 			@Override
 			public void handle(long now) {
-				update();
+				update(now);
 				render();
 				renderHUD();
-				
 			}
 			
 			private void renderHUD() {
@@ -117,7 +117,7 @@ public class FrameFX extends Stage {
 
 			}
 
-			private void update() {
+			private void update(long now) {
 				if (launcherOpen == true) {
 					launcher.update();
 				} else {
@@ -128,7 +128,7 @@ public class FrameFX extends Stage {
 						tileMap.update();
 					}
 					tileMap.extUpdate();
-					clock.incrementMilliSeconds();
+					clock.incrementMilliSeconds(now);
 				}
 			}
 		};
