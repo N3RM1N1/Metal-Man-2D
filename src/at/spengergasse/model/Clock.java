@@ -4,14 +4,12 @@ public class Clock {
 	private long hr; // store hours
 	private long min; // store minutes
 	private long sec; // store seconds
-	private long milliSec;
 	private long currentTime;
 
 	public Clock() {
 		this.hr = 0;
 		this.min = 5;
 		this.sec = 0;
-		this.milliSec = 0;
 		this.currentTime = System.nanoTime();
 	}
 
@@ -33,10 +31,8 @@ public class Clock {
 	
 	public void incrementMilliSeconds(long time) {
 		if(time - currentTime >= 1) {
-			milliSec ++;
 			if(time - currentTime >= 1000000000l) {
 				currentTime = time;
-				milliSec = 0;
 				decrementSeconds(); // increment seconds
 			}
 		}

@@ -86,7 +86,7 @@ public class TileMap {
 		}
 
 		for (int i = 0; i < 30; i++) {
-			stars.add(new Background(g));
+			stars.add(new Background());
 		}
 	}
 
@@ -228,7 +228,7 @@ public class TileMap {
 						for (Enemies en : enemies) {
 							if (!en.isDefeated()) {
 								System.out.println("col: " + col);
-								if (en instanceof SlimeMonster && col <= ((SlimeMonster) en).getCol()+2 && rc == 14) {  	// auf col überprüfen
+								if (en instanceof SlimeMonster && col <= ((SlimeMonster) en).getCol()+2 && rc == 14) {  	// auf col ï¿½berprï¿½fen
 									((SlimeMonster) en).draw(new ImageView(), (i * 48) - (x - 48));
 									System.out.println(((SlimeMonster) en).getCol());
 								} else if (en instanceof SkeletonWarrior && ((SkeletonWarrior) en).getCol()+2 >= col && rc == 12) {

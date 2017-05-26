@@ -52,5 +52,9 @@ public class Sound {
 		effects.setVolume(0.4);
 		effects.play();
 	}
+	
+	public void stop() {
+		gameTrack.stop();
+	}
 
 }

@@ -271,6 +271,10 @@ public class Player {
 		}
 		
 		
+		System.out.println(level.getRight());
+		System.out.println(level.getLeft());
+		System.out.println();
+		
 
 		if (fire != null) {
 			if (right && level.isBeginning() == false && level.isEnd() == false && right) {
@@ -297,7 +301,7 @@ public class Player {
 			drawJump(im);
 		} else if (isFighting == true) {
 			drawFight(im);
-		} else if(left || right || walkingLeft || walkingRight) {
+		} else if((left || right || walkingLeft || walkingRight) && !isStanding) {
 			drawRunning(im);
 		}
 
@@ -652,6 +656,10 @@ public class Player {
 
 	public void setStanding(boolean standing) {
 		this.isStanding = standing;
+	}
+	
+	public boolean isStanding() {
+		return this.isStanding;
 	}
 
 	public boolean isFighting() {
